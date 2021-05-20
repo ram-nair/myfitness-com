@@ -8,6 +8,7 @@ use App\Imports\StoreProductsImport;
 use App\Order;
 use App\Store;
 use App\StoreProduct;
+use App\Product;
 use App\User;
 use Helper;
 use Illuminate\Http\Request;
@@ -40,11 +41,13 @@ class ReportController extends BaseController
         //if ($isStoreUser) {
         //    $products = StoreProduct::with('product','store')->where('store_id', $currentUser->id)->where('stock','<=',0)->select('*');
         //} else {
-            $products = StoreProduct::with('product','store')->where('stock','<=',0)->select('*');
+            $products = Product::where('quantity','<=',0)->select('*');
         //}
-        if ($request->store_id) {
-            $products = $products->where('store_id', $request->store_id);
+        if(!empty($request->start_date)){
+            $start_date = date('Y-m-d',strtotime($request->start_date));
+            $products = $products->whereDate('updated_at','=',$start_date);
         }
+        
         return Datatables::of($products)
             ->make(true);
     }
@@ -573,10 +576,7 @@ class ReportController extends BaseController
     }
     public function datatable_customer_growth(Request $request)
     {
-        $order = Order::with('store')->selectRaw("COUNT(CASE WHEN payment_status='1' THEN 1 END) AS completed_user_count,DATE_FORMAT(`created_at`, '%Y-%m-%e') AS 'date',store_id,count(user_id) as user_count");
-        if ($request->store_id) {
-            $order = $order->where('store_id', $request->store_id);
-        }
+        $order = Order::selectRaw("COUNT(CASE WHEN payment_status='1' THEN 1 END) AS completed_user_count,DATE_FORMAT(`created_at`, '%Y-%m-%e') AS 'date',store_id,count(user_id) as user_count");
         if(!empty($request->start_date) && !empty($request->end_date)){
             $start_date = date('Y-m-d',strtotime($request->start_date));
             $end_date = date('Y-m-d',strtotime($request->end_date));
@@ -615,22 +615,23 @@ class ReportController extends BaseController
     public function funnel_for_order(){
         $this->setPageTitle('Funnel For Order', 'Funnel For Order');
         $guard_name = Helper::get_guard();
-        $stores = Store::all()->sortBy('name')->pluck('name', 'id')->toArray();
-        return view('admin.report.funnel_for_order', compact('guard_name','stores'));
+        return view('admin.report.funnel_for_order', compact('guard_name'));
 
 
     }
     public function datatable_funnel_for_order(Request $request)
     {
-        $order = Order::with('store')->selectRaw("COUNT(CASE WHEN payment_status='1' THEN 1 END) AS completed_order_count,
+        $order = Order::selectRaw("COUNT(CASE WHEN payment_status='1' THEN 1 END) AS completed_order_count,
         COUNT(CASE WHEN payment_status='2' THEN 1 END) AS canceled_order_count,
         COUNT(CASE WHEN order_status='cancelled' THEN 1 END) AS rejected_order_count,
         COUNT(CASE WHEN order_status='delivered' THEN 1 END) AS accepted_order_count,
-        store_id,count(*) as total_order");
-        if ($request->store_id) {
-            $order = $order->where('store_id', $request->store_id);
+        store_id,count(*) as total_order,DATE_FORMAT(`created_at`, '%Y-%m-%e') AS 'date'");
+        if(!empty($request->start_date) && !empty($request->end_date)){
+            $start_date = date('Y-m-d',strtotime($request->start_date));
+            $end_date = date('Y-m-d',strtotime($request->end_date));
+            $order = $order->whereDate('created_at','>=',$start_date)->whereDate('created_at','<=',$end_date);
         }
-        $order = $order->groupBy('store_id');
+        $order = $order->groupBy('date')->orderBy('date');
         return Datatables::of($order)
             ->make(true);
     }

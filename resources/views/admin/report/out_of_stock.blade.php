@@ -73,15 +73,12 @@
                 </div>
                 <div class="card-body pad">
                     @if($guard_name == 'admin')
-                        <div class="row">
+                    <div class="row input-daterange" id="report_date">
                             <div class="form-group col-4">
-                                <label>Filter By Store</label>
-                                <select name="store_id" id="store_filter" class="form-control select2">
-                                    <option value="">Select Store</option>
-                                    @foreach($stores as $key => $store)
-                                        <option value="{{ $key }}">{{ $store }}</option>
-                                    @endforeach
-                                </select>
+                                <label>Filter By Date</label>
+                              
+                                <input type="text" class="form-control" placeholder="Starts At" name="start_date" id="start_date" autocomplete="off">
+                            
                             </div>
                         </div>
                     @endif
@@ -91,7 +88,6 @@
                             <th>SL.No</th>
                             <th>Name</th>
                             <th>Sku</th>
-                            <th>Store Name</th>
                             <th>Unit Price</th>
                         </tr>
                         </thead>
@@ -104,11 +100,16 @@
 
 @stop
 @section('js')
+<link href="{{ asset('css/bootstrap-datepicker.css')}}" id="theme" rel="stylesheet">
+<script src="{{ asset('js/bootstrap-datepicker.min.js')}}"></script>
     <?php
     $guardname = Helper::get_guard();
     $url = url($guardname.'/report-out-of-stock/dt');
     ?>
     <script type='text/javascript'>
+        $("#report_date").datepicker({
+                toggleActive: !0
+            });
         $(function () {
             var oTable = $('#out-of-stock-products-table').DataTable({
                 processing: true,
@@ -120,8 +121,8 @@
                     type: 'post',
                     headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
                     data: function ( d ) {
-                        if( $('#store_filter').val() != undefined) {
-                            d.store_id = $('#store_filter').val();
+                        if( $('#start_date').val() != undefined) {
+                            d.start_date = $('#start_date').val();
                         }
                     }
                 },
@@ -133,12 +134,11 @@
                     },
                     {data: 'product.name', name: 'product.name'},
                     {data: 'product.sku', name: 'product.sku'},
-                    {data: 'store.name', name: 'store.name'},
                     {data: 'unit_price', name: 'unit_price'},
 
                 ]
             });
-            $(document).on("change", "#store_filter", function() {
+            $(document).on("change", "#report_date", function() {
                 oTable.ajax.reload();
             });
 

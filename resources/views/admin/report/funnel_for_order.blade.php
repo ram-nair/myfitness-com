@@ -61,7 +61,8 @@
                 <div class="card-header">
                     <h3 class="card-title">&nbsp;</h3>
                     <!-- tools box -->
-                    <?php $user = Auth::user(); ?>
+                    <?php
+                     $user = Auth::user(); ?>
                     @if(Helper::get_guard() == "admin")
                         <div class="card-tools">
                             <div class="btn-group">
@@ -72,23 +73,24 @@
                 <!-- /. tools -->
                 </div>
                 <div class="card-body pad">
-                    @if($guard_name == 'admin')
-                        <div class="row">
-                            <div class="form-group col-4">
-                                <label>Filter By Store</label>
-                                <select name="store_id" id="store_filter" class="form-control select2">
-                                    <option value="">Select Store</option>
-                                    @foreach($stores as $key => $store)
-                                        <option value="{{ $key }}">{{ $store }}</option>
-                                    @endforeach
-                                </select>
+                @if($guard_name == 'admin')
+                        <div class="row input-daterange" id="report_date">
+                           
+                            <div class="col-3">
+                                <label>Starts At</label>
+                                <input type="text" class="form-control" placeholder="Starts At" name="start_date" id="start_date" autocomplete="off">
                             </div>
+                            <div class="col-3">
+                                <label>End At</label>
+                                <input type="text" class="form-control" placeholder="End At" name="end_date" id="end_date" autocomplete="off">
+                            </div>
+
                         </div>
                     @endif
+                  
                     <table class="table table-striped table-bordered dt-responsive nowrap" style="width:100%" id="funnel-for-order-table">
                         <thead>
                         <tr>
-                            <th>Store Name</th>
                             <th>Total Order</th>
                             <th>Accepted order</th>
                             <th>Rejected Order</th>
@@ -105,11 +107,17 @@
 
 @stop
 @section('js')
+<link href="{{ asset('css/bootstrap-datepicker.css')}}" id="theme" rel="stylesheet">
+<script src="{{ asset('js/bootstrap-datepicker.min.js')}}"></script>
+
     <?php
     $guardname = Helper::get_guard();
     $url = url($guardname.'/report-funnel-for-order/dt');
     ?>
     <script type='text/javascript'>
+     $("#report_date").datepicker({
+            toggleActive: !0
+        });
         $(function () {
             var oTable = $('#funnel-for-order-table').DataTable({
                 processing: true,
@@ -121,13 +129,15 @@
                     type: 'post',
                     headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
                     data: function ( d ) {
-                        if( $('#store_filter').val() != undefined) {
-                            d.store_id = $('#store_filter').val();
+                        if( $('#start_date').val() != undefined) {
+                            d.start_date = $('#start_date').val();
+                        }
+                        if( $('#end_date').val() != undefined) {
+                            d.end_date = $('#end_date').val();
                         }
                     }
                 },
                 columns: [
-                    {data: 'store.name', name: 'store.name'},
                     {data: 'total_order', name: 'total_order'},
                     {data: 'accepted_order_count', name: 'accepted_order_count'},
                     {data: 'rejected_order_count', name: 'rejected_order_count'},
@@ -135,7 +145,7 @@
                     {data: 'completed_order_count', name: 'completed_order_count'}
                 ]
             });
-            $(document).on("change", "#store_filter", function() {
+            $(document).on("change", "#store_filter,#report_date" ,function() {
                 oTable.ajax.reload();
             });
         });

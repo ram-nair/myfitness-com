@@ -398,13 +398,13 @@ return [
                     'active' => ['admin/permissions', 'admin/permissions/*'],
                     'guard' => ['admin'],
                 ],
-                [
+                /*[
                     'text' => 'Avg Prize',
                     'route' => 'admin.report.average-price',
                     'icon' => 'nav-icon fas fa-chart-line',
                     'can' => 'report_read',
                     'guard' => ['admin'],
-                ],
+                ],*/
                 [
                     'text' => 'Cancelled Order',
                     'route' => 'admin.report.canceled-order',
@@ -412,7 +412,8 @@ return [
                     'can' => 'report_read',
                     'guard' => ['admin'],
                 ],
-                [
+                
+                /*[
                     'text' => 'Funnel For Order',
                     'route' => 'admin.report.funnel-for-order',
                     'icon' => 'nav-icon fas fa-chart-line',
@@ -425,7 +426,7 @@ return [
                     'icon' => 'nav-icon fas fa-chart-line',
                     'can' => 'report_read',
                     'guard' => ['admin'],
-                ],
+                ],*/
             ],
         ],
         ['header' => 'Site settings', 'guard' => ['admin'],'can' =>['user_read','role_read','permission_read']],

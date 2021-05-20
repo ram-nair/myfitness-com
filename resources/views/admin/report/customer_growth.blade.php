@@ -74,16 +74,6 @@
                 <div class="card-body pad">
                     @if($guard_name == 'admin')
                         <div class="row input-daterange" id="report_date">
-                            <div class="form-group col-3">
-                                <label>Filter By Store</label>
-                                <select name="store_id" id="store_filter" class="form-control select2">
-                                    <option value="">Select Store</option>
-                                    @foreach($stores as $key => $store)
-                                        <option value="{{ $key }}">{{ $store }}</option>
-                                    @endforeach
-                                </select>
-
-                            </div>
                             <div class="col-3">
                                 <label>Starts At</label>
                                 <input type="text" class="form-control" placeholder="Starts At" name="start_date" id="start_date" autocomplete="off">
@@ -135,9 +125,7 @@
                     type: 'post',
                     headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
                     data: function ( d ) {
-                        if( $('#store_filter').val() != undefined) {
-                            d.store_id = $('#store_filter').val();
-                        }
+                       
                         if( $('#start_date').val() != undefined) {
                             d.start_date = $('#start_date').val();
                         }
@@ -155,7 +143,7 @@
 
                 ]
             });
-            $(document).on("change", "#store_filter, #report_date", function() {
+            $(document).on("change", "#report_date", function() {
                 oTable.ajax.reload();
             });
         });
