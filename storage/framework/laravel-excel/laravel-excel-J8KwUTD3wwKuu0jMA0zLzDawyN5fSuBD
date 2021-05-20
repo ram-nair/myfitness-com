@@ -1,0 +1,13 @@
+name,category,service_type,unit_price,image
+Test Service 1,Service Category 1,service_type_1,10,serviceProImg1
+Test Service 2,Service Category 2,service_type_1,15,serviceProImg2
+Test Service 3,Service Category 3,service_type_1,20,serviceProImg3
+Test Service 4,Service Category 4,service_type_1,25,serviceProImg4
+Test Service 5,Service Category 5,service_type_1,30,serviceProImg5
+Test Service 6,Service Category 1,service_type_1,10,serviceProImg6
+Test Service 7,Service Category 7,service_type_1,15,serviceProImg7
+Test Service 8,Service Category 2,service_type_1,20,serviceProImg8
+Test Service 9,Service Category 9,service_type_1,25,serviceProImg9
+Test Service 10,Service Category 3,service_type_1,30,serviceProImg10
+Test Service 11,Service Category 8,service_type_1,40,serviceProImg11
+Test Service 12,Service Category 4,service_type_1,50,serviceProImg12

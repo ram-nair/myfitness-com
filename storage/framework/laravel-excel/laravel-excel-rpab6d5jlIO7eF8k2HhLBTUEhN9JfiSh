@@ -1,0 +1,3 @@
+name,category,service_type,unit_price,image
+test service 1,Service Category 1,1,25,serviceProImg1
+test service 2,Service Category 2,1,25,serviceProImg2

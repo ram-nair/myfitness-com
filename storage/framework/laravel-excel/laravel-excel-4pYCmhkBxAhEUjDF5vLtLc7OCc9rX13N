@@ -1,0 +1,14 @@
+brand,name,sku,description,category,sub_category,unit_price,quantity,image,disclaimer
+Puma,Pume Runner 2,4545DD4564,Something,Footwear,Shoe,1199,1,imgpro123,smoking is injuries
+Nike,Nike Runner 1,55645FDFG5,Something,Footwear,Shoe,1299,1,imgpro124,smoking is injuries
+Addidas,Runner 1,5454FDF445,Something,Footwear,Shoe,1399,1,imgpro125,smoking is injuries
+Nestle,Parle G,5465DD454,Something,Bakery,Biscuits,20,200gm,imgpro126,
+Britania,Tiger,5456465FFF,Something,Bakery,Biscuits,20,200gm,imgpro127,
+Sunfeast,Nice,654564FHHF,Something,Bakery,Biscuits,30,100gm,imgpro128,
+,,,,,,,,,
+Milma,Milk Grade 1,454FFF5454,Something,Dairy & Eggs,Fresh Milk,25,500ml,imgpro129,
+Milma,Butter,,Something,Dairy & Eggs,Butter,50,50ml,imgpro130,
+Amul,Cheese,454FFF5454,Something,Dairy & Eggs,Cheese,85,85gm,imgpro131,
+Varkeys,Chicken Nuggets,4545fdgdf9898,Something,Frozen,Chicken,250,200gm,imgpro132,
+Varkeys,Chicken Fingers,6565DFF6565,Something,Frozen,Chicken,250,225gm,imgpro133,
+Amul,Milk,87878FFR878,Something,Dairy & Eggs,Fresh Milk,28,500ml,imgpro134,
