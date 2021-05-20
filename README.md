@@ -1,3 +1,3 @@
-# Provis Web
+# Myfitness.com
 
-Backend ecommerce platform for Provis web
+Complete ecommerce platform for Myfitness.com
