@@ -104,7 +104,7 @@
     
         
     });
-    $('#category_filter').on('change', function(){
+$('#category_filter').on('change', function(){
    var category_id = $(this).val();
     getSubcat(category_id,null);
 });

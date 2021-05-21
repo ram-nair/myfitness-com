@@ -31,8 +31,14 @@ class SubCategoryController extends Controller
     //*** JSON Request
     public function datatable(Request $request)
     {
-         $datas = Subcategory::orderBy('id','desc')->get();
+         $datas = Subcategory::select('*');
          //--- Integrating This Collection Into Datatables
+
+         if ($request->parent_cat_id) {
+            $category_id = $request->parent_cat_id ;
+            $datas->where('category_id', $category_id);
+        }
+        $datas = $datas->orderBy('id','desc')->get();
          return Datatables::of($datas)
                          ->rawColumns(['actions'])
                             ->addColumn('category', function(Subcategory $data) {

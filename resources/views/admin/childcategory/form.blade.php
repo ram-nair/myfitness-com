@@ -22,7 +22,7 @@
                     <div class="form-group col-md-6">
                         {{ Form::label('subcategory_id', 'Sub Category') }}
                         <select class="select2 form-control" name="subcategory_id" id="subcategory_id"  value={{$category->parent_cat_id??''}}>
-                            <option value="0">Sub Category</option>
+                            <option value="0">Select Sub Category</option>
                         </select>
                         {!! $errors->first('subcategory_id','<p class="text-danger"><strong>:message</strong></p>') !!}
                     </div>
@@ -67,24 +67,22 @@ $(function(){
 });
 <?php
 if(!empty($childcategory)){?>
-var catId = $('#cat_id').val();
-var link ='{{ url('admin/loadsub/subcategories') }}/'+catId;
-        if(link != "")
-        {
-          $('#subcategory_id').load(link);
-          $('#subcategory_id').prop('disabled',false);
-        }
+ getSubcat(<?php echo $childcategory->subcategory->category->id;?>,'<?php echo $childcategory->subcategory_id;?>');
 <?php }
 ?>
 $(document).on('change','#cat_id',function () {
       var catId = $('#cat_id').val();
-        var link ='{{ url('admin/loadsub/subcategories') }}/'+catId;
-        if(link != "")
-        {
-          $('#subcategory_id').load(link);
-          $('#subcategory_id').prop('disabled',false);
-        }
+         getSubcat(catId,null)
       });
 
+function getSubcat(catId,subId){
+    $.ajax({
+        url: '{{ url('admin/loadSubcat') }}/'+catId+'/'+subId,
+        success: function(resp) {
+            $('#subcategory_id').html(resp);
+                    
+            }
+    });
+ }
 </script>
 @endsection

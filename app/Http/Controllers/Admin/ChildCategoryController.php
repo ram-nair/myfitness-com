@@ -30,44 +30,39 @@ class ChildCategoryController extends Controller
     //*** JSON Request
     public function datatable(Request $request)
     {
-         $datas = Childcategory::orderBy('id','desc')->get();
-        
-        if ($request->sub_cat_id) {
-            $sub_cat_id = $request->sub_cat_id ;
-            $datas->where('subcategory_id', $sub_cat_id);
+         $datas = Childcategory::select('*');
+            if ($request->sub_cat_id) {
+                $sub_cat_id = $request->sub_cat_id ;
+                $datas->where('subcategory_id', $sub_cat_id);
+            }
+            $datas = $datas->orderBy('id','desc')->get();
+            return Datatables::of($datas)
+                                ->rawColumns(['actions'])
+                                ->editColumn('category', function(Childcategory $data) {
+                                    return $data->subcategory->category->name;
+                                }) 
+                                ->editColumn('subcategory', function(Childcategory $data) {
+                                    return $data->subcategory->name;
+                                }) 
+                            
+                                ->editColumn('actions', function(Childcategory $data) {
+                                    $b = '<a href="' . URL::route('admin.childcategories.edit', $data->id) . '" class="btn btn-outline-primary btn-xs"><i class="fa fa-edit"></i></a>';
+                                
+                                    $b .= ' <a href="' . URL::route('admin.childcategories.destroy', $data->id) . '" class="btn btn-outline-danger btn-xs destroy"><i class="fa fa-trash"></i></a>';
+                    
+                                    return $b;
+                                })->make(true); //--- Returning Json Data To Client Side
         }
-        
-         return Datatables::of($datas)
-                            ->rawColumns(['actions'])
-                            ->editColumn('category', function(Childcategory $data) {
-                                return $data->subcategory->category->name;
-                            }) 
-                            ->editColumn('subcategory', function(Childcategory $data) {
-                                return $data->subcategory->name;
-                            }) 
-                           
-                            ->editColumn('actions', function(Childcategory $data) {
-                                $b = '<a href="' . URL::route('admin.childcategories.edit', $data->id) . '" class="btn btn-outline-primary btn-xs"><i class="fa fa-edit"></i></a>';
-                               
-                                $b .= ' <a href="' . URL::route('admin.childcategories.destroy', $data->id) . '" class="btn btn-outline-danger btn-xs destroy"><i class="fa fa-trash"></i></a>';
-                   
-                                 return $b;
-                              })->make(true); //--- Returning Json Data To Client Side
-    }
-
-
 
     //*** GET Request
-    public function index()
-    {
+    public function index(){
         $cats = Category::where('parent_cat_id',0)
         ->orderBy('name', 'asc')->pluck('name', 'id');
         return view('admin.childcategory.index',compact('cats'));
     }
 
     //*** GET Request
-    public function create()
-    {
+    public function create(){
         $cats = Category::where('parent_cat_id',0)
         ->orderBy('name', 'asc')->get();
         return view('admin.childcategory.create',compact('cats'));
