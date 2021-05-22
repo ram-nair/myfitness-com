@@ -18,18 +18,6 @@
                 <i class="fas fa-2x fa-sync-alt fa-spin"></i>
             </div>
             <div class="card-body pad">
-                {{-- <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Filter by Order Type</label>
-                            <select name="order_type" id="order-type" class="form-control">
-                                <option value="">Select Category</option>
-                                <option value="scheduled">Scheduled Order</option>
-                                <option value="quick">Quick Order</option>
-                            </select>
-                        </div>
-                    </div>
-                </div> --}}
                 <table class="table table-striped table-bordered dt-responsive nowrap" style="width:100%" id="orders-table">
                     <thead>
                         <tr>
@@ -59,14 +47,9 @@
             ordering: false,
             //autoWidth: false,
             ajax: {
-                url: "{!! url('store/orders/dt') !!}",
+                url: "{!! url('admin/orders/dt') !!}",
                 type: 'post',
                 headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
-                data: function ( d ) {
-                    if( $('#order-type').val() != undefined) {
-                        d.order_type = $('#order-type').val();
-                    }
-                }
             },
             columns: [
                 {

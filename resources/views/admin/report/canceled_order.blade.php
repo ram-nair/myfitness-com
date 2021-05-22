@@ -75,15 +75,6 @@
                     @if($guard_name == 'admin')
                         <div class="row">
                             <div class="form-group col-3">
-                                <label>Filter By Store</label>
-                                <select name="store_id" id="store_filter" class="form-control select2">
-                                    <option value="">Select Store</option>
-                                    @foreach($stores as $key => $store)
-                                        <option value="{{ $key }}">{{ $store }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group col-3">
                                 <label>Payment Type</label>
                                 <select name="payment_type" id="payment_type_filter" class="form-control select2">
                                     <option value="">Select Payment Type</option>
@@ -120,8 +111,6 @@
                             <th>Payment Status</th>
                             <th>Order Status</th>
                             <th>Order Number</th>
-                            <th>Store Type</th>
-                            <th>Store Name</th>
                         </tr>
                         </thead>
                     </table>
@@ -149,9 +138,6 @@
                     type: 'post',
                     headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
                     data: function ( d ) {
-                        if( $('#store_filter').val() != undefined) {
-                            d.store_id = $('#store_filter').val();
-                        }
                         if( $('#payment_type_filter').val() != undefined) {
                             d.payment_type = $('#payment_type_filter').val();
                         }
@@ -171,12 +157,9 @@
                     {data: 'payment_status', name: 'payment_status'},
                     {data: 'order_status', name: 'order_status'},
                     {data: 'id', name: 'id'},
-                    {data: 'store_type', name: 'store_type'},
-                    {data: 'store.name', name: 'store.name'}
-
                 ]
             });
-            $(document).on("change", "#store_filter, #payment_type_filter, #order_type_filter", function() {
+            $(document).on("change", "#payment_type_filter, #order_type_filter", function() {
                 oTable.ajax.reload();
             });
         });

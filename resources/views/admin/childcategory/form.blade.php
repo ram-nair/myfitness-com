@@ -21,7 +21,7 @@
                     </div>
                     <div class="form-group col-md-6">
                         {{ Form::label('subcategory_id', 'Sub Category') }}
-                        <select class="select2 form-control" name="subcategory_id" id="subcategory_id"  value={{$category->parent_cat_id??''}}>
+                        <select class="select2 form-control" required name="subcategory_id" id="subcategory_id"  value={{$category->parent_cat_id??''}}>
                             <option value="0">Select Sub Category</option>
                         </select>
                         {!! $errors->first('subcategory_id','<p class="text-danger"><strong>:message</strong></p>') !!}
@@ -29,7 +29,7 @@
                 
                 <div class="form-group">
                     {{ Form::label('name', 'Child Category Name') }}
-                    {{ Form::text('name', null, array('required'=>'','class' => 'form-control'.($errors->has('name') ? ' is-invalid' : '' ))) }}
+                    {{ Form::text('name', null, array('required','class' => 'form-control'.($errors->has('name') ? ' is-invalid' : '' ))) }}
                     {!! $errors->first('name','<p class="text-danger"><strong>:message</strong></p>') !!}
                 </div>
             </div>

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Admin;
-
 use App\Http\Controllers\BaseController;
 use App\Http\Resources\StoreProductResource;
 use App\Order;
@@ -30,6 +29,10 @@ class OrderController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth:admin');
+    }
     public function index()
     {
         $this->authorize(Order::class, 'order');
@@ -39,7 +42,7 @@ class OrderController extends BaseController
 
     public function datatable()
     {
-        
+        $currentUser = Auth::guard('admin')->user();
         $orders = Order::where('store_id',1)->with('user')->select('*')->orderBy('created_at', 'desc');
         return Datatables::of($orders)
             ->rawColumns(['actions'])

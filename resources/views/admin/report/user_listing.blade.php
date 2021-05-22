@@ -80,12 +80,9 @@
                             <th>Name</th>
                             <th>Mobile</th>
                             <th>Email</th>
-                            <th>Community Name</th>
                             <th>Customer Life Time Revenue</th>
                             <th>Total Orders</th>
-                            <th>Business Type 1 Order</th>
-                            <th>Revenue From Classes</th>
-                            <th>Revenue From Services</th>
+                            
                         </tr>
                         </thead>
                     </table>
@@ -112,23 +109,14 @@
                     url: "{!! $url !!}",
                     type: 'post',
                     headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
-                    data: function ( d ) {
-                        if( $('#store_filter').val() != undefined) {
-                            d.store_id = $('#store_filter').val();
-                        }
-                    }
                 },
                 columns: [
                     {data: 'id', name: 'id'},
                     {data: 'name', name: 'name'},
                     {data: 'phone', name: 'phone'},
                     {data: 'email', name: 'email'},
-                    {data: 'community', name: 'community'},
                     {data: 'life_time_revenue', name: 'life_time_revenue'},
                     {data: 'total_orders', name: 'total_orders'},
-                    {data: 'business_type_order', name: 'business_type_order'},
-                    {data: 'revenue_from_classes', name: 'revenue_from_classes'},
-                    {data: 'revenue_from_services', name: 'revenue_from_services'}
 
                 ]
             });

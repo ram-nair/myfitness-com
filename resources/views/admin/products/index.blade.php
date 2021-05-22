@@ -1,438 +1,297 @@
-@extends('layouts.admin') 
+@extends('adminlte::page')
 
-@section('styles')
+@section('title', $pageTitle)
 
-<style type="text/css">
-  .dataTables_filter{
-    display: none;
-  }
-</style>
+@section('content_header')
+<div class="row mb-2">
+    <div class="col-sm-6">
+        <h1 class="m-0 text-dark">{{$pageTitle}}</h1>
+    </div><!-- /.col -->
+</div><!-- /.row -->
+@stop
 
-@endsection
-
-@section('content')  
-					<input type="hidden" id="headerdata" value="PRODUCT">
-					<div class="content-area">
-						<div class="mr-breadcrumb">
-							<div class="row">
-								<div class="col-lg-12">
-										<h4 class="heading">Products</h4>
-										<ul class="links">
-											<li>
-												<a href="{{ route('admin.dashboard') }}">Dashboard </a>
-											</li>
-											<li>
-												<a href="javascript:;">Products </a>
-											</li>
-											<li>
-												<a href="{{ route('admin-prod-index') }}">All Products</a>
-											</li>
-										</ul>
-								</div>
-							</div>
-						</div>
-						<div class="product-area">
-							<div class="row">
-								<div class="col-lg-12">
-									<div class="mr-table allproduct">
-
-										  <form id="search-form">
-                          <div class="row">
-                              <div class="col-md-4">
-                                  <div class="form-group">
-                                     <select name="vendor" class="form-control">
-                                                            <option value="">Vendor</option>
-                                                            @foreach ($vendors as $vendor)
-                                                                <option value="{{ $vendor->shop_name }}">{{ $vendor->shop_name }}</option>
-                                                            @endforeach
-                                                        </select>
-                                  </div>
-                                  <div class="form-group">
-                                      <select name="category" class="form-control">
-                                          <option value="">Category</option>
-                                          @foreach ($categories as $category)
-                                              <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                          @endforeach
-                                      </select>
-                                  </div>
-                                  <div class="form-group">
-                                      <select name="subcategory" class="form-control">
-                                          <option value="">Sub Category</option>
-                                      </select>
-                                  </div>
-                                  
-                              </div>
-                              <div class="col-md-4">
-                                  <div class="form-group">
-                                      <select name="childcategory" class="form-control">
-                                          <option value="">Child Category</option>
-                                      </select>
-                                  </div>
-                                  <div class="form-group">
-                                      <select name="status" class="form-control">
-                                        <option value="">Select Status</option>
-                                        <option value="0">In active</option>
-                                        <option value="1">Active</option>
-                                      </select>
-                                  </div>
-                                  <div class="form-group">
-                                      <select name="stockstatus" class="form-control">
-                                        <option value="">Stock Status</option>
-                                        <option value="in-stock">In Stock</option>
-                                        <option value="out-of-stock">Out of Stock</option>
-                                      </select>
-                                  </div>
-                              </div>
-                              <div class="col-md-4">
-                                  <div class="form-group">
-                                      <select name="productcondition" class="form-control">
-                                        <option value="">Product Condition</option>
-                                        <option value="2">New</option>
-                                        <option value="1">Old</option>
-                                      </select>
-                                  </div>
-                                  <!--<div class="form-group">
-                                      <select name="producttype" class="form-control">
-                                        <option value="">Product Type</option>
-                                        <option value="Physical">Physical</option>
-                                        <option value="License">License</option>
-                                      </select>
-                                  </div>-->
-									<div class="form-group">
-                                      <select name="ratings" class="form-control">
-                                        <option value="">Rating</option>
-                                         <option value="1">1</option>
-										  <option value="2">2</option>
-										  <option value="3">3</option>
-										  <option value="4">4</option>
-										  <option value="5">5</option>
-                                       
-                                      </select>
-                                  </div>
-                                  <button type="button" id="search" class="btn btn-primary float-right">Search</button>
-                              </div>
-                          </div>
-                      </form>
-  										@include('includes.admin.form-success')  
-
-										<div class="table-responsiv">
-												<table id="geniustable" class="table table-hover dt-responsive" cellspacing="0" width="100%">
-													<thead>
-														<tr>
-									                        <th>Name</th>
-                                          <th>Vendor</th>
-									                        <th>Type</th>
-									                        <th>Stock</th>
-									                        <th>Price</th>
-									                        <th>Status</th>
-									                        <th>Actions</th>
-														</tr>
-													</thead>
-												</table>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-
-
-{{-- HIGHLIGHT MODAL --}}
-
-										<div class="modal fade" id="modal2" tabindex="-1" role="dialog" aria-labelledby="modal2" aria-hidden="true">
-										
-										
-										<div class="modal-dialog highlight" role="document">
-										<div class="modal-content">
-												<div class="submit-loader">
-														<img  src="{{asset('assets/images/'.$gs->admin_loader)}}" alt="">
-												</div>
-											<div class="modal-header">
-											<h5 class="modal-title"></h5>
-											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-												<span aria-hidden="true">&times;</span>
-											</button>
-											</div>
-											<div class="modal-body">
-
-											</div>
-											<div class="modal-footer">
-											<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-											</div>
-										</div>
-										</div>
-</div>
-
-{{-- HIGHLIGHT ENDS --}}
-
-
-{{-- DELETE MODAL --}}
-
-<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="modal1" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-
-	<div class="modal-header d-block text-center">
-		<h4 class="modal-title d-inline-block">Confirm Delete</h4>
-			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-				<span aria-hidden="true">&times;</span>
-			</button>
-	</div>
-
-      <!-- Modal body -->
-      <div class="modal-body">
-            <p class="text-center">You are about to delete this Product.</p>
-            <p class="text-center">Do you want to proceed?</p>
-      </div>
-
-      <!-- Modal footer -->
-      <div class="modal-footer justify-content-center">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-            <a class="btn btn-danger btn-ok">Delete</a>
-      </div>
-
+@section('content')
+@if(isset($errors) && $errors->any())
+    <div class="alert alert-danger">
+        @foreach ($errors->all() as $error)
+            {{ $error }}
+        @endforeach
     </div>
-  </div>
+@endif
+@if((session())->has('failures'))
+    <table class="table table-danger">
+        <tr>
+            <th>Row</th>
+            <th>Product</th>
+            <th>Attribute</th>
+            <th>Errors</th>
+            <th>Value</th>
+        </tr>
+        @foreach (session()->get('failures') as $validation)
+            <tr>
+                <td>{{ $validation->row()   }}</td>
+                <td>{{ $validation->values()['product_name']   }}</td>
+                <td>{{ $validation->attribute() }}</td>
+                <td>
+                    <ul>
+                        @foreach ($validation->errors() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </td>
+                <td>{{ $validation->values()[$validation->attribute()] }}</td>
+            </tr>
+        @endforeach
+    </table>
+@endif
+@if(session()->has('success') && session()->has('success') > 0)
+    <div class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <h5><i class="icon fas fa-check"></i>Import Success</h5>
+        {{ session()->get('success') }} products imported
+      </div>
+@endif
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-outline card-info">
+            <div class="overlay" style="display: none;">
+                <i class="fas fa-2x fa-sync-alt fa-spin"></i>
+            </div>
+            <div class="card-header">
+                <h3 class="card-title">&nbsp;</h3>
+                <!-- tools box -->
+                <div class="card-tools">
+                    <?php $user = Auth::user(); ?>
+                    <div class="btn-group">
+                        @if($user->hasRole('super-admin') || $user->hasPermissionTo('ecomproduct_create'))
+                        <a href="{{ asset('/imports/products.xlsx') }}" download class="btn btn-success btn-sm"><i class="fa fa-download" aria-hidden="true"></i>&nbsp;Download Sample Data</a>
+                        <span aria-hidden="true">&nbsp;&nbsp;</span>
+                        <a href="#" data-toggle="modal" data-target="#importModal" class="btn btn-success btn-sm">Import Products</a>
+                        <span aria-hidden="true">&nbsp;&nbsp;</span>
+                        <a href="{{ route('admin.products.create') }}" class="btn btn-success btn-sm">New Product</a>
+                        @endif
+                    </div>
+                </div>
+                <!-- /. tools -->
+            </div>
+            <div class="card-body pad">
+            <div class="row">
+            <div class="form-group col-4">
+                    <label>Filter By category</label>
+                    <select name="category_id" id="categories" class="form-control select2">
+                        <option value="">Select Category</option>
+                        @foreach($categories as $key => $categoryName)
+                        <option value="{{ $key }}">{{ $categoryName }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group col-4">
+                    <label>Filter By sub category</label>
+                    <select name="sub_categories" id="sub_categories" class="form-control select2"></select>
+                </div>
+                </div>
+                <table class="table table-striped table-bordered dt-responsive nowrap" style="width:100%" id="products-table">
+                    <thead>
+                        <tr>
+                            <th class="no-sort">SL.No</th>
+                            <th>Name</th>
+                            <th class="no-sort">SKU</th>
+                            <th class="no-sort">Brand</th>
+                            <th class="no-sort">Categories</th>
+                            <th class="no-sort">Unit Price</th>
+                            <th class="no-sort">Qty</th>
+                            {{-- <th>Status</th> --}}
+                            <th>Date/Time Added</th>
+                            <th class="no-sort">Actions</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="storeModal" tabindex="-1" role="dialog" aria-labelledby="storeModal">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+            <h5 id="product_name"></h5>
+            {{ Form::open(array('route' => array('admin.products.store-save'), 'method' => 'POST', 'class' => 'class-create')) }}
+                <input type="hidden" name="id" id="product_id">
+                <div class="card card-outline card-info">
+                    <div class="overlay" style="display: none;">
+                        <i class="fas fa-2x fa-sync-alt fa-spin"></i>
+                    </div>
+                    <div class="card-body pad">
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    {{ Form::label('stock', 'Stock') }}
+                                    {{ Form::text('stock', null, array('required','class' => 'form-control'.($errors->has('stock') ? ' is-invalid' : '' ))) }}
+                                    {!! $errors->first('stock','<p class="text-danger"><strong>:message</strong></p>') !!}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{{ route('admin.products.index') }}" data-dismiss="modal" class="btn btn-default">Cancel</a>
+                        {{ Form::submit(isset($submitButtonText) ? $submitButtonText : 'Save Changes', array('class' => 'btn btn-info float-right')) }}
+                    </div>
+                </div>
+            {{ Form::close() }}
+        </div>
+      </div>
+    </div>
+</div>
+{{-- Import Modal --}}
+<div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-labelledby="importModal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="importModalLabel">Import Products</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                {{ Form::open(array('route' => array('admin.products.import'), 'method' => 'POST', 'class' => 'class-create', 'enctype' => 'multipart/form-data')) }}
+                    <div class="card card-outline card-info">
+                        <div class="overlay" style="display: none;">
+                            <i class="fas fa-2x fa-sync-alt fa-spin"></i>
+                        </div>
+                        <div class="card-body pad">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="exampleInputFile">Products</label>
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input type="file" name="products_csv" class="form-control-file custom-file-input" id="exampleInputFile" required>
+                                                <label class="custom-file-label" for="exampleInputFile"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <a href="{{ route('admin.products.index') }}" data-dismiss="modal" class="btn btn-default">Cancel</a>
+                            {{ Form::submit(isset($submitButtonText) ? $submitButtonText : 'Import', array('class' => 'btn btn-info float-right')) }}
+                        </div>
+                    </div>
+                {{ Form::close() }}
+            </div>
+        </div>
+    </div>
+</div>
+@stop
 
-{{-- DELETE MODAL ENDS --}}
+@section('js')
+<script type='text/javascript'>
+$(function () {
+    oTable = $('#products-table').DataTable({
+        processing: true,
+        serverSide: true,
+        ordering: true,
+        columnDefs: [
+            {
+                orderable: false,
+                targets: "no-sort"
+            },
+            { "width": "10px", "targets": 0 },
+            { "width": "50px", "targets": 8 },
+        ],
+        order: [[ 7, "dsc" ]],
+        ajax: {
+            url: "{!! url('admin/products/dt') !!}",
+            type: 'post',
+            headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
+            data: function ( d ) {
+                if( $('#sub_categories').val() != undefined) {
+                    d.sub_cat_id = $('#sub_categories').val();
+                }
+                if( $('#categories').val() != undefined) {
+                    d.cat_id = $('#categories').val();
+                }
+            }
+        },
+        columns: [
+            {
+                render: function (data, type, row, meta) {
+                    return meta.row + meta.settings._iDisplayStart + 1;
+                }
+            },
+            {data: 'name', name: 'name'},
+            {data: 'sku', name: 'sku'},
+            {data: 'brand_id', name: 'brand_id'},
+            {data: 'categories', name: 'categories',
+                render: function(data, type, row, meta) {
+                    return "<span class='badge badge-info'>" + row.categories + "</span>";
+                }
+            },
+            {data: 'unit_price', name: 'unit_price'},
+            {data: 'quantity', name: 'quantity'},
+            {data: 'created_at', name: 'created_at', searchable: false},
+            {data: 'actions', name: 'actions', searchable: false}
+        ]
+    });
 
-
-{{-- GALLERY MODAL --}}
-
-		<div class="modal fade" id="setgallery" tabindex="-1" role="dialog" aria-labelledby="setgallery" aria-hidden="true">
-			<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-				<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalCenterTitle">Image Gallery</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">×</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<div class="top-area">
-						<div class="row">
-							<div class="col-sm-6 text-right">
-								<div class="upload-img-btn">
-									<form  method="POST" enctype="multipart/form-data" id="form-gallery">
-										{{ csrf_field() }}
-									<input type="hidden" id="pid" name="product_id" value="">
-									<input type="file" name="gallery[]" class="hidden" id="uploadgallery" accept="image/*" multiple>
-											<label for="image-upload" id="prod_gallery"><i class="icofont-upload-alt"></i>Upload File</label>
-									</form>
-								</div>
-							</div>
-							<div class="col-sm-6">
-								<a href="javascript:;" class="upload-done" data-dismiss="modal"> <i class="fas fa-check"></i> Done</a>
-							</div>
-							<div class="col-sm-12 text-center">( <small>You can upload multiple Images.</small> )</div>
-						</div>
-					</div>
-					<div class="gallery-images">
-						<div class="selected-image">
-							<div class="row">
-
-
-							</div>
-						</div>
-					</div>
-				</div>
-				</div>
-			</div>
-		</div>
-
-
-{{-- GALLERY MODAL ENDS --}}
-
-@endsection    
-
-
-
-@section('scripts')
-
-
-{{-- DATA TABLE --}}
-
-    <script type="text/javascript">
-
-		var table = $('#geniustable').DataTable({
-			   ordering: false,
-               processing: true,
-               serverSide: true,
-               ajax:{
-                    'url':'{{ route('admin-prod-datatables') }}',
-                    'data': function(d) {
-                        d.form = $('#search-form').serialize();
-                    }
-               },
-               columns: [
-                        { data: 'name', name: 'name' },
-                        { data: 'vendor', name: 'vendor' },
-                        { data: 'type', name: 'type' },
-                        { data: 'stock', name: 'stock' },
-                        { data: 'price', name: 'price' },
-                        { data: 'status', searchable: false, orderable: false},
-            			{ data: 'action', searchable: false, orderable: false }
-
-                     ],
-                language : {
-                	processing: '<img src="{{asset('assets/images/'.$gs->admin_loader)}}">'
-                },
-				drawCallback : function( settings ) {
-	    				$('.select').niceSelect();	
-				}
+    $("#tab1 #checkAll").click(function () {
+        if ($("#tab1 #checkAll").is(':checked')) {
+            $("#tab1 input[type=checkbox]").each(function () {
+                $(this).prop("checked", true);
             });
+        } else {
+            $("#tab1 input[type=checkbox]").each(function () {
+                $(this).prop("checked", false);
+            });
+        }
+    });
 
-		$('#search').on('click',function() {
-            table.draw();
-        });
-
-      	$(function() {
-        $(".btn-area").append('<div class="col-sm-4 table-contents">'+
-        	'<a class="add-btn" href="{{route('admin-prod-types')}}">'+
-          '<i class="fas fa-plus"></i> <span class="remove-mobile">Add New Product<span>'+
-          '</a>'+
-          '</div>');
-      });											
-									
-
-
-{{-- DATA TABLE ENDS--}}
-
-
-</script>
-
-
-<script type="text/javascript">
-	
-
-// Gallery Section Update
-
-    $(document).on("click", ".set-gallery" , function(){
-        var pid = $(this).find('input[type=hidden]').val();
-        $('#pid').val(pid);
-        $('.selected-image .row').html('');
-            $.ajax({
-                    type: "GET",
-                    url:"{{ route('admin-gallery-show') }}",
-                    data:{id:pid},
-                    success:function(data){
-                      if(data[0] == 0)
-                      {
-	                    $('.selected-image .row').addClass('justify-content-center');
-	      				$('.selected-image .row').html('<h3>No Images Found.</h3>');
-     				  }
-                      else {
-	                    $('.selected-image .row').removeClass('justify-content-center');
-	      				$('.selected-image .row h3').remove();      
-                          var arr = $.map(data[1], function(el) {
-                          return el });
-
-                          for(var k in arr)
-                          {
-        				$('.selected-image .row').append('<div class="col-sm-6">'+
-                                        '<div class="img gallery-img">'+
-                                            '<span class="remove-img"><i class="fas fa-times"></i>'+
-                                            '<input type="hidden" value="'+arr[k]['id']+'">'+
-                                            '</span>'+
-                                            '<a href="'+'{{asset('assets/images/galleries').'/'}}'+arr[k]['photo']+'" target="_blank">'+
-                                            '<img src="'+'{{asset('assets/images/galleries').'/'}}'+arr[k]['photo']+'" alt="gallery image">'+
-                                            '</a>'+
-                                        '</div>'+
-                                  	'</div>');
-                          }                         
-                       }
- 
-                    }
-                  });
-      });
-
-
-  $(document).on('click', '.remove-img' ,function() {
-    var id = $(this).find('input[type=hidden]').val();
-    $(this).parent().parent().remove();
-	    $.ajax({
-	        type: "GET",
-	        url:"{{ route('admin-gallery-delete') }}",
-	        data:{id:id}
-	    });
-  });
-
-  $(document).on('click', '#prod_gallery' ,function() {
-    $('#uploadgallery').click();
-  });
-                                        
-                                
-  $("#uploadgallery").change(function(){
-    $("#form-gallery").submit();  
-  });
-
-  $(document).on('submit', '#form-gallery' ,function() {
-		  $.ajax({
-		   url:"{{ route('admin-gallery-store') }}",
-		   method:"POST",
-		   data:new FormData(this),
-		   dataType:'JSON',
-		   contentType: false,
-		   cache: false,
-		   processData: false,
-		   success:function(data)
-		   {
-		    if(data != 0)
-		    {
-	                    $('.selected-image .row').removeClass('justify-content-center');
-	      				$('.selected-image .row h3').remove();   
-		        var arr = $.map(data, function(el) {
-		        return el });
-		        for(var k in arr)
-		           {
-        				$('.selected-image .row').append('<div class="col-sm-6">'+
-                                        '<div class="img gallery-img">'+
-                                            '<span class="remove-img"><i class="fas fa-times"></i>'+
-                                            '<input type="hidden" value="'+arr[k]['id']+'">'+
-                                            '</span>'+
-                                            '<a href="'+'{{asset('assets/images/galleries').'/'}}'+arr[k]['photo']+'" target="_blank">'+
-                                            '<img src="'+'{{asset('assets/images/galleries').'/'}}'+arr[k]['photo']+'" alt="gallery image">'+
-                                            '</a>'+
-                                        '</div>'+
-                                  	'</div>');
-		            }          
-		    }
-		                     
-		                       }
-
-		  });
-		  return false;
- }); 
-
-
-// Gallery Section Update Ends	
-
-	$('[name=category]').on('change', function(){
-        category_id = $(this).val();
+    var table = $('#products-table').DataTable();
+    table.on('click', '.store', function(){
+        var productId = $(this).attr("data-product-id");
+        var productName = $(this).attr("data-product-name");
+        // $tr = $(this).closest('tr');
         $.ajax({
-            url: '{{ route('admin-subcat-load','') }}/'+category_id,
-            success: function(resp) {
-                $('[name=subcategory]').html(resp);
-                $('[name=childcategory]').html('<option value="">Child Category</option>');
+            url: "{{ route('product-in-stores') }}?product_id="+productId,
+            beforeSend: function(){
+                $('.overlay').show();
             }
+        }).done(function(result) {
+            // var data = table.row($tr).data();
+            // console.log(data)
+            $('select#store_id option').removeAttr('disabled');
+            $('select#store_id option').each(function(i, value){
+                if(result.indexOf($(this).val()) !== -1){
+                    $(this).attr('disabled','true');
+                }
+            });
+            $('#store_id').val("").trigger('change');
+            $('#product_id').val(productId);
+            // $('#quantity').val(data['quantity']);
+            // $('#unit_price').val(data['unit_price']);
+            document.getElementById("product_name").innerHTML = productName;
+            $('.overlay').hide();
         });
     });
 
-    $('[name=subcategory]').on('change', function(){
-        category_id = $(this).val();
-        $.ajax({
-            url: '{{ route('admin-childcat-load','') }}/'+category_id,
-            success: function(resp) {
-                $('[name=childcategory]').html(resp);
-            }
+    var editId = {{ $product->category_id ?? "null" }};
+    $('#categories').on('change',function(){
+        $('.overlay').show();
+        var id = $(this).val();
+        $.post('{{route('fetch.categories')}}', {"_token": "{{ csrf_token() }}", 'parent_cat_id' : id}, function(data){
+            var options = "<option value=''>Select Sub Category</option>";
+            $.each(data.data, function(i,j){
+                var sel = j.id == editId ? 'selected' : '';
+                options += "<option value='"+j.id+"' "+sel+">" + j.name + "</option>";
+            });
+            $('#sub_categories').html(options);
+            $('.overlay').hide();
         });
     });
 
+    $(document).on("change", "#sub_categories, #categories", function() {
+        oTable.ajax.reload();
+    });
+});
 </script>
-
-
-
-
-@endsection   
+@stop

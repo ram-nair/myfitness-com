@@ -7,7 +7,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     {{ Form::label('name', 'Name') }}
-                    {{ Form::text('name', null, array('class' => 'form-control'.($errors->has('name') ? ' is-invalid' : ''))) }}
+                    {{ Form::text('name', null, array('required','class' => 'form-control'.($errors->has('name') ? ' is-invalid' : ''))) }}
                     {!! $errors->first('name','<p class="text-danger"><strong>:message</strong></p>') !!}
                 </div>
 

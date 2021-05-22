@@ -75,15 +75,6 @@
                     @if($guard_name == 'admin')
                         <div class="row">
                             <div class="form-group col-2">
-                                <label>Filter By Store</label>
-                                <select name="store_id" id="store_filter" class="form-control select2">
-                                    <option value="">Select Store</option>
-                                    @foreach($stores as $key => $store)
-                                        <option value="{{ $key }}">{{ $store }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group col-2">
                                 <label>Payment Type</label>
                                 <select name="payment_type" id="payment_type_filter" class="form-control select2">
                                     <option value="">Select Payment Type</option>
@@ -91,7 +82,6 @@
                                     <option value="card_reader">Card Reader</option>
                                     <option value="online_pay">Online Pay</option>
                                     <option value="cash_on_delivery">Cash On Delivery</option>
-
                                 </select>
                             </div>
                             <div class="form-group col-2">
@@ -130,10 +120,7 @@
                             <th>Payment Status</th>
                             <th>Order Status</th>
                             <th>Order Number</th>
-                            <th>Store Type</th>
-                            <th>Store Name</th>
-                            <th>Accuracy Rating</th>
-                            <th>Speed rating</th>
+                            <th>Rating</th>
                             <th>Action</th>
                         </tr>
                         </thead>
@@ -162,9 +149,6 @@
                     type: 'post',
                     headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
                     data: function ( d ) {
-                        if( $('#store_filter').val() != undefined) {
-                            d.store_id = $('#store_filter').val();
-                        }
                         if( $('#payment_type_filter').val() != undefined) {
                             d.payment_type = $('#payment_type_filter').val();
                         }
@@ -186,9 +170,6 @@
                     {data: 'payment_status', name: 'payment_status'},
                     {data: 'order_status', name: 'order_status'},
                     {data: 'id', name: 'id'},
-                    {data: 'store_type', name: 'store_type'},
-                    {data: 'store.name', name: 'store.name'},
-                    {data: 'accuracy', name: 'accuracy'},
                     {data: 'rating', name: 'rating'},
                     {data: 'actions', name: 'actions',searchable: false}
 

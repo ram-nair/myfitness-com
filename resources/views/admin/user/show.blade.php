@@ -11,9 +11,7 @@
 @stop
 @section('content')
 <div class="row">
-
-                            <div class="add-product-content customar-details-area">
-                                <div class="row">
+ 
                                     <div class="col-lg-12">
                                         <div class="product-description">
                                             <div class="body-area">
@@ -37,21 +35,20 @@
                                                         </tr>
                                                         <tr>
                                                             <th>Name</th>
-                                                            <td>{{$data->name}}</td>
+                                                            <td>{{$data->first_name}} {{$data->last_name}}</td>
                                                         </tr>
                                                         <tr>
                                                             <th>Email</th>
                                                             <td>{{$data->email}}</td>
-                                                        </tr>
-                                                        <tr>
+                                                          </tr>
+                                                            <tr>
                                                                 <th>Phone</th>
                                                                 <td>{{$data->phone}}</td>
                                                             </tr>
                                                             <tr>
                                                                 <th>Address</th>
                                                                 <td>{{$data->address}}</td>
-                                                            </tr>
-
+                                                            </tr> 
                                                         </table>
                                                         </div>
                                                     </div>
@@ -104,7 +101,7 @@
                                                                     <tbody>
                                                                         @foreach($data->orders as $order)
                                                                         <tr>
-            <td><a href="{{ route('admin.order.invoice',$order->id) }}">{{sprintf("%'.08d", $order->id)}}</a></td>
+                                                                            <td><a href="{{ route('admin.order.invoice',$order->id) }}">{{sprintf("%'.08d", $order->id)}}</a></td>
                                                                             <td>{{ date('Y-m-d h:i:s a',strtotime($order->created_at)) }}</td>
                                                                             <td>{{ $order->currency_sign . round($order->pay_amount * $order->currency_value , 2) }}</td>
                                                                             <td>{{ $order->status }}</td>
@@ -127,9 +124,9 @@
                                 </div>
                             </div>
                         </div>
-</div>
+
 {{-- MESSAGE MODAL --}}
-<div class="sub-categori">
+
     <div class="modal" id="vendorform" tabindex="-1" role="dialog" aria-labelledby="vendorformLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -167,7 +164,7 @@
             </div>
         </div>
     </div>
-</div>
+
 
 {{-- MESSAGE MODAL ENDS --}}
 

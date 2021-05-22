@@ -82,7 +82,7 @@ class ReportController extends BaseController
     // User Listing
     public function user_listing(){
 
-        $this->setPageTitle('User Listing', 'User Listing');
+        $this->setPageTitle('Customer Listing', 'Customer Listing');
         $guard_name = Helper::get_guard();
         return view('admin.report.user_listing', compact('guard_name'));
 
@@ -93,36 +93,16 @@ class ReportController extends BaseController
         return Datatables::of($users)
             ->addColumn('name', function ($users) {
                 return $users->first_name.' '.$users->last_name;
-            })->addColumn('community', function ($users) {
-               return (count($users->community)>0) ? implode(', ', Arr::pluck($users->community, 'name')):"";
             })->addColumn('total_orders', function ($users) {
-                return count($users->orderCount) + count($users->ClassOrderCount) + count($users->ServiceOrderCount);
+                return count($users->orderCount);
             })->addColumn('life_time_revenue', function ($users) {
                 $order_array = (count($users->orderCount)>0) ? Arr::pluck($users->orderCount, 'total_amount'):[];
-                $class_order_array = (count($users->ClassOrderCount)>0) ? Arr::pluck($users->ClassOrderCount, 'total_amount'):[];
-                $service_order_array = (count($users->ServiceOrderCount)>0) ? Arr::pluck($users->ServiceOrderCount, 'total_amount'):[];
-                return  array_sum($order_array) + array_sum($class_order_array) +array_sum($service_order_array);
-            })->addColumn('business_type_order', function ($users) {
-                $store_ids = Arr::pluck($users->orderCount, 'store_id');
-                return $this->getBusinessType($store_ids);
-
-           
+                return  array_sum($order_array);
+              
             })
             ->make(true);
     }
-    public function getBusinessType($store_ids){
-        try{
-            $store_data = Store::with('businessType')->whereIn('id',$store_ids)->get();
-            $business_type_order = "";
-            foreach ($store_data as $store){
-                $business_type_order .= $store->businessType->name.', ';
-            }
-            return implode(',', array_unique(explode(', ',rtrim($business_type_order,', '))));
-        }catch (\Exception $e){
-            return "";
-        }
-
-    }
+    
     public function download_user_listing_report(Request $request){
         $users = User::select('*')->get();
 
@@ -131,21 +111,15 @@ class ReportController extends BaseController
         foreach ($users as $user){
             $order_count =  count($user->orderCount) + count($user->ClassOrderCount) + count($user->ServiceOrderCount);
             $order_array = (count($user->orderCount)>0) ? Arr::pluck($user->orderCount, 'total_amount'):[];
-            $class_order_array = (count($user->ClassOrderCount)>0) ? Arr::pluck($user->ClassOrderCount, 'total_amount'):[];
-            $service_order_array = (count($user->ServiceOrderCount)>0) ? Arr::pluck($user->ServiceOrderCount, 'total_amount'):[];
             $store_ids = Arr::pluck($user->orderCount, 'store_id');
-
-
+            
             $user_data['id'] =  $user->id;
             $user_data['name'] =  $user->name;
             $user_data['phone'] =  $user->phone;
             $user_data['email'] =  $user->email;
-            $user_data['community'] = (count($user->community)>0) ? implode(', ', Arr::pluck($user->community, 'name')):"";
-            $user_data['life_time_revenue'] =  array_sum($order_array) + array_sum($class_order_array) +array_sum($service_order_array);
+            $user_data['life_time_revenue'] =  array_sum($order_array);
             $user_data['total_orders'] =  $order_count;
-            $user_data['business_type_order'] =  $this->getBusinessType($store_ids);;
-            $user_data['revenue_from_classes'] =  array_sum($class_order_array);
-            $user_data['revenue_from_services'] =  array_sum($service_order_array);
+           
             $users_list[] = $user_data;
             $increment_value++;
         }
@@ -154,12 +128,8 @@ class ReportController extends BaseController
             'Name',
             'Mobile',
             'Email',
-            'Community Name',
             'Customer Life Time Revenue',
             'Total Orders',
-            'Business Type 1 Order',
-            'Revenue from Classes',
-            'Revenue From Services',
         ];
         return Excel::download(new ExportReport($users_list,$header), 'user_listing.xlsx');
 
@@ -177,9 +147,7 @@ class ReportController extends BaseController
     public function datatable_canceled_order(Request $request)
     {
         $order = Order::with('user','store')->where('payment_status',2);
-        if ($request->store_id) {
-            $order = $order->where('store_id', $request->store_id);
-        }
+
         if ($request->payment_type) {
             $order = $order->where('payment_type', $request->payment_type);
         }
@@ -222,16 +190,12 @@ class ReportController extends BaseController
                    $order_status = "";
                }
                return $order_status;
-            })->editColumn('store_type', function ($order) {
-                return ($order->store && $order->store->businessTypeCategory)?$order->store->businessTypeCategory->name:"";
             })
             ->make(true);
     }
     public function download_canceled_order_report(Request $request){
          $orders = Order::with('user','store')->where('payment_status',2);
-        if ($request->store_id) {
-            $orders = $orders->where('store_id', $request->store_id);
-        }
+        
         if ($request->payment_type) {
             $orders = $orders->where('payment_type', $request->payment_type);
         }
@@ -279,8 +243,8 @@ class ReportController extends BaseController
             $order_data['payment_status'] = $payment_status;
             $order_data['order_status'] = $order_status;
             $order_data['order_time'] = date('d-m-Y h:i A',strtotime($order->created_at));
-            $order_data['store_type'] = ($order->store && $order->store->businessTypeCategory)?$order->store->businessTypeCategory->name:"";
-            $order_data['store_name'] = ($order->store)?$order->store->name:"";
+            //$order_data['store_type'] = ($order->store && $order->store->businessTypeCategory)?$order->store->businessTypeCategory->name:"";
+            //$order_data['store_name'] = ($order->store)?$order->store->name:"";
 
             $order_list[] = $order_data;
 
@@ -296,8 +260,6 @@ class ReportController extends BaseController
             'Payment Status',
             'Order Status',
             'Order Time',
-            'Store Type',
-            'Store Name',
         ];
         return Excel::download(new ExportReport($order_list,$header), 'canceled_order.xlsx');
 
@@ -308,18 +270,12 @@ class ReportController extends BaseController
     public function purchase_history(){
         $this->setPageTitle('Purchase History', 'Purchase History');
         $guard_name = Helper::get_guard();
-        $stores = Store::all()->sortBy('name')->pluck('name', 'id')->toArray();
-        return view('admin.report.purchase_history', compact('guard_name','stores'));
-
-
+        return view('admin.report.purchase_history', compact('guard_name'));
     }
-    public function datatable_purchase_history(Request $request)
-    {
+    public function datatable_purchase_history(Request $request){
         $currentUser = Auth::user();
-        $order = Order::with('user','store');
-        if ($request->store_id) {
-            $order = $order->where('store_id', $request->store_id);
-        }
+        $order = Order::with('user');
+      
         if ($request->payment_type) {
             $order = $order->where('payment_type', $request->payment_type);
         }
@@ -376,8 +332,6 @@ class ReportController extends BaseController
                     $order_status = "";
                 }
                 return $order_status;
-            })->editColumn('store_type', function ($order) {
-                return ($order->store && $order->store->businessTypeCategory)?$order->store->businessTypeCategory->name:"";
             })->editColumn('actions', function ($orders) use ($currentUser) {
                 $b = '';
                 $b .= '<a href="' . URL::route('admin.get-order-detail', $orders->id) . '" class="btn btn-outline-primary btn-xs"><i class="fa fa-eye"></i></a>';

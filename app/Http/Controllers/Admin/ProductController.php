@@ -37,8 +37,9 @@ class ProductController extends BaseController
     public function index()
     {
         $this->setPageTitle('Products', 'Products List');
-       $categories = Category::where('parent_cat_id', 0)
+        $categories = Category::where('parent_cat_id', 0)
             ->pluck('name', 'id');
+             
         return view('admin.products.index', compact('categories'));
     }
 
@@ -103,7 +104,7 @@ class ProductController extends BaseController
         $categories = Category::where('parent_cat_id', 0)->get();
         $sub_categories = [];
         $this->setPageTitle('Products', 'Create Product');
-        return view('admin.products.create.create', compact('categories', 'brands', 'sub_categories'));
+        return view('admin.products.create', compact('categories', 'brands', 'sub_categories'));
     }
 
     public function store(Request $request)
