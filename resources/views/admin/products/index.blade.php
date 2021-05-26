@@ -58,7 +58,7 @@
                 <i class="fas fa-2x fa-sync-alt fa-spin"></i>
             </div>
             <div class="card-header">
-                <h3 class="card-title">&nbsp;</h3>
+                <h3 class="card-title"></h3>
                 <!-- tools box -->
                 <div class="card-tools">
                     <?php $user = Auth::user(); ?>
@@ -69,7 +69,8 @@
                         <a href="#" data-toggle="modal" data-target="#importModal" class="btn btn-success btn-sm">Import Products</a>
                         <span aria-hidden="true">&nbsp;&nbsp;</span>
                         <a href="{{ route('admin.products.create') }}" class="btn btn-success btn-sm">New Product</a>
-                        @endif
+                        &nbsp;
+                         @endif
                     </div>
                 </div>
                 <!-- /. tools -->
@@ -87,7 +88,16 @@
                 </div>
                 <div class="form-group col-4">
                     <label>Filter By sub category</label>
-                    <select name="sub_categories" id="sub_categories" class="form-control select2"></select>
+                    <select name="sub_categories" id="sub_categories" class="form-control select2">
+                    <option value="">Select Sub Category</option>
+                    </select>
+                </div>
+
+                <div class="form-group col-4">
+                    <label>Filter By Child category</label>
+                    <select name="child_categories" id="child_categories" class="form-control select2">
+                    <option value="">Select Child Category</option>
+                    </select>
                 </div>
                 </div>
                 <table class="table table-striped table-bordered dt-responsive nowrap" style="width:100%" id="products-table">
@@ -100,7 +110,7 @@
                             <th class="no-sort">Categories</th>
                             <th class="no-sort">Unit Price</th>
                             <th class="no-sort">Qty</th>
-                            {{-- <th>Status</th> --}}
+                            <th>Status</th>
                             <th>Date/Time Added</th>
                             <th class="no-sort">Actions</th>
                         </tr>
@@ -114,6 +124,10 @@
 <div class="modal fade" id="storeModal" tabindex="-1" role="dialog" aria-labelledby="storeModal">
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title" id="storeModalLabel">Add Product to Store</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
         <div class="modal-body">
             <h5 id="product_name"></h5>
             {{ Form::open(array('route' => array('admin.products.store-save'), 'method' => 'POST', 'class' => 'class-create')) }}
@@ -126,9 +140,18 @@
                         <div class="row">
                             <div class="col">
                                 <div class="form-group">
+                                    {{ Form::label('store', 'Store') }}
+                                   
+                                </div>
+                                <div class="form-group">
                                     {{ Form::label('stock', 'Stock') }}
                                     {{ Form::text('stock', null, array('required','class' => 'form-control'.($errors->has('stock') ? ' is-invalid' : '' ))) }}
                                     {!! $errors->first('stock','<p class="text-danger"><strong>:message</strong></p>') !!}
+                                </div>
+                                <div class="form-group">
+                                    {{ Form::label('quantity-per-person', 'Quantity Person') }}
+                                    {{ Form::text('quantity_per_person', null, array('required','class' => 'form-control'.($errors->has('quantity_per_person') ? ' is-invalid' : '' ))) }}
+                                    {!! $errors->first('quantity_per_person','<p class="text-danger"><strong>:message</strong></p>') !!}
                                 </div>
                             </div>
                         </div>
@@ -211,6 +234,9 @@ $(function () {
                 if( $('#categories').val() != undefined) {
                     d.cat_id = $('#categories').val();
                 }
+                if( $('#child_categories').val() != undefined) {
+                    d.child_id = $('#child_categories').val();
+                }
             }
         },
         columns: [
@@ -227,8 +253,23 @@ $(function () {
                     return "<span class='badge badge-info'>" + row.categories + "</span>";
                 }
             },
-            {data: 'unit_price', name: 'unit_price'},
+            {data: 'unit_price', name: 'unit_price',
+                render: function(data, type, row, meta) {
+                    return "AED " + row.unit_price ;
+                }
+            },
+            
             {data: 'quantity', name: 'quantity'},
+            {data: 'status', name: 'status',
+                render: function(data, type, row, meta) {
+                    if(row.status){
+                        return "Enabled";
+                    }else{
+                        return "Disabled";
+                    }
+                    
+                }
+            },
             {data: 'created_at', name: 'created_at', searchable: false},
             {data: 'actions', name: 'actions', searchable: false}
         ]
@@ -277,21 +318,33 @@ $(function () {
     var editId = {{ $product->category_id ?? "null" }};
     $('#categories').on('change',function(){
         $('.overlay').show();
-        var id = $(this).val();
-        $.post('{{route('fetch.categories')}}', {"_token": "{{ csrf_token() }}", 'parent_cat_id' : id}, function(data){
-            var options = "<option value=''>Select Sub Category</option>";
-            $.each(data.data, function(i,j){
-                var sel = j.id == editId ? 'selected' : '';
-                options += "<option value='"+j.id+"' "+sel+">" + j.name + "</option>";
-            });
-            $('#sub_categories').html(options);
-            $('.overlay').hide();
-        });
+        var catId = $(this).val();
+        var subId =null;
+        $.ajax({
+        url: '{{ url('admin/loadSubcat') }}/'+catId+'/'+subId,
+        success: function(resp) {
+            $('#sub_categories').html(resp);
+            $('.overlay').hide();     
+            }
+           
+    });
     });
 
-    $(document).on("change", "#sub_categories, #categories", function() {
+    $(document).on("change", "#sub_categories, #categories,#child_categories", function() {
         oTable.ajax.reload();
     });
 });
+$(document).on('change','#sub_categories',function () {
+      var catId = $('#sub_categories').val();
+         getChild(catId,null)
+      });
+      function getChild(catId,subId){
+    $.ajax({
+        url: '{{ url('admin/loadChildcat') }}/'+catId+'/'+subId,
+        success: function(resp) {
+            $('#child_categories').html(resp);
+         }
+    });
+ }
 </script>
 @stop

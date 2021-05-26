@@ -54,7 +54,7 @@ Route::group(['middleware' => ['auth:admin', 'isAdmin', 'assign.guard:admin,admi
     Route::resource('cat-banners', 'CategoryBannerController');
     Route::any('cat-banners/dt', 'CategoryBannerController@datatable')->name('cat-banner.datatable');
 
-    Route::get('loadSubcat/{id}/{subId}', 'ChildCategoryController@loadSubcat');
+    Route::get('loadSubcat/{id}/{subId}', 'ChildCategoryController@loadSubcat')->name('fetch.subcat');
     Route::get('loadChildcat/{id}/{subId}', 'ChildCategoryController@loadChildcat');
     //service banner
     Route::resource('service-banner', 'ServiceBannerController');

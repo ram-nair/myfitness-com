@@ -29,14 +29,10 @@ class Product extends Model
     ];*/
 
 
-    protected $fillable = ['brand_id','sku','user_id','category_id', 'subcategory_id', 'childcategory_id', 
-    'name', 'photo', 'size','size_qty','size_price', 'color', 'details','price','tax',
-    'previous_price','stock','policy','status', 'views','tags','featured','best',
-    'top','hot','latest','big','trending','sale','features','colors','product_condition',
-    'ship','meta_tag','meta_description','youtube','type','file','license','license_qty',
-    'link','platform','region','licence_type','measure','discount_date','is_discount',
-    'admin_commission','cancel_hr','return_date',
-    'delivery_date','is_cancel','is_return','is_cod','is_custom','custom_text'];
+    protected $fillable = ['brand_id','sku','user_id','category_id', 'sub_category_id', 'child_category_id','quantity',
+    'name', 'size','size_qty','size_price', 'color', 'details','unit_price','tax',
+    'previous_price','in_stock','status','hot_deal','hot_sale','colors','product_condition','meta_title',
+    'meta_tag','meta_description','discount_date','is_discount'];
 
     protected static $logName = 'product'; //Should be short and identical
     protected static $logFillable  = true;

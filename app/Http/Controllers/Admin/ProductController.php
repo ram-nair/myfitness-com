@@ -53,10 +53,13 @@ class ProductController extends BaseController
         if ($request->sub_cat_id) {
             $condition['sub_category_id'] = $request->sub_cat_id;
         }
+        if ($request->child_id) {
+            $condition['child_category_id'] = $request->child_id;
+        }
         if (!empty($condition)) {
             $products = $this->productRepository->findBy($condition);
         } else {
-            $products = $this->productRepository->listProducts();
+            $products = $this->productRepository->listProducts('created_at');
         }
 
         return Datatables::of($products)
@@ -90,9 +93,9 @@ class ProductController extends BaseController
                         $b .= ' <a href="' . URL::route('admin.products.destroy', $products->id) . '" class="btn btn-outline-danger btn-xs destroy"><i class="fa fa-trash"></i></a>';
                     }
                 }
-                if ($currentUser->hasPermissionTo('storeproduct_create')) {
+                /*if ($currentUser->hasPermissionTo('storeproduct_create')) {
                     $b .= ' <a href="#" class="btn btn-outline-info btn-xs store" data-toggle="modal" data-target="#storeModal" data-product-id="' . $products->id . '" data-product-name="' . $products->name . '"><i class="fa fa-shopping-bag"></i></a>';
-                }
+                }*/
                 return $b;
             })->make(true);
     }
@@ -101,10 +104,12 @@ class ProductController extends BaseController
     {
        
         $brands = Brand::all()->sortBy('name');
-        $categories = Category::where('parent_cat_id', 0)->get();
+        $categories = Category::where('parent_cat_id', 0)
+        ->pluck('name', 'id');
         $sub_categories = [];
+        $imageSize = config('globalconstants.imageSize')['product'];
         $this->setPageTitle('Products', 'Create Product');
-        return view('admin.products.create', compact('categories', 'brands', 'sub_categories'));
+        return view('admin.products.create', compact('imageSize','categories', 'brands', 'sub_categories'));
     }
 
     public function store(Request $request)
@@ -116,6 +121,8 @@ class ProductController extends BaseController
             'unit_price' => 'required',
         ]);
         $product = $this->productRepository->createProduct($params);
+
+        $this->uploadImages($request,$product);      
         if (!$product) {
             alert()->error('Product add failed', 'Failed');
             return $this->responseRedirectBack('Error occurred while creating product.', 'error', true, true);
@@ -148,6 +155,7 @@ class ProductController extends BaseController
             'unit_price' => 'required',
         ]);
         $product = $this->productRepository->updateProduct($params);
+        $this->uploadImages($request,$product); 
         if (!$product) {
             return $this->responseRedirectBack('Error occurred while updating product.', 'error', true, true);
         }
@@ -190,7 +198,7 @@ class ProductController extends BaseController
         return redirect()->route('admin.products.index');
     }
 
-    public function uploadImages(Request $request)
+   /* public function uploadImages(Request $request)
     {
         $product = $this->productRepository->findProductById($request->id);
         if ($request->hasFile('image')) {
@@ -203,7 +211,27 @@ class ProductController extends BaseController
                 $product->images()->save($productImage);
             }
         }
+    }*/
+
+    public function uploadImages(Request $request,$product)
+    {
+        
+        if ($request->hasFile('image')) {
+            $imageSize = config('globalconstants.imageSize')['product'];
+            $image = $request->file('image');
+            foreach ($image as $files) {
+                $image = $this->singleImage($files, $imageSize['path'], 'product');
+                if (!empty($image)) {
+                    $productImage = new ProductImage([
+                        'full' => $image,
+                    ]);
+                    $product->images()->save($productImage);
+                }
+         
+            }
+            }
     }
+
 
     public function deleteImages($id)
     {

@@ -75,6 +75,7 @@ class ProductRepository extends BaseRepository implements ProductContract
             $product = new Product($merge->all());
 
             $product->save();
+            
 
             // if ($collection->has('categories')) {
             //     $product->categories()->sync($params['categories']);

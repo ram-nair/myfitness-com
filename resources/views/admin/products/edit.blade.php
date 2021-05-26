@@ -15,44 +15,111 @@
         <div class="row">
             <div class="col-5 col-sm-3">
                 <div class="nav flex-column nav-tabs h-100">
-                    <a class="nav-link @if(!$showUpload) active @endif" id="vert-tabs-home-tab" data-toggle="pill" href="#general" role="tab" aria-controls="vert-tabs-home" aria-selected="false">General</a>
+                  <!--  <a class="nav-link @if(!$showUpload) active @endif" id="vert-tabs-home-tab" data-toggle="pill" href="#general" role="tab" aria-controls="vert-tabs-home" aria-selected="false">General</a>
                     <a class="nav-link @if($showUpload) active @endif" id="vert-tabs-home-tab" data-toggle="pill" href="#images" role="tab" aria-controls="vert-tabs-home" aria-selected="false">Images</a>
+                   -->
+                    <a class="nav-link  active" id="vert-tabs-home-tab" data-toggle="pill" href="#general" role="tab" aria-controls="vert-tabs-home" aria-selected="false">General</a>
+                   <!-- <a class="nav-link" id="vert-tabs-home-tab" data-toggle="pill" href="#ptags" role="tab" aria-controls="vert-tabs-home" aria-selected="false">Product tags</a>-->
+                    <a class="nav-link" id="vert-tabs-home-tab" data-toggle="pill" href="#hpagesettings" role="tab" aria-controls="vert-tabs-home" aria-selected="false">Home Page Setting</a>
+                    <a class="nav-link" id="vert-tabs-home-tab" data-toggle="pill" href="#seoTab" role="tab" aria-controls="vert-tabs-home" aria-selected="false"> Search Engine Optimization</a>
+                    <a class="nav-link" id="vert-tabs-home-tab" data-toggle="pill" href="#images" role="tab" aria-controls="vert-tabs-home" aria-selected="false">Images</a>
+               
+                
                 </div>
             </div>
             <div class="col-7 col-sm-9">
+            {{ Form::model($product, array('route' => array('admin.products.update', $product->id), 'method' => 'POST', 'enctype' => 'multipart/form-data','class' => 'class-create')) }}
+            {{ method_field('PATCH') }}
+                           
                 <div class="tab-content">
                     <div class="tab-pane @if(!$showUpload) active @endif" id="general">
                         <div class="tile">
-                            {{ Form::model($product, array('route' => array('admin.products.update', $product->id), 'method' => 'POST', 'class' => 'class-create')) }}
-                            {{ method_field('PATCH') }}
                             <input type="hidden" name="id" value="{{ $product->id }}">
                             @include ('admin.products.form', ['submitButtonText' => 'Update'])
-                            {{ Form::close() }}
+                           
                         </div>
                     </div>
+
+                    <div class="tab-pane" id="hpagesettings">
+                        <div class="tile">
+                         <div class="form-group ">
+                        {{ Form::label('show_disclaimer', 'Hot Sale') }}
+                        <div class="">
+                            <input data-bootstrap-switch type="checkbox" name="hot_sale" id="hot_sale" value="1" />
+                        </div>
+                    {!! $errors->first('hot_sale','<p class="text-danger"><strong>:message</strong></p>') !!}
+                       </div>
+
+
+                       <div class="form-group ">
+                        {{ Form::label('show_disclaimer', 'Hot Deal') }}
+                        <div class="">
+                            <input data-bootstrap-switch type="checkbox" name="hot_deal" id="hot_deal" value="1" />
+                        </div>
+                    {!! $errors->first('hot_deal','<p class="text-danger"><strong>:message</strong></p>') !!}
+                       </div>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="tab-pane" id="seoTab">
+                        <div class="tile">
+                         
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            {{ Form::label('name', ' Meta Title') }}
+                            {{ Form::text('name', null, array('required'=>'','class' => 'form-control'.($errors->has('name') ? ' is-invalid' : '' ))) }}
+                            {!! $errors->first('name','<p class="text-danger"><strong>:message</strong></p>') !!}
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            {{ Form::label('sku', ' Meta Keywords') }}
+                            {{ Form::text('meta_tag', null, array('required'=>'','class' => 'form-control'.($errors->has('sku') ? ' is-invalid' : '' ))) }}
+                            {!! $errors->first('meta_tag','<p class="text-danger"><strong>:message</strong></p>') !!}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            {{ Form::label('name', 'Meta Description') }}
+                            {{ Form::textarea('meta_description', null, ['class'=>'form-control editor-medium', 'rows' => 2, 'cols' => 40]) }}
+                            {!! $errors->first('meta_description','<p class="text-danger"><strong>:message</strong></p>') !!}
+                        </div>
+                    </div>
+                    
+                </div>
+
+
+
+                        </div>
+                    </div>
+
+
+
+
+
+
                     <div class="tab-pane @if($showUpload) active @endif" id="images">
                         <div class="tile">
                             <div class="card card-outline card-info">
                                 <div class="card-header">
                                     <h3 class="card-title">
-                                      Upload Images
+                                      Upload Multiple Images
                                     </h3>
                                 </div>
                                 <div class="card-body pad">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <form action="" class="dropzone" id="dropzone" style="border: 2px dashed rgba(0,0,0,0.3); padding:20px;">
-                                                <input type="hidden" name="id" value="{{ $product->id }}">
-                                                {{ csrf_field() }}
-                                            </form>
+                                        <input type="file" name="image[]" multiple class="form-control" accept="image/*">
+
                                             <label for="exampleInputFile">Image (Recommended : {{$imageSize['aspectRatioW']}}x{{$imageSize['aspectRatioH']}})</label>
-                                            <div class="row d-print-none mt-2">
-                                                <div class="col-12 text-right">
-                                                    <button class="btn btn-success" type="submit" id="uploadButton">
-                                                        <i class="fa fa-fw fa-lg fa-upload"></i>Upload Images
-                                                    </button>
-                                                </div>
-                                            </div>
+                                           
                                         </div>
                                     </div>
                                     @if ($product->images)
@@ -84,6 +151,12 @@
                         </div>
                     </div>
                 </div>
+                <div class="card-footer">
+                <a href="{{ route('admin.products.index') }}" class="btn btn-default">Cancel</a>
+                {{ Form::submit(isset($submitButtonText) ? $submitButtonText : 'Create', array('class' => 'btn btn-info float-right')) }}
+            </div>
+                {{ Form::close() }}
+            </div>
             </div>
         </div>
     </div>
@@ -151,7 +224,7 @@
                 var sel = j.id == editId ? 'selected' : '';
                 options += "<option value='"+j.id+"' "+sel+">" + j.name + "</option>";
             });
-            $('#sub_categories').html(options);
+            $('#sub_category_id').html(options);
             // $('#sub_categories').val($('#sub_categories').attr('value'));
             // console.log($('#parent_id').attr('value'));
             $('.overlay').hide();
@@ -159,6 +232,5 @@
     });
 
     $("#categories").trigger('change');
-});
-</script>
+   
 @endsection
