@@ -64,8 +64,10 @@ Route::group(['middleware' => ['auth:admin', 'isAdmin', 'assign.guard:admin,admi
     Route::resource('stores', 'StoreController');
     Route::any('stores/dt', 'StoreController@datatable')->name('stores.datatable');
 
-    Route::resource('slots', 'SlotController');
-    Route::any('slots/dt', 'SlotController@datatable')->name('slots.datatable');
+    Route::resource('gifts', 'GiftsController');
+    Route::any('gifts/dt', 'GiftsController@datatable')->name('gifts.datatable');
+
+
     Route::get('subcategory/{id}/{subId}', 'StoreController@loadSubcat');
 
     Route::resource('business-type-categories', 'BusinessTypeCategoryController');
@@ -149,17 +151,16 @@ Route::any('childcategories/{id}', 'ChildCategoryController@index');
     Route::get('/user//withdraws/reject/{id}', 'UserController@reject')->name('admin-withdraw-reject');
     
 
-
-
-
-
-
     Route::resource('products', 'ProductController');
     Route::post('products/import', 'ProductController@import')->name('products.import');
     Route::any('products/dt', 'ProductController@datatable')->name('products.datatable');
     Route::post('products/store-save', 'ProductController@productStoreSave')->name('products.store-save');
     Route::post('products/images/upload', 'ProductController@uploadImages')->name('products.images.upload');
     Route::get('products/images/{id}/delete', 'ProductController@deleteImages')->name('products.images.delete');
+    Route::post('products/offer_price', 'ProductController@offer_price')->name('products.offer_price');
+    
+
+
 
     Route::get('/user', function () {
         return auth()->user();

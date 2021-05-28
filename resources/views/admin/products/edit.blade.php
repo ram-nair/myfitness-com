@@ -161,6 +161,66 @@
         </div>
     </div>
 </div>
+
+
+
+
+<div class="modal" id="modal-default">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Advanced Pricing</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+            <form action="{{ route('admin.products.offer_price') }}"  method="post">
+             <input type="hidden" name="id" value="{{ $product->id }}">
+            {{ csrf_field() }}
+            <div class="row">
+               <div class="form-group">
+                    {{ Form::label('name', ' Special Price') }}
+                    <input type="text" class="form-control" required placeholder="Discount price" name="discount_price" id="discount_price"  value="{{ $product->discount_price }}">
+                    {!! $errors->first('discount_price','<p class="text-danger"><strong>:message</strong></p>') !!}
+                </div>
+              </div>
+
+              <div class="row input-daterange" id="global_dates">
+                <div class="form-group">
+                    {{ Form::label('name', ' Special Price From') }}
+                    <div class="col-12">
+                    
+                    <input type="text" class="form-control" required  placeholder="Starts At" name="discount_start_date" id="start_date" autocomplete="off" value="{{ $product->discount_start_date }}">
+                </div>
+                <div class="col-12">
+                    <label>To</label>
+                    <input type="text" class="form-control"  required placeholder="End At" name="discount_end_date" id="end_date" autocomplete="off" value="{{ $product->discount_end_date }}">
+                </div>
+                </div>
+                </div>
+              
+                <div class="row">
+                <div class="form-group">
+                    {{ Form::label('name', 'Orginal price') }}
+                      <input type="text" class="form-control" placeholder="Orginal price" name="unit_price" id="unit_price"  value="{{ $product->unit_price }}">
+                     {!! $errors->first('unit_price','<p class="text-danger"><strong>:message</strong></p>') !!}
+                </div>
+			</div>
+
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              {{ Form::submit(isset($submitButtonText) ? $submitButtonText : 'Save changes', array('class' => 'btn btn-info float-right')) }}
+
+            </div>
+          </div>
+          <!-- /.modal-content -->
+         </form>
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->
 @stop
 @section('js')
     <link rel="stylesheet" type="text/css" href="{{ asset('css/dropzone.css') }}"/>
@@ -168,6 +228,7 @@
     <script type="text/javascript" src="{{ asset('js/dropzone.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/bootstrap-notify.min.js') }}"></script>
     <script>
+   
         Dropzone.autoDiscover = false;
         $( document ).ready(function() {
             // $('#categories').select2();

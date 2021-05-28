@@ -356,4 +356,26 @@ class ProductController extends BaseController
         })->paginate($limit);
         return new StoreProductCollection($products);
     }
+ //27/05/2021
+
+ public function offer_price(Request $request)
+    {
+        $product = $this->productRepository->findProductById($request->id);
+        $params = $request->except('_token');
+        $request->validate([
+            'discount_price' => 'required',
+            'discount_start_date' => 'required',
+            'discount_end_date' => 'required',
+        ]);
+        $product->discount_price =$request->discount_price;
+        $product->discount_start_date =$request->discount_start_date;
+        $product->discount_end_date =$request->discount_end_date;
+        $product->save();
+        return redirect()->route('admin.products.edit', ['product' => $product->id]);
+ 
+    }
+
+
+
+
 }

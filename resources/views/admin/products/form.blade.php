@@ -36,6 +36,16 @@
                     {{ Form::text('unit_price', null, array('required','class' => 'form-control'.($errors->has('unit_price') ? ' is-invalid' : '' ))) }}
                     {!! $errors->first('unit_price','<p class="text-danger"><strong>:message</strong></p>') !!}
                 </div>
+                @php
+                if(!empty($product)){
+                @endphp
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-default">
+                Advanced Pricing
+                </button>
+               
+               @php
+                }
+               @endphp
             </div>
             <div class="col-md-4">
                 <div class="form-group">
@@ -113,8 +123,18 @@
         </div>
     </div>
 </div>
+
+
 @section('js')
-<script>
+<link href="{{ asset('css/bootstrap-datepicker.css')}}" id="theme" rel="stylesheet">
+    <script src="{{ asset('js/bootstrap-datepicker.min.js')}}"></script>
+
+    <script>
+        $("#global_dates").datepicker({
+            toggleActive: !0,
+            format:'yyyy-mm-dd'
+        });
+
 $(function(){
     var sub_id = {{ $product->sub_category_id ?? "null" }};
     var child_id = {{ $product->child_category_id ?? "null" }};

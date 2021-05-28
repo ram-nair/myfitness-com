@@ -269,6 +269,13 @@ return [
                     'guard' => ['store'],
                     'type' => ['menu_1'],
                 ],
+                [
+                    'text' => 'Manage Gift Cards',
+                    'url' => 'admin/gifts',
+                    'icon' => 'nav-icon fa fa-image',
+                    'can' => 'categorybanner_read',
+                    'guard' => ['admin'],
+                ],
                 
                 [
                     'text' => 'Order Management',
@@ -364,6 +371,8 @@ return [
                     'can' => 'categorybanner_read',
                     'guard' => ['admin'],
                 ],
+
+                
                 
             ],
         ],
