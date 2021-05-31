@@ -111,7 +111,8 @@
                             <th class="no-sort">Unit Price</th>
                             <th class="no-sort">Qty</th>
                             <th>Status</th>
-                            <th>Date/Time Added</th>
+                            <th>Show in Home/Main List</th>
+                            <th>Date Added</th>
                             <th class="no-sort">Actions</th>
                         </tr>
                     </thead>
@@ -270,10 +271,22 @@ $(function () {
                     
                 }
             },
+            {data: 'hot_sale', name: 'hot_sale',
+                render: function(data, type, row, meta) {
+                    if(row.hot_sale){
+                        return "<input type='checkbox' value="+row.id+" name='hot_deal'  checked class='hot_deal form-control'>";
+                    }else{
+                        return "<input type='checkbox' value="+row.id+" name='hot_deal' class='hot_deal form-control'>";
+                    }
+                    
+                }
+            },
+            
             {data: 'created_at', name: 'created_at', searchable: false},
             {data: 'actions', name: 'actions', searchable: false}
         ]
     });
+   
 
     $("#tab1 #checkAll").click(function () {
         if ($("#tab1 #checkAll").is(':checked')) {
@@ -288,29 +301,17 @@ $(function () {
     });
 
     var table = $('#products-table').DataTable();
-    table.on('click', '.store', function(){
-        var productId = $(this).attr("data-product-id");
-        var productName = $(this).attr("data-product-name");
-        // $tr = $(this).closest('tr');
+    table.on('click', '.hot_deal', function(){
+        var Product_id = $(this).val();
         $.ajax({
-            url: "{{ route('product-in-stores') }}?product_id="+productId,
+            url: "{{ url('admin/products/inhome') }}/"+Product_id,
             beforeSend: function(){
                 $('.overlay').show();
             }
         }).done(function(result) {
             // var data = table.row($tr).data();
             // console.log(data)
-            $('select#store_id option').removeAttr('disabled');
-            $('select#store_id option').each(function(i, value){
-                if(result.indexOf($(this).val()) !== -1){
-                    $(this).attr('disabled','true');
-                }
-            });
-            $('#store_id').val("").trigger('change');
-            $('#product_id').val(productId);
-            // $('#quantity').val(data['quantity']);
-            // $('#unit_price').val(data['unit_price']);
-            document.getElementById("product_name").innerHTML = productName;
+            table.ajax.reload();
             $('.overlay').hide();
         });
     });

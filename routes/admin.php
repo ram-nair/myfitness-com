@@ -158,7 +158,8 @@ Route::any('childcategories/{id}', 'ChildCategoryController@index');
     Route::post('products/images/upload', 'ProductController@uploadImages')->name('products.images.upload');
     Route::get('products/images/{id}/delete', 'ProductController@deleteImages')->name('products.images.delete');
     Route::post('products/offer_price', 'ProductController@offer_price')->name('products.offer_price');
-    
+    Route::any('products/inhome/{id}', 'ProductController@updateHome')->name('product.inhome');
+   
 
 
 

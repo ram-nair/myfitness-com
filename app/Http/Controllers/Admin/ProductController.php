@@ -100,6 +100,10 @@ class ProductController extends BaseController
             })->make(true);
     }
 
+    public function show(Product $product)
+    {
+        return redirect('products');
+    }
     public function create()
     {
        
@@ -322,6 +326,19 @@ class ProductController extends BaseController
     {
         $storeIds = StoreProduct::where('product_id', $request->product_id)->get()->pluck('store_id');
         return $storeIds;
+    }
+
+    public function updateHome($id)
+    {
+        $products =Product::find($id);
+        if($products->hot_sale){
+            $products->hot_sale=0;
+        }else{
+            $products->hot_sale=1;
+        }
+
+         $products->save();
+         return true;
     }
 
     public function import(Request $request)

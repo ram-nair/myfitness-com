@@ -43,7 +43,7 @@
                     <div class="tab-pane" id="hpagesettings">
                         <div class="tile">
                          <div class="form-group ">
-                        {{ Form::label('show_disclaimer', 'Hot Sale') }}
+                        {{ Form::label('show_disclaimer', 'Home Page/Main Page') }}
                         <div class="">
                             <input data-bootstrap-switch type="checkbox" name="hot_sale" id="hot_sale" value="1" />
                         </div>
