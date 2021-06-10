@@ -46,6 +46,6 @@
     </div>
     <div class="card-footer">
         {{ Form::submit(isset($submitButtonText) ? $submitButtonText : 'Create', array('class' => 'btn btn-info')) }}
-        <a href="{{ route('admin.users.index') }}" class="btn btn-default float-right">Cancel</a>
+        <a href="{{ route('admin.adminusers.index') }}" class="btn btn-default float-right">Cancel</a>
     </div>
 </div>

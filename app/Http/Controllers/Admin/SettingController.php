@@ -26,9 +26,8 @@ class SettingController extends BaseController
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request)
-    {
-        if ($request->has('site_logo') && ($request->file('site_logo') instanceof UploadedFile)) {
-
+    {  
+        if ($request->has('site_logo')) {
             if (config('settings.site_logo') != null) {
                 $this->deleteOne(config('settings.site_logo'));
             }

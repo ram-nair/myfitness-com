@@ -2,12 +2,9 @@
 
 namespace App;
 
-use App\BusinessType;
 use App\Product;
 use App\StoreContactDetails;
 use App\StoreManagerContactDetails;
-use App\StoreSuperVisorContactDetails;
-use App\Vendor;
 use Carbon\Carbon;
 use Helper;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -44,7 +41,6 @@ class Store extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'business_type_id', 'business_type_category_id', 'service_type',
         'name', 'email', 'password', 'status', 'image', 'mobile', 'description', 'store_timing',
         'location', 'credit_card', 'cash_accept', 'bring_card', 'featured', 'speed', 'accuracy',
         'min_order_amount', 'latitude', 'longitude', 'vendor_id', 'by_user_id', 'by_user_type',
@@ -69,14 +65,7 @@ class Store extends Authenticatable
         return ($value != null) ? Helper::imageUrl('store', $value) : null;
     }
 
-    public function businessType()
-    {
-        return $this->belongsTo(BusinessType::class, 'business_type_id', 'id');
-    }
-    public function businessTypeCategory()
-    {
-        return $this->belongsTo(BusinessTypeCategory::class, 'business_type_category_id', 'id');
-    }
+    
 
     public function products()
     {
@@ -88,14 +77,10 @@ class Store extends Authenticatable
         return $this->belongsToMany(Product::class, 'product_stores', 'store_id', 'product_id');
     }
 
-    public function serviceStoreProducts()
-    {
-        return $this->belongsToMany(ServiceProducts::class, 'service_store_products', 'store_id', 'product_id');
-    }
-
+   
     public function storeVendor()
     {
-        return $this->belongsTo(Vendor::class, 'vendor_id');
+        return $this->belongsTo(Admin::class, 'vendor_id');
     }
 
     public function storeContacts()
@@ -103,15 +88,9 @@ class Store extends Authenticatable
         return $this->hasMany(StoreContactDetails::class, 'store_id', 'id');
     }
 
-    public function storeSupervisorContacts()
-    {
-        return $this->hasMany(StoreSuperVisorContactDetails::class, 'store_id', 'id');
-    }
+    
 
-    public function storeManagerContacts()
-    {
-        return $this->hasMany(StoreManagerContactDetails::class, 'store_id', 'id');
-    }
+    
 
     public function setStartAtAttribute($value)
     {
@@ -163,10 +142,7 @@ class Store extends Authenticatable
         return $this->hasMany(Order::class, 'store_id', 'id');
 
     }
-    public function boundaries()
-    {
-        return $this->hasMany(Boundary::class, 'store_id', 'id');
-    }
+    
 
     public function getStoreNameAttribute()
     {

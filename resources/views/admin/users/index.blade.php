@@ -27,7 +27,7 @@
                         <a href="{{ route('admin.permissions.index') }}" class="btn btn-success btn-sm">Permissions</a>
                         @endif
                         @if($user->hasRole('super-admin','admin') || $user->hasPermissionTo('user_create','admin'))
-                        <a href="{{ route('admin.users.create') }}" class="btn btn-success btn-sm">New User</a>
+                        <a href="{{ route('admin.adminusers.create') }}" class="btn btn-success btn-sm">New Admin User</a>
                         @endif
                     </div>
                 </div>

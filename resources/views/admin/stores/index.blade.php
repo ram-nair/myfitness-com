@@ -22,32 +22,21 @@
                     <div class="btn-group">                       
                         @if($user->hasRole('super-admin','admin') || $user->hasPermissionTo('store_create','admin'))
                             <a href="{{ route('admin.stores.create') }}" class="btn btn-success btn-sm">New Store</a>
-                            &nbsp;<a href="{{ route('admin.audits.activityLog','store') }}" class="btn btn-success btn-sm">View Audit Log</a>
+                           
                         @endif
                     </div>
                 </div>
                 <!-- /. tools -->
             </div>
             <div class="card-body pad">
-                <div class="row">
-                    <div class="form-group col-4">
-                        <label>Business Type </label>
-                        <select class="form-control select2" name="business_type_id" id="business_type_id" >
-                        <option value="">Select Business Type</option>
-                            @foreach ($businessType as $business)
-                            <option value="{{$business->id}}">{{$business->name}}</option>
-                            @endforeach
-                        </select>                        
-                    </div>
-                </div>
                 <table class="table table-striped table-bordered dt-responsive nowrap" style="width:100%" id="users-table">
                     <thead>
                         <tr>
                             <th class="no-sort">SL.No</th>
                             <th>Name</th>
-                            <th>Vendor Name</th>
                             <th class="no-sort">Email</th>
                             <th class="no-sort">Mobile</th>
+                            <th>Address</th>
                             {{--<th></th>--}}
                             <th>Date/Time Added</th>
                             <th class="no-sort">Actions</th>
@@ -94,10 +83,10 @@
                     }
                 },
                 {data: 'name', name: 'name', searchable: true},
-                {data: 'store_vendor.name', name: 'storeVendor.name', searchable: false},
+               
                 {data: 'email', name: 'email', searchable: true},
                 {data: 'mobile', name: 'mobile', searchable: true},
-//                {data: 'descrption', name: 'descrption', searchable:false},
+                {data: 'descrption', name: 'descrption', searchable:false},
                 {data: 'created_at', name: 'created_at', searchable: true},
                 {data: 'actions', name: 'actions', searchable: false}
             ]

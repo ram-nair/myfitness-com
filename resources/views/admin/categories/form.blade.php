@@ -11,11 +11,7 @@
                     {!! $errors->first('name','<p class="text-danger"><strong>:message</strong></p>') !!}
                 </div>
                 <div class="row">
-                    <div class="form-group col-md-6">
-                        {{ Form::label('business_type_category_id', 'Business Type Category') }}
-                        {{ Form::select('business_type_category_id', $business_type_categories, null, array('required'=>'','class' => 'form-control select2 '.($errors->has('business_type_category_id') ? ' is-invalid' : ''))) }}
-                        {!! $errors->first('business_type_category_id','<p class="text-danger"><strong>:message</strong></p>') !!}
-                    </div>
+                   
                     <div class="form-group col-md-6">
                         {{ Form::label('parent_cat_id', 'Product Category or Sub Category') }}
                         <select class="select2 form-control" name="parent_cat_id" id="parent_cat_id"  value={{$category->parent_cat_id??''}}>
@@ -26,13 +22,13 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="form-group ">
+                {{-- <div class="form-group ">
                     {{ Form::label('show_disclaimer', 'Show Disclaimer') }}
                     <div class="">
                         <input data-bootstrap-switch type="checkbox" name="show_disclaimer" id="show_disclaimer" value="1" {{isset($category)&&$category->show_disclaimer==1?'checked':''}} />
                     </div>
                     {!! $errors->first('show_disclaimer','<p class="text-danger"><strong>:message</strong></p>') !!}
-                </div>
+                </div>--}}
 
                 <div class="form-group" id="form_disclaimer" {!! isset($category) && $category->show_disclaimer == 1 ? '' : 'style="display:none;"' !!}>
                     {{ Form::label('disclaimer', 'Disclaimer') }}

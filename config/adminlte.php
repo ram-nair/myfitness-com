@@ -222,21 +222,21 @@ return [
                 [
                     'text' => 'Category Management',
                     'url' => 'admin/categories',
-                    'icon' => 'nav-icon fa fa-sitemap',
+                    'icon' => 'nav-icon fas fa-money-check-alt',
                     'can' => 'category_read',
                     'guard' => ['admin'],
                 ],
                 [
                     'text' => 'Sub Category Management',
                     'url' => 'admin/subcategories',
-                    'icon' => 'nav-icon fa fa-sitemap',
+                    'icon' => 'nav-icon fa fa-clone',
                     'can' => 'category_read',
                     'guard' => ['admin'],
                 ],
                 [
                     'text' => 'Child Category Management',
                     'url' => 'admin/childcategories',
-                    'icon' => 'nav-icon fa fa-sitemap',
+                    'icon' => 'nav-icon fas fa-money-check-alt',
                     'can' => 'category_read',
                     'guard' => ['admin'],
                 ],
@@ -445,13 +445,20 @@ return [
             'can' => 'settings',
             'guard' => ['admin'],
             'submenu' => [
-               /* [
-                    'text' => 'Admin Users',
+                [
+                    'text' => 'Manage Staff',
                     'url' => 'admin/adminusers',
                     'icon' => 'fas fa-fw fa-user-tie',
                     'can' => 'user_read',
                     'guard' => ['admin'],
-                ],*/
+                ],
+                [
+                    'text' => 'My Store',
+                    'url' => 'admin/stores/517e8990-b9dc-11eb-a247-8926cbd82353/edit',
+                    'icon' => 'nav-icon fa fa-shopping-cart',
+                    'can' => 'store_read',
+                    'guard' => ['admin'],
+                ],
                 [
                     'text' => 'Roles',
                     'route' => 'admin.roles.index',

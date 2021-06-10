@@ -4,20 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Admin;
 use App\Boundary;
-use App\BusinessType;
-use App\BusinessTypeCategory;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\DropCollection;
 use App\Http\Resources\SlotCollection;
 use App\Http\Resources\StoreResourceCollection;
-use App\ServiceStoreSlot;
 use App\Store;
 use App\StoreContactDetails;
-use App\StoreDaysSlot;
-use App\StoreManagerContactDetails;
 use App\StoreSuperVisorContactDetails;
 use App\Traits\ImageTraits;
-use App\Vendor;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use URL;
@@ -38,17 +32,15 @@ class StoreController extends Controller
      */
     public function index()
     {
-        $businessType = BusinessType::all()->sortBy('name');
-        return view('admin.stores.index', compact('businessType'));
+        
+        return view('admin.stores.index');
     }
 
     public function datatable(Request $request)
     {
         $currentUser = $request->user();
-        $stores = Store::with('storeVendor')->select('*');
-        if ($request->business_type_id) {
-            $stores->where('business_type_id', $request->business_type_id);
-        }
+        $stores = Store::select('*');
+        
         return Datatables::of($stores)
             ->rawColumns(['actions', 'name'])
             ->editColumn('name', function ($store) {
@@ -81,11 +73,10 @@ class StoreController extends Controller
     public function create()
     {
         //Get all roles and pass it to the view
-        $vendors = Vendor::all()->where('active', 1)->sortBy('name');
-        $businessType = BusinessType::all()->sortBy('name');
+        
         $imageSize = config('globalconstants.imageSize')['store'];
 
-        return view('admin.stores.create', compact('vendors', 'businessType', 'imageSize'));
+        return view('admin.stores.create', compact('imageSize'));
     }
     /**
      * Store a newly created resource in storage.
@@ -136,9 +127,6 @@ class StoreController extends Controller
         $service_type = BusinessTypeCategory::find($request->business_type_category_id)->service_type;
 
         $user = Store::create([
-            'business_type_id' => $request->business_type_id,
-            'business_type_category_id' => $request->business_type_category_id,
-            'service_type' => $request->service_type,
             'name' => $request->name,
             'store_fullname' => $request->store_fullname ?? null,
             'email' => $request->email,
@@ -249,13 +237,8 @@ class StoreController extends Controller
      */
     public function edit(Store $store)
     {
-        $vendors = Vendor::all()->where('active', 1)->sortBy('name');
-        $businessType = BusinessType::all()->sortBy('name');
-        $storeContacts = $store->storeContacts;
-        $storeSupervisors = $store->storeSupervisorContacts;
-        $storeManagers = $store->storeManagerContacts;
         $imageSize = config('globalconstants.imageSize')['store'];
-        return view('admin.stores.edit', compact('store', 'vendors', 'businessType', 'imageSize', 'storeSupervisors', 'storeContacts', 'storeManagers'));
+        return view('admin.stores.edit', compact('store', 'imageSize'));
     }
 
     /**
@@ -277,10 +260,6 @@ class StoreController extends Controller
             'location' => 'required',
             'service_charge' => 'nullable',
             'payment_charge' => 'nullable|max:100',
-            'payment_charge_store_dividend' => 'nullable|max:100',
-            'payment_charge_provis_dividend' => 'nullable|max:100',
-            'contract_start_date' => 'nullable|required_with:contract_end_date',
-            'contract_end_date' => 'nullable|required_with:contract_start_date',
         ]);
 
         $imgPath = "";
@@ -299,101 +278,41 @@ class StoreController extends Controller
 
         $request->credit_card = $request->credit_card ?? 0;
         $request->featured = $request->featured ?? 0;
-        $request->bring_card = $request->bring_card ?? 0;
+       
         $request->cash_accept = $request->cash_accept ?? 0;
         $request->my_location = $request->my_location ?? 0;
-        $request->in_store = $request->in_store ?? 0;
+      
         $active = $request->active ?? 0;
-        $request->male = $request->male ?? 0;
-        $request->female = $request->female ?? 0;
         $request->any = $request->any ?? 0;
-        if ($request->password) {
-            $store->password = $request->password;
-        }
         if ($request->image) {
             $store->image = $request->image;
         }
         $store->store_fullname = $request->store_fullname;
         $store->update([
-            'business_type_id' => $request->business_type_id,
-            'business_type_category_id' => $request->business_type_category_id,
-            'service_type' => $request->service_type,
+          
             'name' => $request->name,
             'store_fullname' => $request->store_fullname,
             'email' => $request->email,
             'active' => $active,
             'mobile' => $request->mobile,
             'description' => $request->description,
-            'store_timing' => $request->start_at . "-" . $request->end_at,
-            'start_at' => $request->start_at,
-            'end_at' => $request->end_at,
+           
             'location' => $request->location,
             'credit_card' => $request->credit_card,
             'cash_accept' => $request->cash_accept,
-            'bring_card' => $request->bring_card,
+           
             'featured' => $request->featured,
-            'speed' => $request->speed,
-            'accuracy' => $request->accuracy,
+           
             'min_order_amount' => $request->min_order_amount,
             'latitude' => $request->latitude,
             'longitude' => $request->longitude,
-            'on_my_location_charge' => $request->on_my_location_charge,
-            'in_store' => $request->in_store,
-            'my_location' => $request->my_location,
-            'male' => $request->male,
-            'female' => $request->female,
-            'any' => $request->any,
-            'vendor_id' => $request->vendor_id,
-            'time_to_deliver' => $request->time_to_deliver,
+            'vendor_id' =>1,
             'by_user_id' => $currentUser->id,
             'by_user_type' => $currentUser->type,
-            'sap_id' => $request->sap_id,
             'service_charge' => $request->service_charge,
-            'payment_charge' => $request->payment_charge,
-            'payment_charge_store_dividend' => $request->payment_charge_store_dividend,
-            'payment_charge_provis_dividend' => $request->payment_charge_provis_dividend,
-            'contract_start_date' => !empty($request->contract_start_date) ? Carbon::createFromFormat('d/m/Y', $request->contract_start_date)->format('Y-m-d') : null,
-            'contract_end_date' => !empty($request->contract_end_date) ? Carbon::createFromFormat('d/m/Y', $request->contract_end_date)->format('Y-m-d') : null,
-            'sla' => $request->sla,
-        ]);
+            'payment_charge' => $request->payment_charge ]);
 
-        if ($request->store) {
-            $storeContacts = $request->store;
-            foreach ($storeContacts as $key => $data) {
-                if ($key == 'new') {
-                    foreach ($data as $item) {
-                        $store->storeSupervisorContacts()->save(new StoreContactDetails($item));
-                    }
-                } else {
-                    StoreContactDetails::where('id', $key)->update($data);
-                }
-            }
-        }
-        if ($request->supervisor) {
-            $superVisors = $request->supervisor;
-            foreach ($superVisors as $key => $data) {
-                if ($key == 'new') {
-                    foreach ($data as $item) {
-                        $store->storeSupervisorContacts()->save(new StoreSuperVisorContactDetails($item));
-                    }
-                } else {
-                    StoreSuperVisorContactDetails::where('id', $key)->update($data);
-                }
-            }
-        }
-        if ($request->manager) {
-            $managers = $request->manager;
-            foreach ($managers as $key => $data) {
-                if ($key == 'new') {
-                    foreach ($data as $item) {
-                        $store->storeSupervisorContacts()->save(new StoreManagerContactDetails($item));
-                    }
-                } else {
-                    StoreManagerContactDetails::where('id', $key)->update($data);
-                }
-            }
-        }
-        if (!empty($request->polygon_data)) {
+        /* if (!empty($request->polygon_data)) {
             $polyPoints = json_decode($request->polygon_data);
             foreach ($polyPoints as $key => $poly) {
                 $firstItem = reset($poly);
@@ -404,9 +323,9 @@ class StoreController extends Controller
                 $pos->store_id = $store->id;
                 $pos->save();
             }
-        }
+        }*/
         alert()->success('Store details successfully updated.', 'Updated');
-        return redirect()->route('admin.stores.index');
+        return redirect()->route('admin.stores.edit',[$store->id]);
     }
 
     /**

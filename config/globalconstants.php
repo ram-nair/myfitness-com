@@ -70,8 +70,8 @@ return [
             'path' => 'category/images',
         ],
         'product' => [
-            'width' => 640,
-            'height' => 400,
+            'width' => 360,
+            'height' => 480,
             'aspectRatioW' => 640,
             'aspectRatioH' => 400,
             'path' => 'product/images',

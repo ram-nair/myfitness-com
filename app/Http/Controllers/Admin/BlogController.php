@@ -64,7 +64,7 @@ class BlogController extends BaseController
                     $b .= '<a href="' . $editUrl . '" class="btn btn-outline-primary btn-xs"><i class="fa fa-edit"></i></a>';
                 }
                 $imageUrl = \URL::to('admin/blog/manage-images/'.$blog->id);
-                $b .= ' <a href="'.$imageUrl.'" class="btn btn-outline-danger btn-xs"><i class="fa fa-image"></i></a>';
+                $b .= ' <a href="'.$imageUrl.'" class="btn btn-outline-danger btn-xs" title="Image Upload"><i class="fa fa-image"></i></a>';
                 if ($currentUser->hasPermissionTo('vlogblog_delete')) {
                     $deleteUrl = \URL::route('admin.blog.destroy', $blog->id);
                     $b .= ' <a href="' . $deleteUrl . '" class="btn btn-outline-danger btn-xs destroy"><i class="fa fa-trash"></i></a>';
@@ -115,11 +115,11 @@ class BlogController extends BaseController
             if ($request->hasFile('blog_image')) {
                 $imageSize = config('globalconstants.imageSize')['vlogBlog'];
                 $image = $this->singleImage($request->file('blog_image'), $imageSize['path'], 'vlogBlog');
-                
             }
+            
             $banner = VlogBlog::create([
                 'category_id' => $request->category_id,
-                'author_id' => $currentUser->id,
+                'author_id' =>$currentUser->id,
                 'title' => $request->title,
                 'description' => $request->description,
                 'image' =>$image,

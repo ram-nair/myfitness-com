@@ -59,7 +59,7 @@ class OrderController extends BaseController
                 return $order->created_at->format('F d, Y h:ia');
             })->editColumn('actions', function ($orders) use ($currentUser) {
                 $b = '';
-                $b .= '<a href="' . URL::route('store.orders.show', $orders->id) . '" class="btn btn-outline-primary btn-xs"><i class="fa fa-eye"></i></a>';
+                $b .= '<a href="' . URL::route('admin.orders.show', $orders->id) . '" class="btn btn-outline-primary btn-xs"><i class="fa fa-eye"></i></a>';
                 return $b;
             })->make(true);
     }

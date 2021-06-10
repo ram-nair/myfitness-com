@@ -11,7 +11,7 @@
 @stop
 
 @section('content')
-{{ Form::model($user, array('route' => array('admin.users.update', $user->id), 'method' => 'PUT')) }}
+{{ Form::model($user, array('route' => array('admin.adminusers.update', $user->id), 'method' => 'PUT')) }}
 @include ('admin.users.form',['submitButtonText'=>'Update'])
 {{ Form::close() }}
 @stop

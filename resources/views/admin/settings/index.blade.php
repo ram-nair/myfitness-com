@@ -26,7 +26,7 @@
                     @foreach($settings as $setting)
                         <div class="tab-pane {{ $loop->first ? 'active' : ''}}" id="{{$setting->key}}">
                             <div class="tile">
-                                {{ Form::open(array('url' => route('admin.settings.update'),'class' => 'class-create')) }}
+                                {{ Form::open(array('url' => route('admin.settings.update'),'class' => 'class-create','enctype' => 'multipart/form-data',)) }}
                                     <div class="card card-outline card-info">
                                         <div class="overlay" style="display: none;">
                                             <i class="fas fa-2x fa-sync-alt fa-spin"></i>
@@ -42,7 +42,21 @@
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        {{ Form::text($setting->key, config('settings.'.$setting->key), array('required'=>'','class' => 'form-control'.($errors->has($setting->key) ? ' is-invalid' : '' ))) }}
+                                                    @if($setting->key=="site_logo")
+                                                        <?php
+                                                            if(!empty($setting->key="site_logo")) {
+                                                                $img = $setting->value;
+                                                            } else {
+                                                                $img = url('/')."/images/no-image.jpg";
+                                                            }?>
+                                                        <img class="img-preview-holder" src="{{$img}}" alt="Preview Image" />
+                                                    <div class="custom-file">
+                                                        <input type="file" name="<?php echo $setting->key;?>" data-rule-extension="jpg|png" data-msg-extension="Please select jpg or png image" class="image img-preview form-control-file custom-file-input">
+                                                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+
+                                                    @else
+                                                    {{ Form::text($setting->key, config('settings.'.$setting->key), array('required'=>'','class' => 'form-control'.($errors->has($setting->key) ? ' is-invalid' : '' ))) }}
+                                                    @endif
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">

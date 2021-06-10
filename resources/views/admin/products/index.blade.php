@@ -109,9 +109,9 @@
                             <th class="no-sort">Brand</th>
                             <th class="no-sort">Categories</th>
                             <th class="no-sort">Unit Price</th>
-                            <th class="no-sort">Qty</th>
+                            <th class="no-sort">Stock</th>
                             <th>Status</th>
-                            <th>Show in Home/Main List</th>
+                            <th>Show in Home</th>
                             <th>Date Added</th>
                             <th class="no-sort">Actions</th>
                         </tr>
@@ -172,36 +172,32 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="importModalLabel">Import Products</h4>
+                <h4 class="modal-title" id="importModalLabel">Update Stock</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
-                {{ Form::open(array('route' => array('admin.products.import'), 'method' => 'POST', 'class' => 'class-create', 'enctype' => 'multipart/form-data')) }}
+            <form method="post">
                     <div class="card card-outline card-info">
-                        <div class="overlay" style="display: none;">
-                            <i class="fas fa-2x fa-sync-alt fa-spin"></i>
-                        </div>
                         <div class="card-body pad">
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group">
-                                        <label for="exampleInputFile">Products</label>
+                                        <label for="exampleInputFile">Update Product Stock</label>
                                         <div class="input-group">
-                                            <div class="custom-file">
-                                                <input type="file" name="products_csv" class="form-control-file custom-file-input" id="exampleInputFile" required>
-                                                <label class="custom-file-label" for="exampleInputFile"></label>
-                                            </div>
+                                                <input type="hidden" name="productId" id="productId">
+                                                <input type="text" name="quantity" class="form-control" id="update_stock" required>
+                                                <label class="custom-label" for="update_stock"></label>
+                                            
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="card-footer">
-                            <a href="{{ route('admin.products.index') }}" data-dismiss="modal" class="btn btn-default">Cancel</a>
-                            {{ Form::submit(isset($submitButtonText) ? $submitButtonText : 'Import', array('class' => 'btn btn-info float-right')) }}
+                                 <button type="button" class="btn btn-info float-right update-stockbtn">Submit</button>
                         </div>
                     </div>
-                {{ Form::close() }}
+                    </form>
             </div>
         </div>
     </div>
@@ -259,8 +255,17 @@ $(function () {
                     return "AED " + row.unit_price ;
                 }
             },
-            
-            {data: 'quantity', name: 'quantity'},
+            {
+                    data: 'quantity',
+                    name: 'quantity',
+                    render: function(data, type, row, meta) {
+                        var st = row.quantity;
+                        if(row.quantity < 50){
+                            st += ' <a href="#" data-target-id ='+row.id+' data-toggle="modal" data-target="#importModal" class="btn btn-success importModal"><i  data-target-id ='+row.id+' class="fa fa-times text-danger" title="Out of Stock" aria-hidden="true"></i></a>';
+                        }
+                        return st;
+                    }
+                },
             {data: 'status', name: 'status',
                 render: function(data, type, row, meta) {
                     if(row.status){
@@ -274,9 +279,9 @@ $(function () {
             {data: 'hot_sale', name: 'hot_sale',
                 render: function(data, type, row, meta) {
                     if(row.hot_sale){
-                        return "<input type='checkbox' value="+row.id+" name='hot_deal'  checked class='hot_deal form-control'>";
+                        return "<input type='checkbox' value="+row.id+" name='hot_deal'  checked class='hot_deal'>";
                     }else{
-                        return "<input type='checkbox' value="+row.id+" name='hot_deal' class='hot_deal form-control'>";
+                        return "<input type='checkbox' value="+row.id+" name='hot_deal' class='hot_deal'>";
                     }
                     
                 }
@@ -316,6 +321,12 @@ $(function () {
         });
     });
 
+    table.on('click', '.text-danger,.importModal', function(){
+        var Product_id = $(this).attr("data-target-id");
+        $('#productId').val(Product_id);
+        
+    });
+
     var editId = {{ $product->category_id ?? "null" }};
     $('#categories').on('change',function(){
         $('.overlay').show();
@@ -347,5 +358,30 @@ $(document).on('change','#sub_categories',function () {
          }
     });
  }
+
+ 
+ $(document).on('click','.update-stockbtn',function () {
+        var pId = $('#productId').val();
+        var stock = $('#update_stock').val();
+        var token = $("input[name='_token']").val();
+        if(stock==""){
+            alert('update stock please');
+            return false;
+        }
+       $("#importModal").modal("hide"); 
+       $.ajax({
+        url: '{{ route('admin.products.import') }}',
+        data :{'pid':pId,'stock':stock,
+            _token:token},
+        method:'POST',
+        success: function(resp) {
+            oTable.ajax.reload();
+            $('#update_stock').val("");
+            $('.overlay').hide();     
+            }
+           
+    });
+         return false;
+      });
 </script>
 @stop

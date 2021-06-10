@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-
 use App\Admin;
 use App\Http\Controllers\Controller;
 use Auth;
@@ -12,8 +11,7 @@ use URL;
 use Yajra\Datatables\Datatables;
 use App\Audit;
 
-class AdminController extends Controller
-{
+class AdminController extends Controller{
 
     public function __construct()
     {
@@ -104,12 +102,12 @@ class AdminController extends Controller
         })->editColumn('actions', function ($user) use ($currentUser, $isSuperAdmin) {
             $b = '';
             if ($isSuperAdmin || $currentUser->hasPermissionTo('user_update', 'admin')) {
-                $b .= '<a href="' . URL::route('admin.users.edit', $user->id) . '" class="btn btn-outline-primary btn-xs"><i class="fa fa-edit"></i></a>';
+                $b .= '<a href="' . URL::route('admin.adminusers.edit', $user->id) . '" class="btn btn-outline-primary btn-xs"><i class="fa fa-edit"></i></a>';
             }
 
             if ($isSuperAdmin || $currentUser->hasPermissionTo('user_delete', 'admin')) {
-                $b .= ' <a href="' . URL::route('admin.users.destroy', $user->id) . '" class="btn btn-outline-danger btn-xs destroy"><i class="fa fa-trash"></i></a>';
-                $b .= ' <a href="' . URL::route('admin.users.show', $user->id) . '" class="btn btn-outline-danger btn-xs"><i class="fa fas fa-eye"></i></a>';
+                $b .= ' <a href="' . URL::route('admin.adminusers.destroy', $user->id) . '" class="btn btn-outline-danger btn-xs destroy"><i class="fa fa-trash"></i></a>';
+                $b .= ' <a href="' . URL::route('admin.adminusers.show', $user->id) . '" class="btn btn-outline-danger btn-xs"><i class="fa fas fa-eye"></i></a>';
             }
 
             return $b;
@@ -157,7 +155,7 @@ class AdminController extends Controller
         }
         //Redirect to the users.index view and display message
         alert()->success('User successfully added.', 'Added');
-        return redirect()->route('admin.users.index');
+        return redirect()->route('admin.adminusers.index');
     }
 
     /**
@@ -172,7 +170,7 @@ class AdminController extends Controller
        /*  $user = Admin::findOrFail($id);
         
         $audits = Audit::where('admin_id', $id)->orderBy('created_at','desc')->paginate(10);*/
-$user = Admin::findOrFail($id);
+        $user = Admin::findOrFail($id);
         return view('admin.users.show',compact('user'));
             
         
@@ -226,7 +224,7 @@ $user = Admin::findOrFail($id);
             $user->roles()->detach(); //If no role is selected remove exisiting role associated to a user
         }
         alert()->success('User details successfully updated.', 'Updated');
-        return redirect()->route('admin.users.index');
+        return redirect()->route('admin.adminusers.index');
     }
 
     /**
@@ -265,9 +263,8 @@ $user = Admin::findOrFail($id);
         }
 
         $user->update($input);
-
         alert()->success(trans('myadmin.profile.successupdate'), 'Updated');
-        return redirect()->route('admin.user.profile');
+        return redirect()->route('admin.adminusers.profile');
     }
 
      /**

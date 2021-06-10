@@ -23,8 +23,8 @@
                                                             @else
                                                             <img src="{{ $data->photo ? asset('assets/images/users/'.$data->photo):asset('assets/images/noimage.png')}}" alt="No Image">                                            
                                                             @endif
-                                                        <a href="javascript:;" class="mybtn1 send" data-email="{{ $data->email }}" data-toggle="modal" data-target="#vendorform">Send Message</a>
-                                                        </div>
+                                                        <!--<a href="javascript:;" class="mybtn1 send" data-email="{{ $data->email }}" data-toggle="modal" data-target="#vendorform">Send Message</a>
+                                                        --></div>
                                                     </div>
                                                     <div class="col-md-4">
                                                     <div class="table-responsive show-table">

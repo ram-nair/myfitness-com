@@ -17,6 +17,7 @@ use App\Product;
 use App\ProductImage;
 use App\Store;
 use App\StoreProduct;
+use App\Setting;
 use App\Traits\ImageTraits;
 use Illuminate\Http\Request;
 use URL;
@@ -37,10 +38,9 @@ class ProductController extends BaseController
     public function index()
     {
         $this->setPageTitle('Products', 'Products List');
-        $categories = Category::where('parent_cat_id', 0)
-            ->pluck('name', 'id');
-             
-        return view('admin.products.index', compact('categories'));
+        $categories = Category::where('parent_cat_id', 0)->pluck('name', 'id');
+        $settings = Setting::find(5);
+        return view('admin.products.index', compact('categories','settings'));
     }
 
     public function datatable(Request $request)
@@ -343,17 +343,12 @@ class ProductController extends BaseController
 
     public function import(Request $request)
     {
-        // $request->validate([
-        //     'product_csv' => 'required|mimes:csv',
-        // ]);
-        $file = $request->file('products_csv');
-        $import = new ProductsImport;
-        $import->import($file);
-        if (!$import->failures()->isEmpty()) {
-            return back()->withFailures($import->failures())->withSuccess($import->getTotalCount());
-        }
+
+        $products = Product::find($request->pid);
+        $products->quantity = $request->stock;
+        $products->save();
         alert()->success('Products detail added successfully.', 'Added');
-        return redirect()->route('admin.products.index')->withSuccess($import->getTotalCount());
+        return true;
     }
 
     public function searchProducts(Request $request)

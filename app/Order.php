@@ -45,4 +45,8 @@ class Order extends Model
     {
         return $this->hasMany(OrderStatus::class, 'order_id', 'id');
     }
+    public function store()
+    {
+        return $this->belongsTo(Store::class, 'store_id', 'id')->withTrashed();
+    }
 }
