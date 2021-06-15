@@ -56,3 +56,6 @@ Route::group(['middleware' => ['web']], function () {
 });
 
 Auth::routes();
+
+
+// ADDED ON 11-06-2021
