@@ -29,8 +29,7 @@
                     <thead>
                         <tr>
                             <th>SL.No</th>
-                            <th>Name</th>
-                            <th>Store</th>
+                            <th>Image</th>
                             <th>External Url</th>
                             <th>Status</th>
                             <th>Date/Time Added</th>
@@ -62,8 +61,7 @@
                         return meta.row + meta.settings._iDisplayStart + 1;
                     }
                 },
-                {data: 'name', name: 'name', searchable: true},
-                {data: 'store_id', name: 'store_id', searchable: false},
+                {data: 'image', name: 'image', searchable: true},
                 {data: 'url', name: 'url', searchable: true},
                 {data: 'status', name: 'status'},
                 {data: 'created_at', name: 'created_at', searchable: false},

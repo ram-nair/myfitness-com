@@ -43,12 +43,9 @@ class BannerController extends Controller
                 return !$banner->status ? 'alert-warning' : '';
             })
             ->rawColumns(['actions'])
-            ->editColumn('store_id', function ($banner) {
-                if ($banner->store) {
-                    return $banner->store->name ? $banner->store->name : "-";
-                } else {
-                    return "-";
-                }
+            ->editColumn('image', function ($banner) {
+                $b = '<img src="' .$banner->image . '" class="btn btn-outline-primary btn-xs"/>';
+              return $b;
             })
             ->editColumn('status', function ($banner) {
                 return $banner->status == 1 ? "Enabled" : "Disabled";
@@ -77,9 +74,9 @@ class BannerController extends Controller
     public function create()
     {
         //Get all roles and pass it to the view
-        $imageSize = config('globalconstants.imageSize')['banner'];
-        $stores = Store::all();
-        return view('admin.banners.create', compact('imageSize', 'stores'));
+        $imageSize = config('globalconstants.imageSize')['banner1'];
+        
+        return view('admin.banners.create', compact('imageSize'));
     }
 
     /**
@@ -91,21 +88,20 @@ class BannerController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|max:120',
             'images' => 'required'
         ]);
         $imgPath = "";
         if ($request->hasFile('images')) {
-            $imageSize = config('globalconstants.imageSize')['banner'];
+            $imageSize = config('globalconstants.imageSize')['banner1'];
             $request->image = $this->singleImage($request->file('images'), $imageSize['path'], 'banner');
         }
 
         $banner = Banner::create([
-            'name' => $request->name,
+            'name' => $request->name ?? "",
             'image' => $request->image,
-            'url' => $request->url,
+            'url' => $request->url?? "",
             'status' => $request->status == 1 ? 1 : 0,
-            'description' => $request->description,
+            'description' => $request->description?? "",
             'by_user_id' => $request->user()->id,
         ]);
 

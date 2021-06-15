@@ -3,14 +3,10 @@
         <i class="fas fa-2x fa-sync-alt fa-spin"></i>
     </div>
     <div class="card-body pad">
-        <div class="form-group">
-            {{ Form::label('name', 'Name') }}
-            {{ Form::text('name', null, array('required','class' => 'form-control'.($errors->has('name') ? ' is-invalid' : ''))) }}
-            {!! $errors->first('name','<p class="text-danger"><strong>:message</strong></p>') !!}
-        </div>
-         </div>
+       
+        
           <div class="row">
-            <div class="form-group col-md-3 mr-5">
+            <div class="form-group">
                 <label for="exampleInputFile">Image (Recommended : {{$imageSize['aspectRatioW']}}x{{$imageSize['aspectRatioH']}})</label>
                 <div class="input-group"><?php
                     if(!empty($banner->image)) {
@@ -25,17 +21,21 @@
                     </div>
                 </div>
             </div>
-            
-            <div class="form-group col-md-2">
-                <label class="" for="customSwitch3">Status</label><br>
-                <input type="checkbox" name="status" value="1" id="custdomSwitch3" @if (empty($banner)) checked @endif @if (!empty($banner) && $banner->status == 1) checked @endif data-bootstrap-switch>
             </div>
+            
+            <div class="row">
+            
+            <div class="form-group">
+            {{ Form::label('url', 'URL') }}
+            {{ Form::url('url', null, array('class' => 'form-control'.($errors->has('url') ? ' is-invalid' : ''))) }}
+            {!! $errors->first('url','<p class="text-danger"><strong>:message</strong></p>') !!}
         </div>
-        <div class="form-group">
+        </div>
+      {{--<div class="form-group">
             {{ Form::label('Description', 'Description') }}<br>
             {!! Form::textarea('description',null,['class'=>'form-control editor-medium', 'rows' => 2, 'cols' => 40]) !!}
             {!! $errors->first('description','<p class="text-danger"><strong>:message</strong></p>') !!}
-        </div>
+        </div>--}}
     </div>
     <div class="card-footer">
         {{ Form::submit(isset($submitButtonText) ? $submitButtonText : 'Create', array('class' => 'btn btn-info float-right')) }}

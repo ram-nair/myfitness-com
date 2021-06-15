@@ -76,9 +76,23 @@ return [
             'aspectRatioH' => 400,
             'path' => 'product/images',
         ],
-        'banner' => [
-            'width' => 640,
-            'height' => 400,
+        'banner1' => [
+            'width' => 1920,
+            'height' => 800,
+            'aspectRatioW' => 1920,
+            'aspectRatioH' => 800,
+            'path' => 'banner/images',
+        ],
+        'banner2' => [
+            'width' => 720,
+            'height' =>379,
+            'aspectRatioW' => 720,
+            'aspectRatioH' => 379,
+            'path' => 'banner/images',
+        ],
+        'banner3' => [
+            'width' => 720,
+            'height' =>379,
             'aspectRatioW' => 640,
             'aspectRatioH' => 400,
             'path' => 'banner/images',
