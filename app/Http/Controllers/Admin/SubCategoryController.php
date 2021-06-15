@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Admin;
 use App\Category;
-use App\Subcategory;
-use App\EcommerceBanner;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryStoreRequest;
 use App\Http\Resources\CategoryCollection;
@@ -31,18 +29,18 @@ class SubCategoryController extends Controller
     //*** JSON Request
     public function datatable(Request $request)
     {
-         $datas = Subcategory::select('*');
+        $datas = Category::select('*')->where('parent_cat_id','!=', 0)->orderBy('name', 'asc');
          //--- Integrating This Collection Into Datatables
 
          if ($request->parent_cat_id) {
             $category_id = $request->parent_cat_id ;
-            $datas->where('category_id', $category_id);
+            $datas->where('parent_cat_id', $category_id);
         }
         $datas = $datas->orderBy('id','desc')->get();
          return Datatables::of($datas)
                          ->rawColumns(['actions'])
-                            ->addColumn('category', function(Subcategory $data) {
-                                return $data->category->name;
+                            ->addColumn('category', function(Category $data) {
+                                return $data->parent->name;
                             }) 
                            /* ->addColumn('status', function(Subcategory $data) {
                                 $class = $data->status == 1 ? 'drop-success' : 'drop-danger';
@@ -50,7 +48,7 @@ class SubCategoryController extends Controller
                                 $ns = $data->status == 0 ? 'selected' : '';
                                 return '<div class="action-list"><select class="process select droplinks '.$class.'"><option data-val="1" value="'. route('admin-subcat-status',['id1' => $data->id, 'id2' => 1]).'" '.$s.'>Activated</option><<option data-val="0" value="'. route('admin-subcat-status',['id1' => $data->id, 'id2' => 0]).'" '.$ns.'>Deactivated</option>/select></div>';
                             }) */
-                            ->editColumn('actions', function(Subcategory $data) {
+                            ->editColumn('actions', function(Category $data) {
                                 $b = '<a href="' . URL::route('admin.subcategories.edit', $data->id) . '" class="btn btn-outline-primary btn-xs"><i class="fa fa-edit"></i></a>';
                                 $b .= ' <a href="' . URL::route('admin.subcategories.destroy', $data->id) . '" class="btn btn-outline-danger btn-xs destroy"><i class="fa fa-trash"></i></a>';
                                 return $b;
@@ -93,7 +91,7 @@ class SubCategoryController extends Controller
         //--- Validation Section Ends
 
         //--- Logic Section
-        $data = new Subcategory();
+        $data = new Category();
         $input = $request->all();
         $data->fill($input)->save();
         //--- Logic Section Ends
@@ -107,14 +105,14 @@ class SubCategoryController extends Controller
         //--- Redirect Section Ends    
     }
 
-    public function show(Subcategory $subcategory)
+    public function show(Category $subcategory)
     {
         return redirect('subcategories');
     }
 
 
     //*** GET Request
-    public function edit(Subcategory $subcategory)
+    public function edit(Category $subcategory)
     {
     	$cats = Category::where('parent_cat_id',0)
         ->orderBy('name', 'asc')->pluck('name', 'id');
@@ -122,7 +120,7 @@ class SubCategoryController extends Controller
     }
 
     //*** POST Request
-    public function update(Request $request, Subcategory $subcategory)
+    public function update(Request $request, Category $subcategory)
     {
         //--- Validation Section
         /*$rules = [
@@ -158,7 +156,7 @@ class SubCategoryController extends Controller
       //*** GET Request Status
       public function status($id1,$id2)
         {
-            $data = Subcategory::findOrFail($id1);
+            $data = Category::findOrFail($id1);
             $data->status = $id2;
             $data->update();
         }
@@ -172,7 +170,7 @@ class SubCategoryController extends Controller
     
      public function loadsub($id)
     {
-        $cat = Subcategory::where('category_id', $id)->orderBy('name', 'asc')->get();
+        $cat = Category::where('category_id', $id)->orderBy('name', 'asc')->get();
       //  print_r( $subcat);die;
         return view('load.subcategory',compact('cat'));
     }
@@ -180,7 +178,7 @@ class SubCategoryController extends Controller
     //*** GET Request Delete
     public function destroy($id)
     {
-        $data = Subcategory::findOrFail($id);
+        $data = Category::findOrFail($id);
 
         if($data->childs->count()>0)
         {

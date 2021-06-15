@@ -7,8 +7,8 @@
             <div class="col-md-6">
              <div class="form-group col-md-6">
                         {{ Form::label('category_id', 'Product Main Category') }}
-                        {{ Form::select('category_id', $cats, null, array('required','class' => 'form-control select2 '.($errors->has('category_id') ? ' is-invalid' : ''))) }}
-                        {!! $errors->first('category_id','<p class="text-danger"><strong>:message</strong></p>') !!}
+                        {{ Form::select('parent_cat_id', $cats, null, array('required','class' => 'form-control select2 '.($errors->has('parent_cat_id') ? ' is-invalid' : ''))) }}
+                        {!! $errors->first('parent_cat_id','<p class="text-danger"><strong>:message</strong></p>') !!}
                     </div>
                 <div class="form-group">
                     {{ Form::label('name', 'Name') }}

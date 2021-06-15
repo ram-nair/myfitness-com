@@ -13,7 +13,7 @@
                     <select id="cat_id" required class="form-control select2">
                                   <option value="">Select Category</option>
                                     @foreach($cats as $cat)
-                                      <option value="{{ $cat->id }}"   @if(!empty($childcategory)) {{ $cat->id == $childcategory->subcategory->category->id ? "selected":"" }} @endif >{{ $cat->name }}</option>
+                                      <option value="{{ $cat->id }}"   @if(!empty($childcategory)) {{ $cat->id == $childcategory->parent->id ? "selected":"" }} @endif >{{ $cat->name }}</option>
                                     @endforeach
                                 </select>
 
@@ -21,7 +21,7 @@
                     </div>
                     <div class="form-group col-md-6">
                         {{ Form::label('subcategory_id', 'Sub Category') }}
-                        <select class="select2 form-control" required name="subcategory_id" id="subcategory_id"  value={{$category->parent_cat_id??''}}>
+                        <select class="select2 form-control" required name="parent_cat_id" id="subcategory_id"  value={{$category->parent_cat_id??''}}>
                             <option value="0">Select Sub Category</option>
                         </select>
                         {!! $errors->first('subcategory_id','<p class="text-danger"><strong>:message</strong></p>') !!}

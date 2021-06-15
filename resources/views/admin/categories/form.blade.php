@@ -10,16 +10,7 @@
                     {{ Form::text('name', null, array('required'=>'','class' => 'form-control'.($errors->has('name') ? ' is-invalid' : '' ))) }}
                     {!! $errors->first('name','<p class="text-danger"><strong>:message</strong></p>') !!}
                 </div>
-                <div class="row">
-                   
-                    <div class="form-group col-md-6">
-                        {{ Form::label('parent_cat_id', 'Product Category or Sub Category') }}
-                        <select class="select2 form-control" name="parent_cat_id" id="parent_cat_id"  value={{$category->parent_cat_id??''}}>
-                            <option value="0">Main Category</option>
-                        </select>
-                        {!! $errors->first('parent_cat_id','<p class="text-danger"><strong>:message</strong></p>') !!}
-                    </div>
-                </div>
+                
             </div>
             <div class="col-md-6">
                 {{-- <div class="form-group ">

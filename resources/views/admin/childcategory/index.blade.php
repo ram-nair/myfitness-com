@@ -79,6 +79,7 @@
                     if( $('#sub_cat_id').val() != "") {
                         d.sub_cat_id = $('#sub_cat_id').val();
                     }
+                   
                     // if($('#category_filter').val()=="" && $('#parent_cat_id').val()!="")
                     // {
                     //     d.parent_cat_id = $('#parent_cat_id').val();

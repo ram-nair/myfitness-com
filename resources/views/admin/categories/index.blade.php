@@ -28,16 +28,6 @@
                 <!-- /. tools -->
             </div>
             <div class="card-body pad">
-                <div class="form-group col-4">
-                    <label>Filter By category</label>
-                    <select name="parent_cat_id" id="category_filter" class="form-control">
-                        <option value="">All Categories</option>
-                        <option value="main">Main Categories</option>
-                        @foreach($parentCats as $key => $categoryName)
-                        <option value="{{ $key }}" @if($parent_cat_id && $key == $parent_cat_id) selected @endif>{{ $categoryName }}</option>
-                        @endforeach
-                    </select>
-                </div>
                 <table class="table table-striped table-bordered dt-responsive nowrap" style="width:100%" id="categories-table">
                     <thead>
                         <tr>

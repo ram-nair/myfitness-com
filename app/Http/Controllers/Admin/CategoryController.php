@@ -46,11 +46,7 @@ class CategoryController extends Controller
     {
         $currentUser = $request->user();
         
-        $categories = Category::select('*')->orderBy('name', 'asc');
-        if ($request->parent_cat_id) {
-            $catid = $request->parent_cat_id == "main" ? 0 : $request->parent_cat_id;
-            $categories->where('parent_cat_id', $catid);
-        }
+        $categories = Category::select('*')->where('parent_cat_id', 0)->orderBy('name', 'asc');
         return Datatables::of($categories)
             ->rawColumns(['actions'])
             ->editColumn('name', function ($categories) {
@@ -102,11 +98,8 @@ class CategoryController extends Controller
             $imageSize = config('globalconstants.imageSize')['category'];
             $request->image = $this->singleImage($request->file('image'), $imageSize['path'], 'category');
         }
-        $parentCatId = $request->parent_cat_id;
-        if (is_null($request->parent_cat_id)) {
-            $parentCatId = 0;
-        }
-        $category = Category::create([
+       $parentCatId = 0;
+       $category = Category::create([
             'name' => $request->name,
             'description' => $request->description,
             'parent_cat_id' => $parentCatId,
@@ -162,9 +155,9 @@ class CategoryController extends Controller
             'parent_cat_id',
             'image',
         ]);
-        if (is_null($input['parent_cat_id'])) {
-            $input['parent_cat_id'] = 0;
-        }
+        
+        $input['parent_cat_id'] = 0;
+    
         if ($request->hasFile('image')) {
             $imageSize = config('globalconstants.imageSize')['category'];
             $input['image'] = $this->singleImage($request->file('image'), $imageSize['path'], 'category');

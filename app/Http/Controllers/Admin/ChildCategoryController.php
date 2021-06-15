@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Admin;
 use App\Category;
-use App\Subcategory;
-use App\Childcategory;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryStoreRequest;
 use App\Http\Resources\CategoryCollection;
@@ -30,22 +28,27 @@ class ChildCategoryController extends Controller
     //*** JSON Request
     public function datatable(Request $request)
     {
-         $datas = Childcategory::select('*');
-            if ($request->sub_cat_id) {
-                $sub_cat_id = $request->sub_cat_id ;
-                $datas->where('subcategory_id', $sub_cat_id);
-            }
+        $datas = Category::select('*')->where('parent_cat_id','!=', 0)->orderBy('name', 'asc');
+        
+        if ($request->sub_cat_id) {
+            $category_id = $request->sub_cat_id ;
+            $datas->where('parent_cat_id', $category_id);
+        }
+        if ($request->parent_cat_id) {
+            $category_id = $request->parent_cat_id ;
+            $datas->where('parent_cat_id', $category_id);
+        }
             $datas = $datas->orderBy('id','desc')->get();
             return Datatables::of($datas)
                                 ->rawColumns(['actions'])
-                                ->editColumn('category', function(Childcategory $data) {
-                                    return $data->subcategory->category->name;
+                                ->editColumn('category', function(Category $data) {
+                                    return $data->parent->name;
                                 }) 
-                                ->editColumn('subcategory', function(Childcategory $data) {
-                                    return $data->subcategory->name;
+                                ->editColumn('subcategory', function(Category $data) {
+                                    return $data->parent->name;
                                 }) 
                             
-                                ->editColumn('actions', function(Childcategory $data) {
+                                ->editColumn('actions', function(Category $data) {
                                     $b = '<a href="' . URL::route('admin.childcategories.edit', $data->id) . '" class="btn btn-outline-primary btn-xs"><i class="fa fa-edit"></i></a>';
                                 
                                     $b .= ' <a href="' . URL::route('admin.childcategories.destroy', $data->id) . '" class="btn btn-outline-danger btn-xs destroy"><i class="fa fa-trash"></i></a>';
@@ -73,7 +76,7 @@ class ChildCategoryController extends Controller
     {
     
         //--- Logic Section
-        $data = new Childcategory();
+        $data = new Category();
         $input = $request->all();
         $data->fill($input)->save();
         //--- Logic Section Ends
@@ -86,12 +89,12 @@ class ChildCategoryController extends Controller
         } 
     }
 
-    public function show(Childcategory $childcategory)
+    public function show(Category $childcategory)
     {
         return redirect('childcategories');
     }
     //*** GET Request
-    public function edit(Childcategory $childcategory)
+    public function edit(Category $childcategory)
     {
         $cats = Category::where('parent_cat_id',0)
         ->orderBy('name', 'asc')->get();
@@ -99,7 +102,7 @@ class ChildCategoryController extends Controller
     }
 
     //*** POST Request
-    public function update(Request $request, Childcategory $childcategory)
+    public function update(Request $request, Category $childcategory)
     {
         //--- Validation Section
        /* $rules = [
@@ -135,7 +138,7 @@ class ChildCategoryController extends Controller
       //*** GET Request Status
       public function status($id1,$id2)
         {
-            $data = Childcategory::findOrFail($id1);
+            $data = Category::findOrFail($id1);
             $data->status = $id2;
             $data->update();
         }
@@ -151,7 +154,7 @@ class ChildCategoryController extends Controller
     //*** GET Request Delete
     public function destroy($id)
     {
-        $data = Childcategory::findOrFail($id);
+        $data = Category::findOrFail($id);
 
         if($data->products->count()>0)
         {
@@ -171,12 +174,12 @@ class ChildCategoryController extends Controller
 
     public function loadSubcat($id, $sub)
     {
-        $cat = Subcategory::orderBy('name', 'ASC')->where('category_id',$id)->get();
+        $cat = Category::orderBy('name', 'ASC')->where('parent_cat_id',$id)->get();
         return view('admin.childcategory.subcat', compact('cat', 'sub'));
     }
     public function loadChildcat($id, $sub)
     {
-        $cat = Childcategory::orderBy('name', 'ASC')->where('subcategory_id', $id)->get();
+        $cat = Category::orderBy('name', 'ASC')->where('parent_cat_id', $id)->get();
        return view('admin.childcategory.childcat', compact('cat', 'sub'));
     }
 }

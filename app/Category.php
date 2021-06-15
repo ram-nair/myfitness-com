@@ -27,24 +27,11 @@ class Category extends Model
         return $this->belongsTo(static::class, 'parent_cat_id');
     }
 
-    public function catHasChild($businessTypeCat = false)
-    {
-       /* if (!empty($businessTypeCat)) {
-            return $this->hasMany(Category::class, 'parent_cat_id')->where('business_type_category_id', $businessTypeCat);
-        }*/
-        return $this->hasMany(Category::class, 'parent_cat_id');
+    public function subcategory(){
+
+        return $this->hasMany(static::class, 'parent_cat_id');
+
     }
-
-    // public function parent()
-    // {
-    //     return $this->belongsTo(BusinessTypeCategory::class, 'parent_id');
-    // }
-
-    // public function children()
-    // {
-    //     return $this->hasMany(BusinessTypeCategory::class, 'parent_id');
-    // }
-
     public function products()
     {
         return $this->hasMany(Product::class, 'category_id', 'id');
