@@ -170,7 +170,7 @@ class SubCategoryController extends Controller
     
      public function loadsub($id)
     {
-        $cat = Category::where('category_id', $id)->orderBy('name', 'asc')->get();
+        $cat = Category::where('parent_cat_id', $id)->orderBy('name', 'asc')->get();
       //  print_r( $subcat);die;
         return view('load.subcategory',compact('cat'));
     }

@@ -39,11 +39,10 @@ Route::group(['middleware' => ['auth:admin', 'isAdmin', 'assign.guard:admin,admi
     Route::post('/changepassword', 'PermissionController@changepassword')->name('changepassword');
 	Route::post('/Userpassword', 'PermissionController@changeUserpassword')->name('Userpassword');
 
+    Route::resource('pages', 'PageController');
+    Route::any('pages/dt', 'PageController@datatable')->name('pages.datatable');
 
-
-
-
-
+    
     Route::resource('vendors', 'VendorController');
     Route::any('vendors/dt', 'VendorController@datatable')->name('vendors.datatable');
 

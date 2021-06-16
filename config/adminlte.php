@@ -505,6 +505,13 @@ return [
                     'guard' => ['admin'],
                 ],
                 [
+                    'text' => 'Content Pages',
+                    'url' => 'admin/pages',
+                    'icon' => 'fas fa-fw fa-key',
+                    'can' => 'category_read',
+                    'guard' => ['admin'],
+                ],
+                [
                     'text' => 'Change Password',
                     'url' => 'admin/changepass',
                     'icon' => 'fas fa-fw fa-key',
