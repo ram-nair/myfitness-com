@@ -17,14 +17,7 @@
                 <div class="card-header">
                     <h3 class="card-title">&nbsp;</h3>
                     <!-- tools box -->
-                    <div class="card-tools">
-                        <?php $user = Auth::user(); ?>
-                        <div class="btn-group">
-                            @if($user->hasRole('super-admin','admin') || $user->hasPermissionTo('vlogblog_create','admin'))
-                                <a href="{{ route('admin.pages.create') }}" class="btn btn-success btn-sm">Add New Content Page</a>
-                            @endif
-                        </div>
-                    </div>
+                    
                     <!-- /. tools -->
                 </div>
                 <div class="card-body pad">

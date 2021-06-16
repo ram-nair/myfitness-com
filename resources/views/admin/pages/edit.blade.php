@@ -11,9 +11,9 @@
 @stop
 @section('content')
 
-{{ Form::model($pages, array('route' => array('admin.pages.update', $pages->id), 'method' => 'POST', 'enctype' => 'multipart/form-data', 'class' => 'class-create')) }}
+{{ Form::model($page, array('route' => array('admin.pages.update', $page->id), 'method' => 'POST', 'enctype' => 'multipart/form-data', 'class' => 'class-create')) }}
 {{ method_field('PATCH') }}
-<input type="hidden" name="id" value="{{ $pages->id }}">
+<input type="hidden" name="id" value="{{ $page->id }}">
 @include ('admin.pages.form',['submitButtonText'=>'Update'])
 {{ Form::close() }}
 @stop

@@ -51,7 +51,7 @@ class PageController extends BaseController
     }
     public function subscribers()
     {
-        $this->setPageTitle('subscribers', 'subscribers');
+        $this->setPageTitle('Subscribers List', 'Subscribers List');
         return view('admin.pages.list');
     }
     public function list(Request $request)
@@ -62,7 +62,7 @@ class PageController extends BaseController
          return Datatables::of($datas)
                         ->rawColumns(['actions'])
                         ->editColumn('actions', function(Subscriber $data) {
-                            $b .= ' <a href="' . URL::route('admin.pages.destroy', $data->id) . '" class="btn btn-outline-danger btn-xs destroy"><i class="fa fa-trash"></i></a>';
+                            $b = ' <a href="' . URL::route('admin.pages.destroy', $data->id) . '" class="btn btn-outline-danger btn-xs destroy"><i class="fa fa-trash"></i></a>';
             
                             return $b;
                         })->make(true); //--- Returning Json Data To Client Side
@@ -124,11 +124,11 @@ class PageController extends BaseController
     }
 
     //*** GET Request
-    public function edit(Request $request, Page $pages)
+    public function edit(Request $request, Page $page)
     {
         $this->setPageTitle('Content Page', 'Edit Content Page');
         $imageSize = config('globalconstants.imageSize')['product'];
-        return view('admin.pages.edit',compact('pages','imageSize'));
+        return view('admin.pages.edit',compact('page','imageSize'));
     }
 
     //*** POST Request
@@ -172,20 +172,7 @@ class PageController extends BaseController
         //--- Redirect Section Ends           
     }
       //*** GET Request Header
-      public function header($id1,$id2)
-        {
-            $data = Page::findOrFail($id1);
-            $data->header = $id2;
-            $data->update();
-        }
-      //*** GET Request Footer
-      public function footer($id1,$id2)
-        {
-            $data = Page::findOrFail($id1);
-            $data->footer = $id2;
-            $data->update();
-        }
-
+    
 
     //*** GET Request Delete
     public function destroy($id)

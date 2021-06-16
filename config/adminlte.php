@@ -513,7 +513,7 @@ return [
                 ],
                 [
                     'text' => 'Subscribers',
-                    'url' => 'admin/pages/subscribers',
+                    'url' => 'admin/subscribers',
                     'icon' => 'fas fa-fw fa-key',
                     'can' => 'category_read',
                     'guard' => ['admin'],
