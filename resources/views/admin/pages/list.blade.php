@@ -32,10 +32,8 @@
                         <thead>
                         <tr>
                              <th>Email</th>
-                             <th>Status</th>
-                            <th>Actions</th>
+                              <th>Actions</th>
                         </tr>
-                        
                         </thead>
                     </table>
                 </div>
@@ -43,4 +41,28 @@
         </div>
     </div>
 @stop
+@section('js')
+    <script type='text/javascript'>
+        $(function () {
+            oTable = $('#page-content-id').DataTable({
+                processing: true,
+                serverSide: true,
+                ordering: false,
+                //autoWidth: false,
+                ajax: {
+                    url: "{!! url('admin/pages/list') !!}",
+                    type: 'post',
+                    headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
+                    data: function ( d ) {
 
+                    }
+                },
+                columns: [
+                    {data: 'email', name:'email'},
+                   
+                    {data: 'actions', name: 'actions', searchable: false}
+                ]
+            });
+        });
+    </script>
+@stop

@@ -42,7 +42,7 @@ Route::group(['middleware' => ['auth:admin', 'isAdmin', 'assign.guard:admin,admi
     Route::resource('pages', 'PageController');
     Route::any('pages/dt', 'PageController@datatable')->name('pages.datatable');
     Route::any('pages/subscribers', 'PageController@subscribers');
-
+    Route::any('pages/list', 'PageController@list');
     
     Route::resource('vendors', 'VendorController');
     Route::any('vendors/dt', 'VendorController@datatable')->name('vendors.datatable');

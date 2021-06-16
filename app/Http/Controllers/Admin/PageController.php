@@ -52,10 +52,25 @@ class PageController extends BaseController
     public function subscribers()
     {
         $this->setPageTitle('subscribers', 'subscribers');
-        $sub = Subscriber::all();
-        return view('admin.pages.list',compact('sub'));
+        return view('admin.pages.list');
     }
-    
+    public function list(Request $request)
+    {
+         $currentUser = $request->user();
+         $datas = Subscriber::orderBy('id','desc')->get();
+        
+         return Datatables::of($datas)
+                        ->rawColumns(['actions'])
+                        ->editColumn('actions', function(Subscriber $data) {
+                            $b .= ' <a href="' . URL::route('admin.pages.destroy', $data->id) . '" class="btn btn-outline-danger btn-xs destroy"><i class="fa fa-trash"></i></a>';
+            
+                            return $b;
+                        })->make(true); //--- Returning Json Data To Client Side
+
+                         
+                       
+    }
+
     //*** GET Request
     public function create()
     {
