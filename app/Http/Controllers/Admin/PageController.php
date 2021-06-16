@@ -52,7 +52,9 @@ class PageController extends BaseController
     //*** GET Request
     public function create()
     {
-        return view('admin.pages.create');
+        $this->setPageTitle('Page', 'Create Content Page');
+        $imageSize = config('globalconstants.imageSize')['product'];
+        return view('admin.pages.create',compact('imageSize'));
     }
 
     public function show($id)
@@ -100,11 +102,11 @@ class PageController extends BaseController
     }
 
     //*** GET Request
-    public function edit(Request $request, Page $page)
+    public function edit(Request $request, Page $pages)
     {
-        $this->setPageTitle('Content Page', 'Content Page');
-        
-        return view('admin.pages.edit',compact('page'));
+        $this->setPageTitle('Content Page', 'Edit Content Page');
+        $imageSize = config('globalconstants.imageSize')['product'];
+        return view('admin.pages.edit',compact('pages','imageSize'));
     }
 
     //*** POST Request

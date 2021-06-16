@@ -32,6 +32,7 @@
                         <thead>
                         <tr>
                              <th>title</th>
+                             <th>Slug</th>
                             <th>Description</th>
                              <th>Status</th>
                             <th>Actions</th>
@@ -61,6 +62,7 @@
                 },
                 columns: [
                     {data: 'title', name:'title'},
+                    {data: 'slug', name:'slug'},
                     {data: 'description', name:'description'},
                     {data: 'status', name: 'status'},
                     {data: 'actions', name: 'actions', searchable: false}

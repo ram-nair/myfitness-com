@@ -6,18 +6,7 @@
         <div class="row">
 
                 
-                <div class="col-md-3">
-                    <div class="form-group">
-                        {{ Form::label('category_id', 'Category') }}<br>
-                        <select class='form-control select2' required name="category_id" id="category_id" >
-                            <option value="">Select Category</option>
-                            @foreach($categories as $category)
-                                <option value="{{$category->id}}" @if(isset($vlogBlog) && $vlogBlog->category_id == $category->id) selected @endif>{{$category->name}}</option>
-                            @endforeach
-                        </select>
-                        {!! $errors->first('category_id','<p class="text-danger"><strong>:message</strong></p>') !!}
-                    </div>
-                </div>
+               
                 
                
 
@@ -28,9 +17,7 @@
                     {!! $errors->first('title','<p class="text-danger"><strong>:message</strong></p>') !!}
                 </div>
                  </div>
-
-
-                 <div class="form-group">
+                {{---<div class="form-group">
                     <label for="exampleInputFile">Image (Recommended : {{$imageSize['aspectRatioW']}}x{{$imageSize['aspectRatioH']}})</label>
                     <div class="input-group"><?php
                         if(!empty($vlogBlog->image)) {
@@ -44,7 +31,7 @@
                          <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                         </div>
                     </div>
-                </div>
+                </div>---}}
             <div class="col-md-3">
                 <div class="form-group">
                     {{ Form::label('Status', 'Status') }}<br>
@@ -60,6 +47,21 @@
                     {{ Form::label('description', 'Description') }}
                     {{ Form::textarea('description', null, array('required'=>'','class' => 'form-control editor-medium '.($errors->has('description') ? ' is-invalid' : ''))) }}
                     {!! $errors->first('description','<p class="text-danger"><strong>:message</strong></p>') !!}
+                </div>
+                </div>
+                <div class="col-md-12">
+                <div class="form-group">
+                    {{ Form::label('meta_tag', 'Meta Tags') }}
+                    {{ Form::text('meta_tag', null, array('required','class' => 'form-control'.($errors->has('meta_tag') ? ' is-invalid' : ''))) }}
+                    {!! $errors->first('meta_tag','<p class="text-danger"><strong>:message</strong></p>') !!}
+                </div>
+                </div>
+
+                <div class="col-md-12">
+                <div class="form-group">
+                    {{ Form::label('description', 'Meta Description') }}
+                    {{ Form::textarea('meta_description', null, array('required','class' => 'form-control editor-medium '.($errors->has('meta_description') ? ' is-invalid' : ''))) }}
+                    {!! $errors->first('meta_description','<p class="text-danger"><strong>:message</strong></p>') !!}
                 </div>
                 </div>
             </div>
