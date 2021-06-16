@@ -49,6 +49,22 @@
                     {{ Form::textarea('description', null, array('class' => 'form-control editor-medium '.($errors->has('description') ? ' is-invalid' : ''))) }}
                     {!! $errors->first('description','<p class="text-danger"><strong>:message</strong></p>') !!}
                 </div>
+                <div class="form-group col">
+                    {{ Form::label('featured', 'Featured') }}
+                    <select name="featured" class="form-control" style="width:100%"  id="featured">
+                            <option value="1" @if(!@empty($category) && $category->featured==1) selected @endif>Enabled</option>
+                            <option value="0" @if(!@empty($category)&& $category->featured!=1) selected @endif>Disabled</option>
+                    </select>
+                    {!! $errors->first('featured','<p class="text-danger"><strong>:message</strong></p>') !!}
+                </div>
+                <div class="form-group col">
+                    {{ Form::label('featured', 'Status') }}
+                    <select name="featured" class="form-control" style="width:100%"  id="status">
+                            <option value="1" @if(!@empty($category) && $category->status==1) selected @endif>Enabled</option>
+                            <option value="0" @if(!@empty($category)&& $category->status!=1) selected @endif>Disabled</option>
+                    </select>
+                    {!! $errors->first('featured','<p class="text-danger"><strong>:message</strong></p>') !!}
+                </div>
             </div>
         </div>
     </div>

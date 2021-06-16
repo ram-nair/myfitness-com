@@ -512,6 +512,13 @@ return [
                     'guard' => ['admin'],
                 ],
                 [
+                    'text' => 'Subscribers',
+                    'url' => 'admin/pages/subscribers',
+                    'icon' => 'fas fa-fw fa-key',
+                    'can' => 'category_read',
+                    'guard' => ['admin'],
+                ],
+                [
                     'text' => 'Change Password',
                     'url' => 'admin/changepass',
                     'icon' => 'fas fa-fw fa-key',

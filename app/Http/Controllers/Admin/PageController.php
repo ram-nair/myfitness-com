@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Admin;
 use App\Page;
+use App\Subscriber;
 use App\Http\Controllers\Controller;
 use App\Traits\ImageTraits;
 use Auth;
@@ -48,7 +49,13 @@ class PageController extends BaseController
         $this->setPageTitle('Content Page', 'Content Page');
         return view('admin.pages.index');
     }
-
+    public function subscribers()
+    {
+        $this->setPageTitle('subscribers', 'subscribers');
+        $sub = Subscriber::all();
+        return view('admin.pages.list',compact('sub'));
+    }
+    
     //*** GET Request
     public function create()
     {

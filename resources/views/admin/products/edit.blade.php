@@ -52,7 +52,7 @@
 
 
                        <div class="form-group ">
-                        {{ Form::label('show_disclaimer', 'Hot Deal') }}
+                        {{ Form::label('show_disclaimer', 'Inspirations') }}
                         <div class="">
                             <input data-bootstrap-switch type="checkbox" name="hot_deal" id="hot_deal" value="1" />
                         </div>

@@ -108,6 +108,14 @@
                     </select>
                     {!! $errors->first('featured','<p class="text-danger"><strong>:message</strong></p>') !!}
                 </div>
+                <div class="form-group col">
+                    {{ Form::label('featured', 'Featured') }}
+                    <select name="featured" class="form-control" style="width:100%"  id="featured">
+                            <option value="1" @if(!@empty($product) && $product->featured==1) selected @endif>Enabled</option>
+                            <option value="0" @if(!@empty($product)&& $product->featured!=1) selected @endif>Disabled</option>
+                    </select>
+                    {!! $errors->first('featured','<p class="text-danger"><strong>:message</strong></p>') !!}
+                </div>
             </div>
             </div>
             
