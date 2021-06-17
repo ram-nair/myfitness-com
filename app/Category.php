@@ -19,7 +19,7 @@ class Category extends Model
         'name',
         'description',
         'parent_cat_id',
-        'image',
+        'image','featured','status',
     ];
 
     public function parent()

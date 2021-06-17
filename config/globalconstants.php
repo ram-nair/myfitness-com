@@ -55,13 +55,6 @@ return [
             'aspectRatioH' => 400,
             'path' => 'brand/images',
         ],
-        'businesstypecategory' => [
-            'width' => 640,
-            'height' => 400,
-            'aspectRatioW' => 640,
-            'aspectRatioH' => 400,
-            'path' => 'businesstypecategory/images',
-        ],
         'category' => [
             'width' => 640,
             'height' => 400,

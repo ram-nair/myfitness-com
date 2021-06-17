@@ -32,7 +32,7 @@ class Product extends Model
     protected $fillable = ['brand_id','sku','user_id','category_id', 'sub_category_id', 'child_category_id','quantity',
     'name', 'size','size_qty','size_price', 'color', 'details','unit_price','tax',
     'discount_price','in_stock','status','hot_deal','hot_sale','colors','product_condition','meta_title',
-    'meta_tag','meta_description','discount_start_date','discount_end_date','is_discount'];
+    'meta_tag','featured','meta_description','discount_start_date','discount_end_date','is_discount'];
 
     protected static $logName = 'product'; //Should be short and identical
     protected static $logFillable  = true;

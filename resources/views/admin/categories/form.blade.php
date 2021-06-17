@@ -59,7 +59,7 @@
                 </div>
                 <div class="form-group col">
                     {{ Form::label('featured', 'Status') }}
-                    <select name="featured" class="form-control" style="width:100%"  id="status">
+                    <select name="status" class="form-control" style="width:100%"  id="status">
                             <option value="1" @if(!@empty($category) && $category->status==1) selected @endif>Enabled</option>
                             <option value="0" @if(!@empty($category)&& $category->status!=1) selected @endif>Disabled</option>
                     </select>

@@ -104,6 +104,8 @@ class CategoryController extends Controller
             'description' => $request->description,
             'parent_cat_id' => $parentCatId,
             'image' => $request->image,
+            'featured' => $request->featured,
+            'status' => $request->status,
         ]);
 
         //Redirect to the users.index view and display message
@@ -154,6 +156,8 @@ class CategoryController extends Controller
             'description',
             'parent_cat_id',
             'image',
+            'featured',
+            'status',
         ]);
         
         $input['parent_cat_id'] = 0;
