@@ -164,15 +164,15 @@ class CategoryController extends Controller
     
         if ($request->hasFile('image')) {
             $imageSize = config('globalconstants.imageSize')['category'];
-            $input['image'] = $this->singleImage($request->file('image'), $imageSize['path'], 'category');
-            if (!empty($input['image'])) {
-                $path = config('globalconstants.imageSize.category')['path'] . '/';
-                if (!env('CDN_ENABLED', false)) {
-                    \Storage::delete($path . $category->getAttributes()['image']);
-                } else {
-                    \Storage::disk('s3')->delete(env('CDN_FILE_DIR', 'dev/upl/') . $path . $category->image);
+                $input['image'] = $this->singleImage($request->file('image'), $imageSize['path'], 'category');
+                if (!empty($input['image'])) {
+                    $path = config('globalconstants.imageSize.category')['path'] . '/';
+                    if (!env('CDN_ENABLED', false)) {
+                        \Storage::delete($path . $category->getAttributes()['image']);
+                    } else {
+                        \Storage::disk('s3')->delete(env('CDN_FILE_DIR', 'dev/upl/') . $path . $category->image);
+                    }
                 }
-            }
         }
         $category->fill($input)->save();
 
