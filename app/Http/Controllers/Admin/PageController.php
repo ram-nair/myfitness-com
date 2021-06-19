@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Admin;
 use App\Page;
+use App\Contact;
 use App\Subscriber;
 use App\Http\Controllers\Controller;
 use App\Traits\ImageTraits;
@@ -67,6 +68,33 @@ class PageController extends BaseController
                          
                        
     }
+
+
+
+    //enquiry list
+
+    public function enquiry()
+    {
+        $this->setPageTitle('Contact/Enquiry', 'Contact/Enquiry List');
+        return view('admin.pages.enlist');
+    }
+    public function enqlist(Request $request)
+    {
+         $currentUser = $request->user();
+         $datas = Contact::orderBy('id','desc')->get();
+        
+         return Datatables::of($datas)
+                        ->rawColumns(['actions'])
+                        ->editColumn('actions', function(Contact $data) {
+                            $b = ' <a href="' . URL::route('admin.pages.destroys', $data->id) . '" class="btn btn-outline-danger btn-xs destroy"><i class="fa fa-trash"></i></a>';
+            
+                            return $b;
+                        })->make(true); //--- Returning Json Data To Client Side
+
+                         
+                       
+    }
+
 
     //*** GET Request
     public function create()
@@ -143,6 +171,15 @@ class PageController extends BaseController
         //--- Redirect Section     
        alert()->success('Contents Deleted successfully.', 'Deleted');
         return redirect()->route('admin.pages.index');      
+        //--- Redirect Section Ends   
+    }
+    public function destroys(Contact $contact)
+    {
+       
+        $contact->delete();
+        //--- Redirect Section     
+       alert()->success('Contents Deleted successfully.', 'Deleted');
+        return redirect()->route('admin.pages.enquiry');      
         //--- Redirect Section Ends   
     }
 }

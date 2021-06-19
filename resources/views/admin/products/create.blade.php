@@ -35,22 +35,68 @@
 
                     <div class="tab-pane" id="ptags">
                         <div class="tile">
-                        <div class="col-md-4">
-                <div class="form-group">
+                      
+                        <div class="form-group">
                     {{ Form::label('quantity', 'Size') }}
-                    {{ Form::number('size', null, array('class' => 'form-control'.($errors->has('quantity') ? ' is-invalid' : '' ))) }}
+                    <select class="select2 form-control"  name="size">
+                    <option value=""></option>
+                    <option data-title="12Oz" value="4">12Oz</option>
+                    <option data-title="13Oz" value="5">13Oz</option>
+                    <option data-title="14Oz" value="6">14Oz</option>
+                    <option data-title="15Oz" value="7">15Oz</option>
+                    <option data-title="SMALL" value="115">SMALL</option>
+                    <option data-title="MEDIUM" value="116">MEDIUM</option>
+                    <option data-title="LARGE" value="117">LARGE</option>
+                    <option data-title="EXTRA LARGE" value="118">EXTRA LARGE</option>
+                    <option data-title="12 inch" value="175">12 inch</option>
+                    <option data-title="14 inch" value="176">14 inch</option>
+                    <option data-title="16 inch" value="177">16 inch</option>
+                    <option data-title="18 inch" value="178">18 inch</option>
+                    <option data-title="20 inch" value="179">20 inch</option>
+                    </select>
                     {!! $errors->first('size','<p class="text-danger"><strong>:message</strong></p>') !!}
-                </div>
-            </div><div class="col-md-4">
-                <div class="form-group">
+                
+            </div>
+                <div class="form-group col">
                     {{ Form::label('quantity', 'Color') }}
-                    {{ Form::number('color', null, array('class' => 'form-control'.($errors->has('quantity') ? ' is-invalid' : '' ))) }}
+                    <select class="select2 form-control"  name="size">
+                    <option value=""></option>
+                    <option data-title="12Oz" value="4">12Oz</option>
+                    <option data-title="13Oz" value="5">13Oz</option>
+                    <option data-title="14Oz" value="6">14Oz</option>
+                    <option data-title="15Oz" value="7">15Oz</option>
+                    <option data-title="SMALL" value="115">SMALL</option>
+                    <option data-title="MEDIUM" value="116">MEDIUM</option>
+                    <option data-title="LARGE" value="117">LARGE</option>
+                    <option data-title="EXTRA LARGE" value="118">EXTRA LARGE</option>
+                    <option data-title="12 inch" value="175">12 inch</option>
+                    <option data-title="14 inch" value="176">14 inch</option>
+                    <option data-title="16 inch" value="177">16 inch</option>
+                    <option data-title="18 inch" value="178">18 inch</option>
+                    <option data-title="20 inch" value="179">20 inch</option>
+                    </select>
                     {!! $errors->first('color','<p class="text-danger"><strong>:message</strong></p>') !!}
-                </div>
+                
             </div><div class="col-md-4">
                 <div class="form-group">
                     {{ Form::label('quantity', 'Weight') }}
-                    {{ Form::number('weight', null, array('class' => 'form-control'.($errors->has('quantity') ? ' is-invalid' : '' ))) }}
+                    <select class="select2 form-control"  name="size">
+                    <option value=""></option>
+                    <option data-title="12Oz" value="4">12Oz</option>
+                    <option data-title="13Oz" value="5">13Oz</option>
+                    <option data-title="14Oz" value="6">14Oz</option>
+                    <option data-title="15Oz" value="7">15Oz</option>
+                    <option data-title="SMALL" value="115">SMALL</option>
+                    <option data-title="MEDIUM" value="116">MEDIUM</option>
+                    <option data-title="LARGE" value="117">LARGE</option>
+                    <option data-title="EXTRA LARGE" value="118">EXTRA LARGE</option>
+                    <option data-title="12 inch" value="175">12 inch</option>
+                    <option data-title="14 inch" value="176">14 inch</option>
+                    <option data-title="16 inch" value="177">16 inch</option>
+                    <option data-title="18 inch" value="178">18 inch</option>
+                    <option data-title="20 inch" value="179">20 inch</option>
+                    </select>
+                   
                     {!! $errors->first('weight','<p class="text-danger"><strong>:message</strong></p>') !!}
                 </div>
             </div>
@@ -61,11 +107,26 @@
                     {!! $errors->first('size','<p class="text-danger"><strong>:message</strong></p>') !!}
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="form-group">
+            <div class="col-md-12">
+            <div class="form-group col">
                     {{ Form::label('quantity', 'Speed') }}
-                    {{ Form::number('speed', null, array('class' => 'form-control'.($errors->has('quantity') ? ' is-invalid' : '' ))) }}
-                    {!! $errors->first('size','<p class="text-danger"><strong>:message</strong></p>') !!}
+                    <select class="select2 form-control"  name="size">
+                    <option value=""></option>
+                    <option data-title="12Oz" value="4">12Oz</option>
+                    <option data-title="13Oz" value="5">13Oz</option>
+                    <option data-title="14Oz" value="6">14Oz</option>
+                    <option data-title="15Oz" value="7">15Oz</option>
+                    <option data-title="SMALL" value="115">SMALL</option>
+                    <option data-title="MEDIUM" value="116">MEDIUM</option>
+                    <option data-title="LARGE" value="117">LARGE</option>
+                    <option data-title="EXTRA LARGE" value="118">EXTRA LARGE</option>
+                    <option data-title="12 inch" value="175">12 inch</option>
+                    <option data-title="14 inch" value="176">14 inch</option>
+                    <option data-title="16 inch" value="177">16 inch</option>
+                    <option data-title="18 inch" value="178">18 inch</option>
+                    <option data-title="20 inch" value="179">20 inch</option>
+                    </select>
+                  {!! $errors->first('size','<p class="text-danger"><strong>:message</strong></p>') !!}
                 </div>
             </div>
 

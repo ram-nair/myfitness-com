@@ -43,6 +43,12 @@ Route::group(['middleware' => ['auth:admin', 'isAdmin', 'assign.guard:admin,admi
     Route::any('pages/dt', 'PageController@datatable')->name('pages.datatable');
     Route::any('/subscribers', 'PageController@subscribers')->name('pages.subscribers');
     Route::any('pages/list', 'PageController@list');
+
+    //contact details
+
+    Route::any('/enquiry', 'PageController@enquiry')->name('pages.enquiry');
+    Route::any('pages/enqlist', 'PageController@enqlist');
+    Route::any('pages/destroys', 'PageController@destroys')->name('pages.destroys');;
     
     Route::resource('vendors', 'VendorController');
     Route::any('vendors/dt', 'VendorController@datatable')->name('vendors.datatable');

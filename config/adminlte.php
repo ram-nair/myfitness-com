@@ -519,6 +519,13 @@ return [
                     'guard' => ['admin'],
                 ],
                 [
+                    'text' => 'Enquiry',
+                    'url' => 'admin/enquiry',
+                    'icon' => 'fas fa-fw fa-key',
+                    'can' => 'category_read',
+                    'guard' => ['admin'],
+                ],
+                [
                     'text' => 'Change Password',
                     'url' => 'admin/changepass',
                     'icon' => 'fas fa-fw fa-key',

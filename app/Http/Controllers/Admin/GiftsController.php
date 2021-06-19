@@ -53,7 +53,8 @@ class GiftsController extends Controller
     public function create()
     {
         //Get all roles and pass it to the view
-        return view('admin.gifts.create');
+        $imageSize = config('globalconstants.imageSize')['category'];
+        return view('admin.gifts.create',compact('imageSize'));
     }
     /**
      * Store a newly created resource in storage.
@@ -69,12 +70,17 @@ class GiftsController extends Controller
         ]);
        
         $validator->validate();
+        if ($request->hasFile('image')) {
+            $imageSize = config('globalconstants.imageSize')['category'];
+            $request->image = $this->singleImage($request->file('image'), $imageSize['path'], 'category');
+        }
         gift::create([
             'code'=>$this->coupon(10),
             'balance_amt' => $request->balance_amt,
             'expire_at' => $request->expire_at,
             'status' => $request->status,
             'is_redeem' => $request->is_redeem,
+            'image'=>$request->image,
             
         ]);
         alert()->success('gift successfully added.', 'Added');
@@ -99,8 +105,8 @@ class GiftsController extends Controller
      */
     public function edit(gift $gift)
     {
-       
-        return view('admin.gifts.edit', compact('gift'));
+        $imageSize = config('globalconstants.imageSize')['category'];
+        return view('admin.gifts.edit', compact('gift','imageSize'));
     }
 
     /**
