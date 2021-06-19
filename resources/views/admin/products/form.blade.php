@@ -124,11 +124,24 @@
         <div class="row">
             <div class="col">
                 <div class="form-group">
-                    {{ Form::label('description', 'Description') }}
-                    {{ Form::textarea('description', null, ['class'=>'form-control editor-medium', 'rows' => 2, 'cols' => 40]) }}
+                    {{ Form::label('description', 'Short Description') }}
+                    {{ Form::textarea('short_description', null, ['required','class'=>'form-control editor-medium', 'rows' => 2, 'cols' => 40]) }}
                     {!! $errors->first('description','<p class="text-danger"><strong>:message</strong></p>') !!}
                 </div>
             </div>
+            
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    {{ Form::label('description', 'Description') }}
+                    {{ Form::textarea('description', null, ['required','class'=>'form-control editor-medium', 'rows' => 2, 'cols' => 40]) }}
+                    {!! $errors->first('description','<p class="text-danger"><strong>:message</strong></p>') !!}
+                </div>
+            </div>
+            
+        </div>
+        <div class="row">
             <div class="col">
                 <div class="form-group">
                     {{ Form::label('description', 'Tags') }}
