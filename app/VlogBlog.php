@@ -5,7 +5,7 @@ namespace App;
 use App\Uuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
+use Illuminate\Support\Str;
 class VlogBlog extends Model
 {
     use SoftDeletes, Uuids;
@@ -29,5 +29,9 @@ class VlogBlog extends Model
     {
         return $this->hasMany(VBImages::class, 'vb_id', 'id');
     }
+    public function setTitleAttribute($value){
+        $this->attributes['title'] = $value;
+        $this->attributes['slug'] = Str::slug($value,'-');
+     }
 
 }

@@ -55,6 +55,7 @@
                 </div>
             </div>
             
+            
             <div class="col-md-6">
                 <div class="row">
                 <div class="form-group col">
@@ -126,6 +127,13 @@
                     {{ Form::label('description', 'Description') }}
                     {{ Form::textarea('description', null, ['class'=>'form-control editor-medium', 'rows' => 2, 'cols' => 40]) }}
                     {!! $errors->first('description','<p class="text-danger"><strong>:message</strong></p>') !!}
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    {{ Form::label('description', 'Tags') }}
+                    {{ Form::textarea('tags', null, ['class'=>'form-control editor-medium', 'rows' => 2, 'cols' => 40]) }}
+                    {!! $errors->first('tags','<p class="text-danger"><strong>:message</strong></p>') !!}
                 </div>
             </div>
         </div>

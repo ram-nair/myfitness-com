@@ -25,11 +25,6 @@
                         {!! $errors->first('email','<p class="text-danger"><strong>:message</strong></p>') !!}
                     </div>
                 </div>
-                  
-               
-
-               
-
                 <div class="form-group">
                     {{ Form::label('mobile', 'Mobile') }}
                     <div class="input-group">
@@ -137,6 +132,15 @@
                             {{ Form::label('payment_charge', 'Payment Charge in (%)') }}
                             {{ Form::number('payment_charge', null, array('max' => '100', 'id'=>'payment_charge','class' => 'form-control'.($errors->has('payment_charge') ? ' is-invalid' : ''))) }}
                             {!! $errors->first('payment_charge','<p class="text-danger"><strong>:message</strong></p>') !!}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            {{ Form::label('payment_charge', 'Shipping charge (%)') }}
+                            {{ Form::number('shipping_charge', null, array('max' => '100', 'id'=>'shipping_charge','class' => 'form-control'.($errors->has('shipping_charge') ? ' is-invalid' : ''))) }}
+                            {!! $errors->first('shipping_charge','<p class="text-danger"><strong>:message</strong></p>') !!}
                         </div>
                     </div>
                 </div>

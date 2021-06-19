@@ -16,7 +16,7 @@
             <div class="col-5 col-sm-3">
                 <div class="nav flex-column nav-tabs h-100">
                     <a class="nav-link  active" id="vert-tabs-home-tab" data-toggle="pill" href="#general" role="tab" aria-controls="vert-tabs-home" aria-selected="false">General</a>
-                   <!-- <a class="nav-link" id="vert-tabs-home-tab" data-toggle="pill" href="#ptags" role="tab" aria-controls="vert-tabs-home" aria-selected="false">Product tags</a>-->
+                   <a class="nav-link" id="vert-tabs-home-tab" data-toggle="pill" href="#ptags" role="tab" aria-controls="vert-tabs-home" aria-selected="false">Product Attributes</a>
                     <a class="nav-link" id="vert-tabs-home-tab" data-toggle="pill" href="#hpagesettings" role="tab" aria-controls="vert-tabs-home" aria-selected="false">Home Page Setting</a>
                     <a class="nav-link" id="vert-tabs-home-tab" data-toggle="pill" href="#seoTab" role="tab" aria-controls="vert-tabs-home" aria-selected="false"> Search Engine Optimization</a>
                     <a class="nav-link" id="vert-tabs-home-tab" data-toggle="pill" href="#images" role="tab" aria-controls="vert-tabs-home" aria-selected="false">Images</a>
@@ -35,7 +35,54 @@
 
                     <div class="tab-pane" id="ptags">
                         <div class="tile">
-                       
+                        <div class="col-md-4">
+                <div class="form-group">
+                    {{ Form::label('quantity', 'Size') }}
+                    {{ Form::number('size', null, array('class' => 'form-control'.($errors->has('quantity') ? ' is-invalid' : '' ))) }}
+                    {!! $errors->first('size','<p class="text-danger"><strong>:message</strong></p>') !!}
+                </div>
+            </div><div class="col-md-4">
+                <div class="form-group">
+                    {{ Form::label('quantity', 'Color') }}
+                    {{ Form::number('color', null, array('class' => 'form-control'.($errors->has('quantity') ? ' is-invalid' : '' ))) }}
+                    {!! $errors->first('color','<p class="text-danger"><strong>:message</strong></p>') !!}
+                </div>
+            </div><div class="col-md-4">
+                <div class="form-group">
+                    {{ Form::label('quantity', 'Weight') }}
+                    {{ Form::number('weight', null, array('class' => 'form-control'.($errors->has('quantity') ? ' is-invalid' : '' ))) }}
+                    {!! $errors->first('weight','<p class="text-danger"><strong>:message</strong></p>') !!}
+                </div>
+            </div>
+                        <div class="col-md-4">
+                <div class="form-group">
+                    {{ Form::label('quantity', 'Incline') }}
+                    {{ Form::number('incline', null, array('class' => 'form-control'.($errors->has('quantity') ? ' is-invalid' : '' ))) }}
+                    {!! $errors->first('size','<p class="text-danger"><strong>:message</strong></p>') !!}
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    {{ Form::label('quantity', 'Speed') }}
+                    {{ Form::number('speed', null, array('class' => 'form-control'.($errors->has('quantity') ? ' is-invalid' : '' ))) }}
+                    {!! $errors->first('size','<p class="text-danger"><strong>:message</strong></p>') !!}
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    {{ Form::label('quantity', 'Capacity') }}
+                    {{ Form::number('capacity', null, array('class' => 'form-control'.($errors->has('quantity') ? ' is-invalid' : '' ))) }}
+                    {!! $errors->first('size','<p class="text-danger"><strong>:message</strong></p>') !!}
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    {{ Form::label('quantity', 'Diameter') }}
+                    {{ Form::number('diameter', null, array('class' => 'form-control'.($errors->has('quantity') ? ' is-invalid' : '' ))) }}
+                    {!! $errors->first('size','<p class="text-danger"><strong>:message</strong></p>') !!}
+                </div>
+            </div>
                        
                         </div>
                     </div>
