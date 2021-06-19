@@ -126,7 +126,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
+               {{--<div class="row">
                     <div class="col">
                         <div class="form-group">
                             {{ Form::label('payment_charge', 'Payment Charge in (%)') }}
@@ -134,11 +134,11 @@
                             {!! $errors->first('payment_charge','<p class="text-danger"><strong>:message</strong></p>') !!}
                         </div>
                     </div>
-                </div>
+                </div>--}}
                 <div class="row">
                     <div class="col">
                         <div class="form-group">
-                            {{ Form::label('payment_charge', 'Shipping charge (%)') }}
+                            {{ Form::label('payment_charge', 'Shipping charge') }}
                             {{ Form::number('shipping_charge', null, array('max' => '100', 'id'=>'shipping_charge','class' => 'form-control'.($errors->has('shipping_charge') ? ' is-invalid' : ''))) }}
                             {!! $errors->first('shipping_charge','<p class="text-danger"><strong>:message</strong></p>') !!}
                         </div>
@@ -156,94 +156,7 @@
             </div>
             
         </div>
-        {{-- Store Contact Details --}}
-        <hr/>
-        <h4>Store Contact Details</h4>
-        <hr/>
-        @php
-            if(isset($storeContacts)):
-                $diffCount = false;
-                $superVisorCount = $storeContacts->count();
-                $actualCount = config('settings.store_contact_fields_count');
-                if($superVisorCount <= $actualCount){
-                    $diffCount = $actualCount - $superVisorCount;
-                }
-            @endphp
-                @foreach ($storeContacts as $contact)
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            {{ Form::label('Email', 'Email') }}
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                                </div>
-                                {{ Form::email("store[$contact->id][email]", $contact->email, array('class' => 'form-control'.($errors->has("store[$contact->id][email]") ? ' is-invalid' : ''))) }}
-                                {!! $errors->first("store[$contact->id][email]",'<p class="text-danger"><strong>:message</strong></p>') !!}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            {{ Form::label('Phone', 'Phone') }}
-                            <div class="input-group">
-                                <div class="input-group-prepend">                    
-                                    <span class="input-group-text"><i class="fas fa-phone"></i></span>
-                                </div>
-                                {{ Form::number("store[$contact->id][phone]", $contact->phone, array( 'minlength' => 7, 'maxlength' => 12, 'class' => 'form-control'.($errors->has("store[$contact->id][phone]") ? ' is-invalid' : ''))) }}
-                                {!! $errors->first("store[$contact->id][phone]",'<p class="text-danger"><strong>:message</strong></p>') !!}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @endforeach
-            @php
-                endif
-            @endphp
-        @php
-            $range = config('settings.store_contact_fields_count');
-            if(isset($diffCount)){
-                if($diffCount > 0){
-                    $range = $diffCount;
-                }
-                else{
-                    $range = 0;
-                }
-            }
-        @endphp
-        @if($range >= 1)
-            @foreach (range(1, $range) as $i)
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            {{ Form::label('Email', 'Email') }}
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                                </div>
-                                {{ Form::email("store[new][$i][email]", null, array('class' => 'form-control'.($errors->has("store[new]r[$i][email]") ? ' is-invalid' : ''))) }}
-                                {!! $errors->first("store[new][$i][email]",'<p class="text-danger"><strong>:message</strong></p>') !!}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            {{ Form::label('Phone', 'Phone') }}
-                            <div class="input-group">
-                                <div class="input-group-prepend">                    
-                                    <span class="input-group-text"><i class="fas fa-phone"></i></span>
-                                </div>
-                                {{ Form::number("store[new][$i][phone]", null, array( 'minlength' => 7, 'maxlength' => 12, 'class' => 'form-control'.($errors->has("store[new][$i][phone]") ? ' is-invalid' : ''))) }}
-                                {!! $errors->first("store[new][$i][phone]",'<p class="text-danger"><strong>:message</strong></p>') !!}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            @endforeach
-        @endif
-        {{-- Store Contact END --}}
-         {{-- Store Manager --}}
-            </div>
+             </div>
     <div class="card-footer">
         <input type="hidden" name="polygon_data" class="polygons" value="" />
         {{ Form::submit(isset($submitButtonText) ? $submitButtonText : 'Create', array('class' => 'btn btn-info float-right')) }}

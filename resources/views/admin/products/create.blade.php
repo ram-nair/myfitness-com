@@ -34,9 +34,8 @@
                     </div>
 
                     <div class="tab-pane" id="ptags">
-                        <div class="tile">
-                      
-                        <div class="form-group">
+                    <div class="tile">
+                    <div class="form-group col">
                     {{ Form::label('quantity', 'Size') }}
                     <select class="select2 form-control"  name="size">
                     <option value=""></option>
