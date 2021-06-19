@@ -19,7 +19,7 @@
                 <!-- tools box -->
                 <div class="card-tools">
                     <div class="btn-group">
-                        <a href="{{ route('admin.banners.create') }}" class="btn btn-success btn-sm">New Banner</a>
+                        <a href="{{ route('admin.banners.create',['id'=>$banner_type]) }}" class="btn btn-success btn-sm">New Banner</a>
                     </div>
                 </div>
                 <!-- /. tools -->
@@ -53,7 +53,11 @@
             ajax: {
                 url: "{!! url('admin/banners/dt') !!}",
                 type: 'post',
-                headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'}
+                headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
+                data: function ( d ) { 
+                    d.banner_type = {{$banner_type}};
+                    
+                }
             },
             columns: [
                 {

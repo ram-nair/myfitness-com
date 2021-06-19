@@ -21,9 +21,9 @@ class Helper
         // }
     }
 
-    public static function imageUrl($type, $image)
+    public static function imageUrl($image)
     {
-        return ($image != null) ? cdn(config('globalconstants.imageSize')[$type]['path'] . '/' . $image) : null;
+        return ($image != null) ? cdn(config('globalconstants.imageSize')['path'] . '/' . $image) : null;
     }
 
     public static function cdn($asset)

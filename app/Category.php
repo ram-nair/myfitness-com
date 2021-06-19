@@ -36,9 +36,9 @@ class Category extends Model
     {
         return $this->hasMany(Product::class, 'category_id', 'id');
     }
-
+/*
     public function getImageAttribute($value)
     {
         return ($value != null) ? Helper::imageUrl('category', $value) : null;
-    }
+    }*/
 }

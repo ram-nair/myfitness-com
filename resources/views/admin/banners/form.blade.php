@@ -3,7 +3,7 @@
         <i class="fas fa-2x fa-sync-alt fa-spin"></i>
     </div>
     <div class="card-body pad">
-       
+    <input type="hidden" name="type" id="types" value="{{$banner_type}}">
         
           <div class="row">
             <div class="form-group">
@@ -26,16 +26,29 @@
             <div class="row">
             
             <div class="form-group">
-            {{ Form::label('url', 'URL') }}
-            {{ Form::url('url', null, array('class' => 'form-control'.($errors->has('url') ? ' is-invalid' : ''))) }}
-            {!! $errors->first('url','<p class="text-danger"><strong>:message</strong></p>') !!}
+                {{ Form::label('url', 'URL (External OR Internal') }}
+                <div class="input-group">
+                <div class="input-group-prepend">                    
+                    <span class="input-group-text"><i class="fas fa-link"></i></span>
+                </div>
+                {{ Form::text('url', null, array('class' => 'form-control'.($errors->has('url') ? ' is-invalid' : ''))) }}
+                {!! $errors->first('url','<p class="text-danger"><strong>:message</strong></p>') !!}
+             </div>
+                
         </div>
         </div>
-      {{--<div class="form-group">
+        @if($banner_type==4)
+      <div class="form-group">
             {{ Form::label('Description', 'Description') }}<br>
             {!! Form::textarea('description',null,['class'=>'form-control editor-medium', 'rows' => 2, 'cols' => 40]) !!}
             {!! $errors->first('description','<p class="text-danger"><strong>:message</strong></p>') !!}
-        </div>--}}
+        </div>
+        <div class="form-group">
+            {{ Form::label('Description', 'Button Name') }}<br>
+            {{ Form::text('btn_text', null, array('class' => 'form-control'.($errors->has('name') ? ' is-invalid' : '' ))) }}
+            {!! $errors->first('description','<p class="text-danger"><strong>:message</strong></p>') !!}
+        </div>
+        @endif
     </div>
     <div class="card-footer">
         {{ Form::submit(isset($submitButtonText) ? $submitButtonText : 'Create', array('class' => 'btn btn-info float-right')) }}

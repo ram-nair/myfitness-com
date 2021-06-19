@@ -25,8 +25,8 @@ class Banner extends Model
      * @var array
      */
 
-    public function getImageAttribute($value)
+    /*public function getImageAttribute($value)
     {
-        return ($value != null) ? Helper::imageUrl('banner', $value) : null;
-    }
+        return ($value != null) ? Helper::imageUrl($value) : null;
+    }*/
 }

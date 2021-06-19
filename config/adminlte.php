@@ -359,28 +359,29 @@ return [
             'submenu' => [
                 [
                     'text' => 'Home Banner(Top)',
-                    'url' => 'admin/banners',
+                    'url' => 'admin/banners?id=1',
                     'icon' => 'nav-icon fa fa-image',
                     'can' => 'banner_read',
                     'guard' => ['admin'],
                 ],
                 [
                     'text' => 'Home Banner(Middle-1)',
-                    'url' => 'admin/banners',
+                    'url' => 'admin/banners?id=2',
                     'icon' => 'nav-icon fa fa-image',
                     'can' => 'banner_read',
                     'guard' => ['admin'],
                 ],
                 [
                     'text' => 'Home Banner(Middle-2)',
-                    'url' => 'admin/banners',
+                    'url' => 'admin/banners?id=3',
                     'icon' => 'nav-icon fa fa-image',
                     'can' => 'banner_read',
                     'guard' => ['admin'],
                 ],
                 [
                     'text' => 'Home Banner(Bottom)',
-                    'url' => 'admin/cat-banners',
+                    'url' => 'admin/banners?id=4',
+                   // 'url' => 'admin/cat-banners',
                     'icon' => 'nav-icon fa fa-image',
                     'can' => 'banner_read',
                     'guard' => ['admin'],

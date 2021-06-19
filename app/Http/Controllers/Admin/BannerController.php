@@ -27,17 +27,19 @@ class BannerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('admin.banners.index');
+        $banner_type = ($request->id) ?$request->id:1;
+        return view('admin.banners.index',compact('banner_type'));
     }
 
-    public function datatable()
+    public function datatable(Request $request)
     {
         $currentUser = Auth::user();
         $isSuperAdmin = $currentUser->hasRole('super-admin', 'admin');
-
-        $banner = Banner::select('*');
+        $banner_type = $request->banner_type ?? 1;
+        $banner = Banner::select('*')->where('type', $banner_type);
+        $banner = $banner->orderBy('created_at', 'asc')->get() ;
         return Datatables::of($banner)
             ->setRowClass(function ($banner) {
                 return !$banner->status ? 'alert-warning' : '';
@@ -50,8 +52,8 @@ class BannerController extends Controller
             ->editColumn('status', function ($banner) {
                 return $banner->status == 1 ? "Enabled" : "Disabled";
             })
-            ->editColumn('created_at', function ($user) {
-                return $user->created_at->format('F d, Y h:ia');
+            ->editColumn('created_at', function ($currentUser) {
+                return $currentUser->created_at->format('F d, Y h:ia');
             })->editColumn('actions', function ($banner) use ($currentUser, $isSuperAdmin) {
                 $b = '';
                 if ($isSuperAdmin || $currentUser->hasPermissionTo('banner_update', 'admin')) {
@@ -71,12 +73,12 @@ class BannerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         //Get all roles and pass it to the view
-        $imageSize = config('globalconstants.imageSize')['banner1'];
-        
-        return view('admin.banners.create', compact('imageSize'));
+        $banner_type = $request->id;
+        $imageSize = config('globalconstants.imageSize')['banner1'];  
+        return view('admin.banners.create', compact('imageSize','banner_type'));
     }
 
     /**
@@ -100,6 +102,8 @@ class BannerController extends Controller
             'name' => $request->name ?? "",
             'image' => $request->image,
             'url' => $request->url?? "",
+            'type' => $request->type ?? "",
+            'btn_text' => $request->btn_text ?? "",
             'status' => $request->status == 1 ? 1 : 0,
             'description' => $request->description?? "",
             'by_user_id' => $request->user()->id,
@@ -129,9 +133,9 @@ class BannerController extends Controller
      */
     public function edit(Banner $banner)
     {
-        $stores = Store::all();
+        $banner_type= $banner->type;
         $imageSize = config('globalconstants.imageSize')['banner'];
-        return view('admin.banners.edit', compact('banner', 'imageSize', 'stores')); //pass user and roles data to view
+        return view('admin.banners.edit', compact('banner', 'imageSize','banner_type')); //pass user and roles data to view
     }
 
     /**
