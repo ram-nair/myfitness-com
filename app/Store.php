@@ -60,10 +60,10 @@ class Store extends Authenticatable
         $this->attributes['password'] = bcrypt($password);
     }
 
-    public function getImageAttribute($value)
+  /*  public function getImageAttribute($value)
     {
         return ($value != null) ? Helper::imageUrl('store', $value) : null;
-    }
+    }*/
 
     
 

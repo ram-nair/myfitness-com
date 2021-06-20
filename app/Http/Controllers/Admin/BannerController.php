@@ -46,7 +46,7 @@ class BannerController extends Controller
             })
             ->rawColumns(['actions'])
             ->editColumn('image', function ($banner) {
-                $b = '<img src="' .$banner->image . '" class="btn btn-outline-primary btn-xs"/>';
+                $b = '<image src="{{asset(storage/banner/images/'.$banner->image.')}}">';
               return $b;
             })
             ->editColumn('status', function ($banner) {
@@ -95,7 +95,7 @@ class BannerController extends Controller
         $imgPath = "";
         if ($request->hasFile('images')) {
             $imageSize = config('globalconstants.imageSize')['banner1'];
-            $request->image = $this->singleImage($request->file('images'), $imageSize['path'], 'banner');
+            $request->image = $this->singleImage($request->file('images'), $imageSize['path'], 'banner1');
         }
 
         $banner = Banner::create([
@@ -134,7 +134,7 @@ class BannerController extends Controller
     public function edit(Banner $banner)
     {
         $banner_type= $banner->type;
-        $imageSize = config('globalconstants.imageSize')['banner'];
+        $imageSize = config('globalconstants.imageSize')['banner1'];
         return view('admin.banners.edit', compact('banner', 'imageSize','banner_type')); //pass user and roles data to view
     }
 
@@ -148,12 +148,12 @@ class BannerController extends Controller
     public function update(Request $request, Banner $banner)
     {
         $this->validate($request, [
-            'name' => 'required|max:120',
+            'images' => 'required'
         ]);
         $input = $request->all();
         if ($request->hasFile('images')) {
-            $imageSize = config('globalconstants.imageSize')['banner'];
-            $input['image'] = $this->singleImage($request->file('images'), $imageSize['path'], 'banner');
+            $imageSize = config('globalconstants.imageSize')['banner1'];
+            $input['image'] = $this->singleImage($request->file('images'), $imageSize['path'], 'banner1');
             if (!empty($input['image'])) {
                 $path = config('globalconstants.imageSize.banner')['path'] . '/';
                 if (!env('CDN_ENABLED', false)) {

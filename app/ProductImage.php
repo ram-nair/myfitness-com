@@ -30,8 +30,8 @@ class ProductImage extends Model
         return $this->belongsTo(Product::class);
     }
 
-    public function getFullAttribute($value)
+    /*public function getFullAttribute($value)
     {
         return ($value != NULL) ? Helper::imageUrl('product', $value) : NULL;
-    }
+    }*/
 }

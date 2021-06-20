@@ -387,13 +387,13 @@ return [
                     'guard' => ['admin'],
                 ],
                 
-                [
+               /* [
                     'text' => 'Essentials',
                     'url' => 'admin/cat-banners',
                     'icon' => 'nav-icon fa fa-image',
                     'can' => 'categorybanner_read',
                     'guard' => ['admin'],
-                ],
+                ],*/
 
                 
                 

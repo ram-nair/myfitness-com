@@ -65,7 +65,11 @@
                         return meta.row + meta.settings._iDisplayStart + 1;
                     }
                 },
-                {data: 'image', name: 'image', searchable: true},
+                {
+                    data: 'image',
+                    name: 'image',
+                   
+                },
                 {data: 'url', name: 'url', searchable: true},
                 {data: 'status', name: 'status'},
                 {data: 'created_at', name: 'created_at', searchable: false},

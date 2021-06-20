@@ -58,14 +58,14 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-2">
+           {{-- <div class="col-2">
                 <div class="form-group">
                     {{ Form::label('Min', 'Min order Amount') }}
                     {{ Form::text('min_order_amount', null, array('required','id'=>'min_order_amount','class' => 'form-control'.($errors->has('min_order_amount') ? ' is-invalid' : ''))) }}
                     {!! $errors->first('min_order_amount','<p class="text-danger"><strong>:message</strong></p>') !!}
                 </div>
             </div>
-            
+            --}}
             
             <div class="col-6">
                 <div class="row">
@@ -75,7 +75,7 @@
                             {{ Form::checkbox('active', 1, null, ['data-bootstrap-switch', 'id'=>'active', 'class' => 'custom-control'] ) }}
                         </div>
                     </div>
-                    <div class="col">
+                  {{--  <div class="col">
                         {{ Form::label('credit_card', 'Credit card') }}
                         <div class="form-group">
                             {{ Form::checkbox('credit_card', 1, null, ['data-bootstrap-switch', 'id'=>'credit_card', 'class' => 'custom-control'] ) }}
@@ -87,7 +87,7 @@
                             {{ Form::checkbox('cash_accept', 1, null, ['data-bootstrap-switch', 'id'=>'cash_accept','class'=>'custom-control'] ) }}
                         </div>
                     </div>
-                   
+                   --}}
                     {{-- <div class="col">
                         <label class="" for="customSwitch3">Featured</label>
                         <div class="form-group">
