@@ -45,10 +45,10 @@ class BannerController extends Controller
                 return !$banner->status ? 'alert-warning' : '';
             })
             ->rawColumns(['actions'])
-            ->editColumn('image', function ($banner) {
+          /*  ->editColumn('image', function ($banner) {
                 $b = '<image src="{{asset(storage/banner/images/'.$banner->image.')}}">';
               return $b;
-            })
+            })*/
             ->editColumn('status', function ($banner) {
                 return $banner->status == 1 ? "Enabled" : "Disabled";
             })

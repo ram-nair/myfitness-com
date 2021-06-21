@@ -16,11 +16,11 @@ class AdminMiddleware {
      */
     public function handle($request, Closure $next) {
 
-        if ($request->ajax() && !Auth::guard('admin')->except(['index']->check()) {
+       /* if ($request->ajax() && !Auth::guard('admin')->except(['index'])->check()) {
              return response()->json(["status" => "expired"], 500);
          }
         if (Auth::guard('admin')->check()) {
-         }
+         }*/
         return $next($request);
 
         // return redirect('/admin')->with('growl', ['Your don\'t have permission to acces this page.','danger']);

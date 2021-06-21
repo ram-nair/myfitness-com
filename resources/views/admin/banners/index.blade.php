@@ -31,6 +31,7 @@
                             <th>SL.No</th>
                             <th>Image</th>
                             <th>External Url</th>
+                            <th>Type</th>
                             <th>Status</th>
                             <th>Date/Time Added</th>
                             <th>Actions</th>
@@ -68,9 +69,31 @@
                 {
                     data: 'image',
                     name: 'image',
-                   
+                    render: function( data, type, full, meta ) {
+                    return "<img src=\"/storage/banner/images/" + data + "\" height=\"150\" alt='No Image'/>";
+            }
                 },
                 {data: 'url', name: 'url', searchable: true},
+                {
+                    data: 'type',
+                    name: 'type',
+                    render: function(data, type, row, meta) {
+                       
+                        if(row.type ==1){
+                            return 'Home Banner(Top)';
+                        }
+                        if(row.type ==2){
+                            return 'Home Banner(Middle-1)';
+                        }
+                        if(row.type ==3){
+                            return 'Home Banner(Middle-2)';
+                        }
+                        if(row.type ==4){
+                            return 'Home Banner(Bottom)';
+                        }
+                        
+                    }
+                },
                 {data: 'status', name: 'status'},
                 {data: 'created_at', name: 'created_at', searchable: false},
                 {data: 'actions', name: 'actions', searchable: false}
