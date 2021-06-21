@@ -79,7 +79,11 @@ class ProductController extends BaseController
                 return $product->quantity . ' ' . $product->unit ?? ' ';
             })
             ->editColumn('created_at', function ($product) {
-                return $product->created_at->format('F d, Y h:ia');
+                if($product->created_at){
+                    return $product->created_at->format('F d, Y h:ia');
+                }else{
+                    return $product->created_at;
+                }
             })->editColumn('actions', function ($products) use ($currentUser) {
                 $b = '';
                 if ($currentUser->hasPermissionTo('ecomproduct_update')) {
