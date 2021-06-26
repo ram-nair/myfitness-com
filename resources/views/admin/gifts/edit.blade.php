@@ -11,7 +11,7 @@
 @stop
 
 @section('content')
-{{ Form::model($gift, array('route' => array('admin.gifts.update', $gift->id), 'method' => 'PUT','class' => 'class-create')) }}
+{{ Form::model($gift, array('route' => array('admin.gifts.update', $gift->id),'enctype' => 'multipart/form-data', 'method' => 'PUT','class' => 'class-create')) }}
     @include ('admin.gifts.form',['submitButtonText'=>'Update'])
 {{ Form::close() }}
 @stop

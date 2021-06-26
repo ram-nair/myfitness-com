@@ -27,7 +27,10 @@ trait ImageTraits {
                 $disk = 's3';
             }
             $img = Image::make($image);
-            Storage::disk($disk)->put($path . $imageName, $img->stream()->detach(), 'public');
+            Storage::disk('public_uploads')->put($path . $imageName, $img->stream()->detach());
+        
+            
+            //Storage::disk($disk)->put($path . $imageName, $img->stream()->detach(), 'public');
 
             return $imageName;
         } catch (Exception $e) {

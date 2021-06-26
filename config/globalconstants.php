@@ -130,7 +130,7 @@ return [
             'height' => 400,
             'aspectRatioW' => 640,
             'aspectRatioH' => 400,
-            'path' => 'vlogBlog/images',
+            'path' => 'blog/images',
         ],
         'offerBrand' => [
             'width' => 640,

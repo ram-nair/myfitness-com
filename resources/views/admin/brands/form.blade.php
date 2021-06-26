@@ -20,12 +20,14 @@
             <div class="form-group">
                     <label for="exampleInputFile">Image (Recommended : {{$imageSize['aspectRatioW']}}x{{$imageSize['aspectRatioH']}})</label>
                     <div class="input-group"><?php
-                        if(!empty($brand->image)) {
+                        if(!empty($brand->image)){
                             $img = $brand->image;
-                        } else {
-                            $img = url('/')."/images/no-image.jpg";
-                        }?>
+                        ?>
+                        <img class="img-preview-holder" src="{{asset('uploads/brand/images/'.$img)}}" alt="Preview Image" />
+                        <?php } else {
+                          $img = url('/')."/images/no-image.jpg";?>
                         <img class="img-preview-holder" src="{{$img}}" alt="Preview Image" />
+                       <?php  }?>
                         <div class="custom-file">
                             <input type="file" name="image" data-rule-extension="jpg|png" data-msg-extension="Please select jpg or png image" class="image img-preview form-control-file custom-file-input" id="exampleInputFile">
                             <label class="custom-file-label" for="exampleInputFile">Choose file</label>

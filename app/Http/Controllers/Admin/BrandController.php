@@ -30,28 +30,17 @@ class BrandController extends Controller
      */
     public function index()
     {
-        $article = Brand::all();
-
-// Get all associated Audits
-
-
-/*foreach($article as $articles){
-echo "<pre>";
-print_r($articles->audits);
-}
-exit;*/
-
         return view('admin.brands.index');
     }
 
     public function datatable()
     {
         $currentUser = Auth::user();
-        $brands = Brand::select('*');
+        $brands = $brands = Brand::all()->sortBy('name');
         return Datatables::of($brands)
             ->rawColumns(['actions'])
-            ->editColumn('created_at', function ($user) {
-                return $user->created_at->format('F d, Y h:ia');
+            ->editColumn('created_at', function ($brands) {
+                return $brands->created_at->format('F d, Y h:ia');
             })
             ->editColumn('actions', function ($brands) use ($currentUser) {
                 $b = '';

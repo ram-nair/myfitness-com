@@ -34,11 +34,10 @@
                         <tr>
                             <th class="no-sort">SL.No</th>
                             <th>Name</th>
-                            <th class="no-sort">Description</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
-                </table>
+                 </table>
             </div>
         </div>
     </div>
@@ -48,18 +47,10 @@
 <script type='text/javascript'>
     $(function () {
         oTable = $('#brands-table').DataTable({
-            processing: true,
+           processing: true,
             serverSide: true,
-            ordering: true,
-            columnDefs: [
-                {
-                    orderable: false,
-                    targets: "no-sort"
-                },
-                { "width": "10px", "targets": 0 },
-                { "width": "50px", "targets": 3 },
-            ],
-            order: [[ 1, "asc" ]],
+            ordering: false,
+            //autoWidth: false,
             ajax: {
                 url: "{!! url('admin/brands/dt') !!}",
                 type: 'post',
@@ -72,7 +63,6 @@
                     }
                 },
                 {data: 'name', name: 'name'},
-                {data: 'description', name: 'description'},
                 {data: 'actions', name: 'actions', searchable: false}
             ]
         });

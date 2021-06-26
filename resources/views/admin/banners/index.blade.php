@@ -70,7 +70,7 @@
                     data: 'image',
                     name: 'image',
                     render: function( data, type, full, meta ) {
-                    return "<img src=\"/storage/banner/images/" + data + "\" height=\"150\" alt='No Image'/>";
+                    return "<img src=\"/uploads/banner/images/" + data + "\" height=\"150\" alt='No Image'/>";
             }
                 },
                 {data: 'url', name: 'url', searchable: true},

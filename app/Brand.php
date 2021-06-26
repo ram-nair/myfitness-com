@@ -23,9 +23,7 @@ class Brand extends Model implements Auditable
         return $this->hasMany(Product::class);
     }
 
-    public function getImageAttribute($value) {
-        return ($value != NULL) ? Helper::imageUrl('brand', $value) : NULL;
-    }
+   
 
     
 }

@@ -185,15 +185,15 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            {{ Form::label('name', ' Meta Title') }}
-                            {{ Form::text('name', null, array('required'=>'','class' => 'form-control'.($errors->has('name') ? ' is-invalid' : '' ))) }}
+                            {{ Form::label('name', ' Meta Title') }}<span class="required">*</span>
+                            {{ Form::text('name', null, array('required','class' => 'form-control'.($errors->has('name') ? ' is-invalid' : '' ))) }}
                             {!! $errors->first('name','<p class="text-danger"><strong>:message</strong></p>') !!}
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            {{ Form::label('sku', ' Meta Keywords') }}
-                            {{ Form::text('meta_tag', null, array('required'=>'','class' => 'form-control'.($errors->has('sku') ? ' is-invalid' : '' ))) }}
+                            {{ Form::label('sku', ' Meta Keywords') }}<span class="required">*</span>
+                            {{ Form::text('meta_tag', null, array('required','class' => 'form-control'.($errors->has('sku') ? ' is-invalid' : '' ))) }}
                             {!! $errors->first('meta_tag','<p class="text-danger"><strong>:message</strong></p>') !!}
                         </div>
                     </div>
@@ -244,7 +244,7 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                <a href="{{ route('admin.products.index') }}" class="btn btn-default">Cancel</a>
+                <a href="{{ route('admin.products.index') }}" class="btn btn-default">Cancel</a>  <span class="required">*</span> are mandatory fields 
                 {{ Form::submit(isset($submitButtonText) ? $submitButtonText : 'Create', array('class' => 'btn btn-info float-right')) }}
             </div>
                 {{ Form::close() }}

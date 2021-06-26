@@ -29,7 +29,8 @@ class SubCategoryController extends Controller
     //*** JSON Request
     public function datatable(Request $request)
     {
-        $datas = Category::select('*')->where('parent_cat_id','!=', 0)->orderBy('name', 'asc');
+        $datas = Category::select('*')->orderBy('name', 'asc');
+        
          //--- Integrating This Collection Into Datatables
 
          if ($request->parent_cat_id) {
@@ -39,8 +40,11 @@ class SubCategoryController extends Controller
         $datas = $datas->orderBy('id','desc')->get();
          return Datatables::of($datas)
                          ->rawColumns(['actions'])
-                            ->addColumn('category', function(Category $data) {
-                                return $data->parent->name;
+                            ->addColumn('category', function($datas) {
+                                return $datas->name;
+                            }) 
+                            ->addColumn('name', function($datas) {
+                                return $datas->parent_cat_id > 0 ? $datas->name . " (" . $datas->parent->name . ")" : $datas->name;
                             }) 
                            /* ->addColumn('status', function(Subcategory $data) {
                                 $class = $data->status == 1 ? 'drop-success' : 'drop-danger';
@@ -48,9 +52,9 @@ class SubCategoryController extends Controller
                                 $ns = $data->status == 0 ? 'selected' : '';
                                 return '<div class="action-list"><select class="process select droplinks '.$class.'"><option data-val="1" value="'. route('admin-subcat-status',['id1' => $data->id, 'id2' => 1]).'" '.$s.'>Activated</option><<option data-val="0" value="'. route('admin-subcat-status',['id1' => $data->id, 'id2' => 0]).'" '.$ns.'>Deactivated</option>/select></div>';
                             }) */
-                            ->editColumn('actions', function(Category $data) {
-                                $b = '<a href="' . URL::route('admin.subcategories.edit', $data->id) . '" class="btn btn-outline-primary btn-xs"><i class="fa fa-edit"></i></a>';
-                                $b .= ' <a href="' . URL::route('admin.subcategories.destroy', $data->id) . '" class="btn btn-outline-danger btn-xs destroy"><i class="fa fa-trash"></i></a>';
+                            ->editColumn('actions', function($datas) {
+                                $b = '<a href="' . URL::route('admin.subcategories.edit', $datas->id) . '" class="btn btn-outline-primary btn-xs"><i class="fa fa-edit"></i></a>';
+                                $b .= ' <a href="' . URL::route('admin.subcategories.destroy', $datas->id) . '" class="btn btn-outline-danger btn-xs destroy"><i class="fa fa-trash"></i></a>';
                                 return $b;
                               //  return '<div class="action-list"><a data-href="' . route('admin-subcat-edit',$data->id) . '" class="edit" data-toggle="modal" data-target="#modal1"> <i class="fas fa-edit"></i>Edit</a><a href="javascript:;" data-href="' . route('admin-subcat-delete',$data->id) . '" data-toggle="modal" data-target="#confirm-delete" class="delete"><i class="fas fa-trash-alt"></i></a></div>';
                             })->make(true);
@@ -176,18 +180,17 @@ class SubCategoryController extends Controller
     }
     
     //*** GET Request Delete
-    public function destroy($id)
+    public function destroy(Category $category)
     {
-        $data = Category::findOrFail($id);
 
-        if($data->childs->count()>0)
+        if($category->childs->count()>0)
         {
         //--- Redirect Section     
         $msg = 'Remove the subcategories first !!!!';
         return response()->json($msg);      
         //--- Redirect Section Ends    
         }
-        if($data->products->count()>0)
+        if($category->products->count()>0)
         {
         //--- Redirect Section     
         $msg = 'Remove the products first !!!!';
@@ -195,11 +198,12 @@ class SubCategoryController extends Controller
         //--- Redirect Section Ends    
         }
 
-        
-        $data->delete();
+       
+        $category->delete();
         //--- Redirect Section     
-        $msg = 'Data Deleted Successfully.';
-        return response()->json($msg);      
-        //--- Redirect Section Ends     
+        alert()->success('Contents Deleted successfully.', 'Deleted');
+        return redirect()->route('admin.subcategories.index');      
+        //--- Redirect Section Ends   
     }
+    
 }

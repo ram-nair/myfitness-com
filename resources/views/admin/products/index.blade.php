@@ -260,10 +260,8 @@ $(function () {
                     name: 'quantity',
                     render: function(data, type, row, meta) {
                         var st = row.quantity;
-                        if(row.quantity < 50){
-                            st += ' <a href="#" data-target-id ='+row.id+' data-toggle="modal" data-target="#importModal" class="btn btn-success importModal"><i  data-target-id ='+row.id+' class="fa fa-times text-danger" title="Out of Stock" aria-hidden="true"></i></a>';
-                        }
-                        return st;
+                         st += ' <a href="#" data-target-id ='+row.id+' data-toggle="modal" data-target="#importModal" class="btn btn-success importModal"><i  data-target-id ='+row.id+' class="fa fa-times text-danger" title="Out of Stock" aria-hidden="true"></i></a>';
+                         return st;
                     }
                 },
             {data: 'status', name: 'status',

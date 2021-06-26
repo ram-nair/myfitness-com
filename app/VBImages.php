@@ -14,12 +14,12 @@ class VBImages extends Model
 
     protected $fillable = ['vb_id', 'image','cover_image','upload_type'];
 
-    public function getCoverImageAttribute($value)
+   /* public function getCoverImageAttribute($value)
     {
         return ($value != null) ? Helper::imageUrl('vlogBlog', $value) : null;
     }
     public function getImageAttribute($value)
     {
         return ($value != null) ? $value : null;
-    }
+    }*/
 }

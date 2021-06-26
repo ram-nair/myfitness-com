@@ -12,7 +12,7 @@ class VlogBlog extends Model
 
     protected $table = 'vlog_blog';
 
-    protected $fillable = ['author_id','category_id','title','description','blog_type','reading_minute','status','by_user_id'];
+    protected $fillable = ['author_id','category_id','image','title','description','blog_type','reading_minute','status','by_user_id'];
     public function author()
     {
         return $this->belongsTo(VBAuthor::class, 'author_id', 'id');

@@ -51,7 +51,6 @@
                         <tr>
                             <th>SL.No</th>
                             <th>Category</th>
-							<th>Sub Category</th>
 							<th>child Category Name</th>
                             <th>Actions</th>
                         </tr>
@@ -93,7 +92,6 @@
                     }
                 },
                 { data: 'category', searchable: false, orderable: false},
-               	{ data: 'subcategory', searchable: false, orderable: false},
                 {data: 'name', name: 'name'},
                 {data: 'actions', name: 'actions', searchable: false}
             ]

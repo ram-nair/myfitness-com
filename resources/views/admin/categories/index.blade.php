@@ -1,11 +1,11 @@
 @extends('adminlte::page')
 
-@section('title', 'Catalog Management')
+@section('title', 'Category Management')
 
 @section('content_header')
 <div class="row mb-2">
     <div class="col-sm-6">
-        <h1 class="m-0 text-dark">Catalog Management</h1>
+        <h1 class="m-0 text-dark">Category Management</h1>
     </div><!-- /.col -->
 </div><!-- /.row -->
 @stop

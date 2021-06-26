@@ -6,14 +6,14 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="form-group">
-                    {{ Form::label('name', 'Product Name') }}
+                    {{ Form::label('name', 'Product Name') }}<span class="required">*</span>
                     {{ Form::text('name', null, array('require','class' => 'form-control'.($errors->has('name') ? ' is-invalid' : '' ))) }}
                     {!! $errors->first('name','<p class="text-danger"><strong>:message</strong></p>') !!}
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="form-group">
-                    {{ Form::label('sku', 'SKU') }}
+                    {{ Form::label('sku', 'SKU') }}<span class="required">*</span>
                     {{ Form::text('sku', null, array('required','class' => 'form-control'.($errors->has('sku') ? ' is-invalid' : '' ))) }}
                     {!! $errors->first('sku','<p class="text-danger"><strong>:message</strong></p>') !!}
                 </div>
@@ -32,7 +32,7 @@
             </div>
             <div class="col-md-4">
                 <div class="form-group">
-                    {{ Form::label('unit price', 'Product Price(AED)') }}
+                    {{ Form::label('unit price', 'Product Price(AED)') }}<span class="required">*</span>
                     {{ Form::text('unit_price', null, array('required','class' => 'form-control'.($errors->has('unit_price') ? ' is-invalid' : '' ))) }}
                     {!! $errors->first('unit_price','<p class="text-danger"><strong>:message</strong></p>') !!}
                 </div>
@@ -49,7 +49,7 @@
             </div>
             <div class="col-md-4">
                 <div class="form-group">
-                    {{ Form::label('quantity', 'Quantity') }}
+                    {{ Form::label('quantity', 'Quantity') }}<span class="required">*</span>
                     {{ Form::number('quantity', null, array('required','class' => 'form-control'.($errors->has('quantity') ? ' is-invalid' : '' ))) }}
                     {!! $errors->first('quantity','<p class="text-danger"><strong>:message</strong></p>') !!}
                 </div>
@@ -59,7 +59,7 @@
             <div class="col-md-6">
                 <div class="row">
                 <div class="form-group col">
-                    {{ Form::label('categories', 'Categories') }}
+                    {{ Form::label('categories', 'Categories') }}<span class="required">*</span>
                     <select name="category_id" class="select2 form-control" style="width:100%" required  id="categories">
                         <option value="">Select Category</option>
                         @foreach($categories as $catId => $category)
@@ -75,7 +75,7 @@
                     {!! $errors->first('categories','<p class="text-danger"><strong>:message</strong></p>') !!}
                 </div>
                 <div class="form-group col">
-                    {{ Form::label('subcat', 'Sub Category') }}
+                    {{ Form::label('subcat', 'Sub Category') }}<span class="required">*</span>
                   
                     <select name="sub_category_id" id="sub_category_id" class="select2 form-control" style="width:100%" required >
                         <option value="">Select Sub Category</option>
@@ -124,7 +124,7 @@
         <div class="row">
             <div class="col">
                 <div class="form-group">
-                    {{ Form::label('description', 'Short Description') }}
+                    {{ Form::label('description', 'Short Description') }}<span class="required">*</span>
                     {{ Form::textarea('short_description', null, ['required','class'=>'form-control editor-medium', 'rows' => 2, 'cols' => 40]) }}
                     {!! $errors->first('description','<p class="text-danger"><strong>:message</strong></p>') !!}
                 </div>
@@ -134,7 +134,7 @@
         <div class="row">
             <div class="col">
                 <div class="form-group">
-                    {{ Form::label('description', 'Description') }}
+                    {{ Form::label('description', 'Description') }}<span class="required">*</span>
                     {{ Form::textarea('description', null, ['required','class'=>'form-control editor-medium', 'rows' => 2, 'cols' => 40]) }}
                     {!! $errors->first('description','<p class="text-danger"><strong>:message</strong></p>') !!}
                 </div>

@@ -9,11 +9,13 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Yajra\Datatables\Datatables;
 use Auth;
+use App\Traits\ImageTraits;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 
 class GiftsController extends Controller
 {
+    use ImageTraits;
     public function __construct()
     {
         $this->authorizeResource(Gift::class, 'gift');
@@ -70,17 +72,27 @@ class GiftsController extends Controller
         ]);
        
         $validator->validate();
+        $image ="";
         if ($request->hasFile('image')) {
             $imageSize = config('globalconstants.imageSize')['category'];
-            $request->image = $this->singleImage($request->file('image'), $imageSize['path'], 'category');
+              $image = $this->singleImage($request->file('image'), $imageSize['path'], 'category');
+                if (!empty($input['image'])) {
+                    $path = config('globalconstants.imageSize.category')['path'] . '/';
+                    if (!env('CDN_ENABLED', false)) {
+                        \Storage::delete($path . $vlog_blog->getAttributes()['image']);
+                    } else {
+                        \Storage::disk('s3')->delete(env('CDN_FILE_DIR', 'dev/upl/') . $path . $image);
+                    }
+                }
         }
+
         gift::create([
             'code'=>$this->coupon(10),
             'balance_amt' => $request->balance_amt,
             'expire_at' => $request->expire_at,
             'status' => $request->status,
             'is_redeem' => $request->is_redeem,
-            'image'=>$request->image,
+            'image'=>$image,
             
         ]);
         alert()->success('gift successfully added.', 'Added');
@@ -122,13 +134,28 @@ class GiftsController extends Controller
             'expire_at' => 'required',
             'balance_amt' => 'required',
         ]);
+
+        $image =$gift->image;
+        if ($request->hasFile('image')) {
+            $imageSize = config('globalconstants.imageSize')['category'];
+              $image = $this->singleImage($request->file('image'), $imageSize['path'], 'category');
+                if (!empty($input['image'])) {
+                    $path = config('globalconstants.imageSize.category')['path'] . '/';
+                    if (!env('CDN_ENABLED', false)) {
+                        \Storage::delete($path . $vlog_blog->getAttributes()['image']);
+                    } else {
+                        \Storage::disk('s3')->delete(env('CDN_FILE_DIR', 'dev/upl/') . $path . $image);
+                    }
+                }
+        }
+
         $expire_at = $request->expire_at;
-       
         $validator->validate();
         $gift->balance_amt = $request->balance_amt;
         $gift->expire_at = $expire_at;
         $gift->status = $request->status;
         $gift->is_redeem = $request->is_redeem;
+        $gift->image =$image;
         $gift->save();
         alert()->success('gift details successfully updated.', 'Updated');
         return redirect()->route('admin.gifts.index');

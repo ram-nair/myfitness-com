@@ -16,7 +16,7 @@ class Gift extends Model
     protected $guard = 'gift';
 
     protected $fillable = [
-        'code', 'balance_amt','expire_at','status','is_redeem',
+        'code', 'balance_amt','expire_at','status','is_redeem','image',
     ];
 
    

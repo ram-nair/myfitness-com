@@ -27,10 +27,9 @@ class Category extends Model
         return $this->belongsTo(static::class, 'parent_cat_id');
     }
 
-    public function subcategory(){
-
-        return $this->hasMany(static::class, 'parent_cat_id');
-
+    public function catHasChild()
+    {
+        return $this->hasMany(Category::class, 'parent_cat_id');
     }
     public function products()
     {

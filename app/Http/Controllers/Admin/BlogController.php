@@ -114,7 +114,15 @@ class BlogController extends BaseController
             $currentUser = $request->user();
             if ($request->hasFile('blog_image')) {
                 $imageSize = config('globalconstants.imageSize')['vlogBlog'];
-                $image = $this->singleImage($request->file('blog_image'), $imageSize['path'], 'vlogBlog');
+                  $image = $this->singleImage($request->file('blog_image'), $imageSize['path'], 'vlogBlog');
+                    if (!empty($input['image'])) {
+                        $path = config('globalconstants.imageSize.vlogBlog')['path'] . '/';
+                        if (!env('CDN_ENABLED', false)) {
+                            \Storage::delete($path . $vlog_blog->getAttributes()['image']);
+                        } else {
+                            \Storage::disk('s3')->delete(env('CDN_FILE_DIR', 'dev/upl/') . $path . $image);
+                        }
+                    }
             }
             
             $banner = VlogBlog::create([
@@ -200,15 +208,27 @@ class BlogController extends BaseController
                 'description' => 'required',
             ]);
             
-            $image = $vlogBlog->image;
+           $image = $vlogBlog->image;
             $currentUser = $request->user();
             if ($request->hasFile('blog_image')) {
                 $imageSize = config('globalconstants.imageSize')['vlogBlog'];
+                  $image = $this->singleImage($request->file('blog_image'), $imageSize['path'], 'vlogBlog');
+                    if (!empty($input['image'])) {
+                        $path = config('globalconstants.imageSize.vlogBlog')['path'] . '/';
+                        if (!env('CDN_ENABLED', false)) {
+                            \Storage::delete($path . $vlog_blog->getAttributes()['image']);
+                        } else {
+                            \Storage::disk('s3')->delete(env('CDN_FILE_DIR', 'dev/upl/') . $path . $image);
+                        }
+                    }
+            }
+            /*if ($request->hasFile('blog_image')) {
+                $imageSize = config('globalconstants.imageSize')['vlogBlog'];
                 $image = $this->singleImage($request->file('blog_image'), $imageSize['path'], 'vlogBlog');
                 
-            }
+            }*/
             $input = $request->all();
-            $input['image'] =$image;
+            $input['image'] = $image;
             $input['author_id'] = $request->user()->id;
             $input['by_user_id'] = $request->user()->id;
             $vlogBlog->fill($input)->save();
@@ -223,7 +243,7 @@ class BlogController extends BaseController
     {
         try {
             $imageSize = config('globalconstants.imageSize')['vlogBlog'];
-            $this->setPageTitle('Vlog Blog Images', 'Update Vlog Blog Images');
+            $this->setPageTitle('Blog Images', 'Update Blog Images');
             $vlog_blog = VlogBlog::find($blog_id);
             return view('blog.vlog_blog.manage_images', compact('vlog_blog','imageSize','blog_id'));
         } catch (\Exception $e) {

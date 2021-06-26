@@ -147,9 +147,7 @@ class BannerController extends Controller
      */
     public function update(Request $request, Banner $banner)
     {
-        $this->validate($request, [
-            'images' => 'required'
-        ]);
+        
         $input = $request->all();
         if ($request->hasFile('images')) {
             $imageSize = config('globalconstants.imageSize')['banner1'];
@@ -168,7 +166,7 @@ class BannerController extends Controller
         $banner->fill($input)->save();
 
         alert()->success('Banner details successfully updated.', 'Updated');
-        return redirect()->route('admin.banners.index');
+        return redirect()->route('admin.banners.index',['id'=>$banner->type]);
     }
 
     /**

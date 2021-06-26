@@ -28,7 +28,8 @@ class ChildCategoryController extends Controller
     //*** JSON Request
     public function datatable(Request $request)
     {
-        $datas = Category::select('*')->where('parent_cat_id','!=', 0)->orderBy('name', 'asc');
+        
+        $datas = Category::select('*')->orderBy('name', 'asc');
         
         if ($request->sub_cat_id) {
             $category_id = $request->sub_cat_id ;
@@ -41,17 +42,18 @@ class ChildCategoryController extends Controller
             $datas = $datas->orderBy('id','desc')->get();
             return Datatables::of($datas)
                                 ->rawColumns(['actions'])
-                                ->editColumn('category', function(Category $data) {
-                                    return $data->parent->name;
+                                ->editColumn('category', function($datas) {
+                                    return $datas->name;
                                 }) 
-                                ->editColumn('subcategory', function(Category $data) {
-                                    return $data->parent->name;
+                                ->editColumn('name', function($datas) {
+                                    return $datas->parent_cat_id > 0 ? $datas->name . " (" . $datas->parent->name . ")" : $datas->name;
+           
                                 }) 
                             
-                                ->editColumn('actions', function(Category $data) {
-                                    $b = '<a href="' . URL::route('admin.childcategories.edit', $data->id) . '" class="btn btn-outline-primary btn-xs"><i class="fa fa-edit"></i></a>';
+                                ->editColumn('actions', function($datas) {
+                                    $b = '<a href="' . URL::route('admin.childcategories.edit', $datas->id) . '" class="btn btn-outline-primary btn-xs"><i class="fa fa-edit"></i></a>';
                                 
-                                    $b .= ' <a href="' . URL::route('admin.childcategories.destroy', $data->id) . '" class="btn btn-outline-danger btn-xs destroy"><i class="fa fa-trash"></i></a>';
+                                    $b .= ' <a href="' . URL::route('admin.childcategories.destroy', $datas->id) . '" class="btn btn-outline-danger btn-xs destroy"><i class="fa fa-trash"></i></a>';
                     
                                     return $b;
                                 })->make(true); //--- Returning Json Data To Client Side

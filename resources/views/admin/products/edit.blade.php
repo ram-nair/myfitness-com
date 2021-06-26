@@ -256,7 +256,7 @@
                                                 <div class="col-md-3">
                                                     <div class="card">
                                                         <div class="card-body">
-                                                            <img src="{{ $img }}" class="img-preview-holder" alt="Preview Image">
+                                                            <img src="{{asset('uploads/product/images/'.$img)}}" class="img-preview-holder" alt="Preview Image">
                                                             <a class="card-link float-right text-danger" href="{{ route('admin.products.images.delete', $image->id) }}">
                                                                 <i class="fa fa-fw fa-lg fa-trash"></i>
                                                             </a>
@@ -273,7 +273,7 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                <a href="{{ route('admin.products.index') }}" class="btn btn-default">Cancel</a>
+                <a href="{{ route('admin.products.index') }}" class="btn btn-default">Cancel</a> <span class="required">*</span> are mandatory fields
                 {{ Form::submit(isset($submitButtonText) ? $submitButtonText : 'Create', array('class' => 'btn btn-info float-right')) }}
             </div>
                 {{ Form::close() }}

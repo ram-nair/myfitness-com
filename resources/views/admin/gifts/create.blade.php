@@ -18,7 +18,7 @@
         @endforeach
     </div>
 @endif
-{{ Form::open(array('url' => 'admin/gifts', 'class' => 'class-create')) }}
+{{ Form::open(array('url' => 'admin/gifts', 'enctype' => 'multipart/form-data','class' => 'class-create')) }}
     @include ('admin.gifts.form')
 {{ Form::close() }}
 @stop
