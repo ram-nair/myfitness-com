@@ -29,19 +29,19 @@ class SubCategoryController extends Controller
     //*** JSON Request
     public function datatable(Request $request)
     {
-        $datas = Category::select('*')->orderBy('name', 'asc');
+        $datas = Category::select('*')->where('parent_cat_id','!=',0);
         
          //--- Integrating This Collection Into Datatables
 
          if ($request->parent_cat_id) {
-            $category_id = $request->parent_cat_id ;
-            $datas->where('parent_cat_id', $category_id);
-        }
+             $category_id = $request->parent_cat_id ;
+             $datas->where('parent_cat_id', $category_id);
+         }
         $datas = $datas->orderBy('id','desc')->get();
          return Datatables::of($datas)
                          ->rawColumns(['actions'])
                             ->addColumn('category', function($datas) {
-                                return $datas->name;
+                                return $datas->parent_cat_id == 0 ? $datas->parent->name:$datas->parent->name;
                             }) 
                             ->addColumn('name', function($datas) {
                                 return $datas->parent_cat_id > 0 ? $datas->name . " (" . $datas->parent->name . ")" : $datas->name;
@@ -61,11 +61,12 @@ class SubCategoryController extends Controller
     }
 
     //*** GET Request
-    public function index()
+    public function index(Request $request)
     {
+        $parent_id=$request->parent_cat_id ?? 0; 
         $cats = Category::where('parent_cat_id',0)
         ->orderBy('name', 'asc')->pluck('name', 'id');
-        return view('admin.subcategory.index',compact('cats'));
+        return view('admin.subcategory.index',compact('cats','parent_id'));
     }
 
     //*** GET Request

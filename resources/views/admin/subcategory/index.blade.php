@@ -41,8 +41,8 @@
                     <thead>
                         <tr>
                         <th>SL.No</th>
-                        <th>Category</th>
-						<th>Name</th>
+                        <th>Category Name</th>
+						<th>Sub Category Name</th>
 						<th>Actions</th>
                         </tr>
                     </thead>
@@ -65,6 +65,7 @@
                 type: 'post',
                 headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
                 data: function ( d ) {
+                    d.parent_cat_id = {{$parent_id}};
                     if( $('#category_filter').val() != "") {
                         d.parent_cat_id = $('#category_filter').val();
                     }

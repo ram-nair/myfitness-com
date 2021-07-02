@@ -32,7 +32,7 @@ class ProductsImport implements OnEachRow, WithHeadingRow, SkipsOnError, WithVal
     public function rules(): array
     {
         return [
-            'business_type_category' => ['required'],
+           
             'product_name' => ['required'],
             'sku' => ['required', 'unique:products,sku'],
             'category' => ['required'],

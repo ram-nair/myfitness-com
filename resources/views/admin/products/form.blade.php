@@ -4,21 +4,23 @@
     </div>
     <div class="card-body pad">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-12">
                 <div class="form-group">
                     {{ Form::label('name', 'Product Name') }}<span class="required">*</span>
-                    {{ Form::text('name', null, array('require','class' => 'form-control'.($errors->has('name') ? ' is-invalid' : '' ))) }}
+                    {{ Form::text('name', null, array('required','class' => 'form-control'.($errors->has('name') ? ' is-invalid' : '' ))) }}
                     {!! $errors->first('name','<p class="text-danger"><strong>:message</strong></p>') !!}
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    {{ Form::label('sku', 'SKU') }}<span class="required">*</span>
-                    {{ Form::text('sku', null, array('required','class' => 'form-control'.($errors->has('sku') ? ' is-invalid' : '' ))) }}
-                    {!! $errors->first('sku','<p class="text-danger"><strong>:message</strong></p>') !!}
+       </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {{ Form::label('sku', 'SKU') }}<span class="required">*</span>
+                        {{ Form::text('sku', null, array('required','class' => 'form-control'.($errors->has('sku') ? ' is-invalid' : '' ))) }}
+                        {!! $errors->first('sku','<p class="text-danger"><strong>:message</strong></p>') !!}
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="form-group">
                     {{ Form::label('brand', 'Brand') }}
                      <select name="brand_id"  class="form-control" style="width:100%" id="brand">
@@ -30,7 +32,9 @@
                     {!! $errors->first('brand_id','<p class="text-danger"><strong>:message</strong></p>') !!}
                 </div>
             </div>
-            <div class="col-md-4">
+            </div>
+            <div class="row">
+            <div class="col-md-6">
                 <div class="form-group">
                     {{ Form::label('unit price', 'Product Price(AED)') }}<span class="required">*</span>
                     {{ Form::text('unit_price', null, array('required','class' => 'form-control'.($errors->has('unit_price') ? ' is-invalid' : '' ))) }}
@@ -40,14 +44,14 @@
                 if(!empty($product)){
                 @endphp
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-default">
-                Advanced Pricing
+                Offer Pricing
                 </button>
                
                @php
                 }
                @endphp
             </div>
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="form-group">
                     {{ Form::label('quantity', 'Quantity') }}<span class="required">*</span>
                     {{ Form::number('quantity', null, array('required','class' => 'form-control'.($errors->has('quantity') ? ' is-invalid' : '' ))) }}
@@ -56,7 +60,7 @@
             </div>
             
             
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <div class="row">
                 <div class="form-group col">
                     {{ Form::label('categories', 'Categories') }}<span class="required">*</span>
@@ -82,7 +86,8 @@
                     </select>
                     {!! $errors->first('subcat','<p class="text-danger"><strong>:message</strong></p>') !!}
                 </div>
-
+              </div>
+              <div class="row">
                 <div class="form-group col">
                     {{ Form::label('subcat', 'Child Category') }}
                     <select name="child_category_id" class="select2 form-control" style="width:100%"  id="child_category_id">
@@ -145,7 +150,7 @@
             <div class="col">
                 <div class="form-group">
                     {{ Form::label('description', 'Tags') }}
-                    {{ Form::textarea('tags', null, ['class'=>'form-control editor-medium', 'rows' => 2, 'cols' => 40]) }}
+                    {{ Form::text('tags', null, ['class'=>'form-control']) }}
                     {!! $errors->first('tags','<p class="text-danger"><strong>:message</strong></p>') !!}
                 </div>
             </div>

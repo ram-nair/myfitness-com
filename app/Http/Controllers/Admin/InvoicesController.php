@@ -37,9 +37,9 @@ class InvoicesController extends BaseController
         return view('admin.invoices.index');
     }
 
-    public function datatable()
+    public function datatables()
     {
-        
+        $currentUser = Auth::user();
         $invoices = Order::where('store_id',1)->with('user')->select('*')->orderBy('created_at', 'desc');
         return Datatables::of($invoices)
             ->rawColumns(['actions'])

@@ -17,6 +17,7 @@
                     {!! $errors->first('description','<p class="text-danger"><strong>:message</strong></p>') !!}
                 </div>
             </div>
+            <div class="row">
             <div class="form-group">
                     <label for="exampleInputFile">Image (Recommended : {{$imageSize['aspectRatioW']}}x{{$imageSize['aspectRatioH']}})</label>
                     <div class="input-group"><?php
@@ -34,7 +35,19 @@
                         </div>
                     </div>
                 </div>
+                
          </div>
+         </div><div class="row">
+         <div class="form-group">
+                    {{ Form::label('featured', 'Status') }}
+                    <select name="status" class="form-control" id="status">
+                            <option value="1" @if(!@empty($brand) && $brand->status==1) selected @endif>Enabled</option>
+                            <option value="0" @if(!@empty($brand)&& $brand->status!=1) selected @endif>Disabled</option>
+                    </select>
+                    {!! $errors->first('featured','<p class="text-danger"><strong>:message</strong></p>') !!}
+                </div>
+                </div>
+        
         </div>
     </div>
     <div class="card-footer">

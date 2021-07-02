@@ -35,11 +35,11 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
-        $parent_cat_id = $request->parent_cat_id ?? "";
+       
        
         $parentCats = Category::where('parent_cat_id', 0)->orderBy('name', 'asc')->pluck('name', 'id');
         $imageSize = config('globalconstants.imageSize')['category'];
-        return view('admin.categories.index', compact('imageSize', 'parentCats', 'parent_cat_id'));
+        return view('admin.categories.index', compact('imageSize', 'parentCats'));
     }
 
     public function datatable(Request $request)

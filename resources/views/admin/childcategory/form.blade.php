@@ -4,7 +4,7 @@
     </div>
     <div class="card-body pad">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-12">
                
         
                     <div class="form-group col-md-6">
@@ -13,7 +13,7 @@
                     <select id="cat_id" required class="form-control select2">
                                   <option value="">Select Category</option>
                                     @foreach($cats as $cat)
-                                      <option value="{{ $cat->id }}"   @if(!empty($childcategory)) {{ $cat->id == $childcategory->parent->id ? "selected":"" }} @endif >{{ $cat->name }}</option>
+                                      <option value="{{ $cat->id }}"   @if(!empty($childcategory)) {{ $cat->id == $childcategory->parent_id ? "selected":"" }} @endif >{{ $cat->name }}</option>
                                     @endforeach
                                 </select>
 
@@ -27,7 +27,7 @@
                         {!! $errors->first('subcategory_id','<p class="text-danger"><strong>:message</strong></p>') !!}
                     </div>
                 
-                <div class="form-group">
+                <div class="form-group col-md-6">
                     {{ Form::label('name', 'Child Category Name') }}
                     {{ Form::text('name', null, array('required','class' => 'form-control'.($errors->has('name') ? ' is-invalid' : '' ))) }}
                     {!! $errors->first('name','<p class="text-danger"><strong>:message</strong></p>') !!}
@@ -67,7 +67,7 @@ $(function(){
 });
 <?php
 if(!empty($childcategory)){?>
- getSubcat(<?php echo $childcategory->subcategory->category->id;?>,'<?php echo $childcategory->subcategory_id;?>');
+ getSubcat(<?php echo $childcategory->parent_cat_id;?>,'<?php echo $childcategory->id;?>');
 <?php }
 ?>
 $(document).on('change','#cat_id',function () {

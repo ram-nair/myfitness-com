@@ -15,7 +15,7 @@ class Brand extends Model implements Auditable
     protected $table = 'brands';
 
     protected $fillable = [
-        'name', 'image','description'
+        'name', 'image','description','status',
     ];
 
     public function products()

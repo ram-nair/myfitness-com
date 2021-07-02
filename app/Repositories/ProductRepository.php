@@ -68,9 +68,13 @@ class ProductRepository extends BaseRepository implements ProductContract
 
             $featured = $collection->has('featured') ? 1 : 0;
             $status = $collection->has('status') ? 1 : 0;
+            $hot_sale = $collection->has('hot_sale') ? 1 : 0;
+            $hot_deal = $collection->has('hot_deal') ? 1 : 0;
+            $popular_gear = $collection->has('popular_gear') ? 1 : 0;
+            
             $by_user_id = auth()->user()->id;
 
-            $merge = $collection->merge(compact('status', 'featured', 'by_user_id'));
+            $merge = $collection->merge(compact('status', 'featured','hot_sale','hot_deal', 'by_user_id'));
             
             $product = new Product($merge->all());
 
@@ -99,8 +103,11 @@ class ProductRepository extends BaseRepository implements ProductContract
 
         $featured = $collection->has('featured') ? 1 : 0;
         $status = $collection->has('status') ? 1 : 0;
+        $hot_sale = $collection->has('hot_sale') ? 1 : 0;
+        $hot_deal = $collection->has('hot_deal') ? 1 : 0;
+        $popular_gear = $collection->has('popular_gear') ? 1 : 0;
 
-        $merge = $collection->merge(compact('status', 'featured'));
+        $merge = $collection->merge(compact('status', 'featured','hot_sale','hot_deal','popular_gear'));
 
         $product->update($merge->all());
 

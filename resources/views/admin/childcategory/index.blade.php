@@ -50,7 +50,7 @@
                     <thead>
                         <tr>
                             <th>SL.No</th>
-                            <th>Category</th>
+                            <th>Sub Category Name</th>
 							<th>child Category Name</th>
                             <th>Actions</th>
                         </tr>
@@ -74,15 +74,15 @@
                 type: 'post',
                 headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
                 data: function ( d ) {
-                   
+                    d.parent_cat_id = {{$parent_id}};
                     if( $('#sub_cat_id').val() != "") {
                         d.sub_cat_id = $('#sub_cat_id').val();
                     }
                    
-                    // if($('#category_filter').val()=="" && $('#parent_cat_id').val()!="")
-                    // {
-                    //     d.parent_cat_id = $('#parent_cat_id').val();
-                    // }
+                    if($('#category_filter').val()!="")
+                     {
+                         d.parent_cat_id = $('#category_filter').val();
+                     }
                 }
             },
             columns: [
@@ -97,7 +97,7 @@
             ]
         });
         
-        $(document).on("change", "#sub_cat_id", function() {
+        $(document).on("change", "#sub_cat_id","#category_filter", function() {
             oTable.ajax.reload();
         });
     

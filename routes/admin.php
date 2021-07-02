@@ -159,6 +159,7 @@ Route::any('childcategories/{id}', 'ChildCategoryController@index');
 
     Route::resource('products', 'ProductController');
     Route::post('products/import', 'ProductController@import')->name('products.import');
+    Route::post('products/updateStock', 'ProductController@updateStock')->name('products.updateStock');
     Route::any('products/dt', 'ProductController@datatable')->name('products.datatable');
     Route::post('products/store-save', 'ProductController@productStoreSave')->name('products.store-save');
     Route::post('products/images/upload', 'ProductController@uploadImages')->name('products.images.upload');

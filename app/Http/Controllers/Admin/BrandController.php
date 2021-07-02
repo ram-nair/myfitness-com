@@ -88,6 +88,7 @@ class BrandController extends Controller
             'name' => $request->name,
             'description' => $request->description,
             'image' => $request->image,
+            'status' => $request->status == 1 ? 1 : 0,
         ]);
 
         //Redirect to the users.index view and display message

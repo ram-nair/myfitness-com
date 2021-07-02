@@ -32,7 +32,7 @@
                     <thead>
                         <tr>
                             <th>SL.No</th>
-                            <th>Category</th>
+                            <th>Category Name</th>
                             <th>Actions</th>
                         </tr>
                     </thead>

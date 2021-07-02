@@ -45,7 +45,7 @@
                          <div class="form-group ">
                         {{ Form::label('show_disclaimer', 'Hot Sale') }}
                         <div class="">
-                            <input data-bootstrap-switch type="checkbox" name="hot_sale" id="hot_sale" value="1" />
+                            <input data-bootstrap-switch type="checkbox" name="hot_sale" id="hot_sale" value="1"  @if(!empty($product) && ($product->hot_sale==1)) checked @endif />
                         </div>
                     {!! $errors->first('hot_sale','<p class="text-danger"><strong>:message</strong></p>') !!}
                        </div>
@@ -54,7 +54,14 @@
                        <div class="form-group ">
                         {{ Form::label('show_disclaimer', 'Inspirations') }}
                         <div class="">
-                            <input data-bootstrap-switch type="checkbox" name="hot_deal" id="hot_deal" value="1" />
+                            <input data-bootstrap-switch type="checkbox" name="hot_deal" id="hot_deal" value="1"  @if(!empty($product) && ($product->hot_deal==1)) checked @endif />
+                        </div>
+                    {!! $errors->first('hot_deal','<p class="text-danger"><strong>:message</strong></p>') !!}
+                       </div>
+                       <div class="form-group ">
+                        {{ Form::label('show_disclaimer', 'Popular gear') }}
+                        <div class="">
+                            <input data-bootstrap-switch type="checkbox" name="popular_gear" id="popular_gear" value="1" @if(!empty($product) && ($product->popular_gear==1)) checked @endif />
                         </div>
                     {!! $errors->first('hot_deal','<p class="text-danger"><strong>:message</strong></p>') !!}
                        </div>

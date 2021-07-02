@@ -174,6 +174,13 @@
                         </div>
                     {!! $errors->first('hot_deal','<p class="text-danger"><strong>:message</strong></p>') !!}
                        </div>
+                       <div class="form-group ">
+                        {{ Form::label('show_disclaimer', 'Popular gear') }}
+                        <div class="">
+                            <input data-bootstrap-switch type="checkbox" name="popular_gear" id="popular_gear" value="1" />
+                        </div>
+                    {!! $errors->first('hot_deal','<p class="text-danger"><strong>:message</strong></p>') !!}
+                       </div>
 
                         </div>
                     </div>

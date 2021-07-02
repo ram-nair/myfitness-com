@@ -121,6 +121,46 @@
         </div>
     </div>
 </div>
+{{-- Import Modal --}}
+<div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-labelledby="importModal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="importModalLabel">Import Products</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                {{ Form::open(array('route' => array('admin.products.import'), 'method' => 'POST', 'class' => 'class-create', 'enctype' => 'multipart/form-data')) }}
+                    <div class="card card-outline card-info">
+                        <div class="overlay" style="display: none;">
+                            <i class="fas fa-2x fa-sync-alt fa-spin"></i>
+                        </div>
+                        <div class="card-body pad">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label for="exampleInputFile">Products</label>
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input type="file" name="products_csv" class="form-control-file custom-file-input" id="exampleInputFile" required>
+                                                <label class="custom-file-label" for="exampleInputFile"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <a href="{{ route('admin.products.index') }}" data-dismiss="modal" class="btn btn-default">Cancel</a>
+                            {{ Form::submit(isset($submitButtonText) ? $submitButtonText : 'Import', array('class' => 'btn btn-info float-right')) }}
+                        </div>
+                    </div>
+                {{ Form::close() }}
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Modal -->
 <div class="modal fade" id="storeModal" tabindex="-1" role="dialog" aria-labelledby="storeModal">
     <div class="modal-dialog modal-lg" role="document">
@@ -168,7 +208,7 @@
     </div>
 </div>
 {{-- Import Modal --}}
-<div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-labelledby="importModal">
+<div class="modal fade" id="stocksModal" tabindex="-1" role="dialog" aria-labelledby="importModal">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -260,7 +300,7 @@ $(function () {
                     name: 'quantity',
                     render: function(data, type, row, meta) {
                         var st = row.quantity;
-                         st += ' <a href="#" data-target-id ='+row.id+' data-toggle="modal" data-target="#importModal" class="btn btn-success importModal"><i  data-target-id ='+row.id+' class="fa fa-times text-danger" title="Out of Stock" aria-hidden="true"></i></a>';
+                         st += ' <a href="#" data-target-id ='+row.id+' data-toggle="modal" data-target="#stocksModal" class="btn btn-success importModal"><i  data-target-id ='+row.id+' class="fa fa-times text-danger" title="Out of Stock" aria-hidden="true"></i></a>';
                          return st;
                     }
                 },
@@ -319,9 +359,10 @@ $(function () {
         });
     });
 
-    table.on('click', '.text-danger,.importModal', function(){
+    table.on('click', '.text-danger', function(){
         var Product_id = $(this).attr("data-target-id");
         $('#productId').val(Product_id);
+        $('#stocksModal').show();
         
     });
 
@@ -366,9 +407,9 @@ $(document).on('change','#sub_categories',function () {
             alert('update stock please');
             return false;
         }
-       $("#importModal").modal("hide"); 
+       $("#stocksModal").modal("hide"); 
        $.ajax({
-        url: '{{ route('admin.products.import') }}',
+        url: '{{ route('admin.products.updateStock') }}',
         data :{'pid':pId,'stock':stock,
             _token:token},
         method:'POST',

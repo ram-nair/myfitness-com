@@ -59,7 +59,7 @@
             ordering: false,
             //autoWidth: false,
             ajax: {
-                url: "{!! url('store/orders/dt') !!}",
+                url: "{!! url('admin/invoices/dt') !!}",
                 type: 'post',
                 headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
                 data: function ( d ) {

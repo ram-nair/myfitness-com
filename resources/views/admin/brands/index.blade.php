@@ -34,6 +34,7 @@
                         <tr>
                             <th class="no-sort">SL.No</th>
                             <th>Name</th>
+                            <th>Logo</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -63,6 +64,13 @@
                     }
                 },
                 {data: 'name', name: 'name'},
+                {
+                    data: 'image',
+                    name: 'image',
+                    render: function( data, type, full, meta ) {
+                    return "<img src=\"/uploads/brand/images/" + data + "\" height=\"50\" alt='No Image'/>";
+            }
+                },
                 {data: 'actions', name: 'actions', searchable: false}
             ]
         });

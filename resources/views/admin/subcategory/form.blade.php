@@ -4,13 +4,13 @@
     </div>
     <div class="card-body pad">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-12">
              <div class="form-group col-md-6">
                         {{ Form::label('category_id', 'Product Main Category') }}
                         {{ Form::select('parent_cat_id', $cats, null, array('required','class' => 'form-control select2 '.($errors->has('parent_cat_id') ? ' is-invalid' : ''))) }}
                         {!! $errors->first('parent_cat_id','<p class="text-danger"><strong>:message</strong></p>') !!}
                     </div>
-                <div class="form-group">
+                <div class="form-group col-md-6">
                     {{ Form::label('name', 'Name') }}
                     {{ Form::text('name', null, array('required','class' => 'form-control'.($errors->has('name') ? ' is-invalid' : '' ))) }}
                     {!! $errors->first('name','<p class="text-danger"><strong>:message</strong></p>') !!}
@@ -47,21 +47,6 @@ $(function(){
         });
     });
 
-
-    $("#business_type_category_id").trigger('change');
-    $('#is_service').on('switchChange.bootstrapSwitch', function (event, state) {
-        if(state)
-            $("#form_service_type").show();
-        else
-            $("#form_service_type").hide();
-    });
-
-    $('#show_disclaimer').on('switchChange.bootstrapSwitch', function (event, state) {
-        if(state)
-            $("#form_disclaimer").show();
-        else
-            $("#form_disclaimer").hide();
-    });
 });
 </script>
 @endsection

@@ -136,7 +136,8 @@ class ProductController extends BaseController
             return $this->responseRedirectBack('Error occurred while creating product.', 'error', true, true);
         }
         alert()->success('Product added successfully.', 'Added');
-        return redirect()->route('admin.products.edit', ['product' => $product->id, 'upload' => true]);
+        return redirect()->route('admin.products.index');
+       // return redirect()->route('admin.products.edit', ['product' => $product->id, 'upload' => true]);
     }
 
     public function edit(Request $request, Product $product)
@@ -345,7 +346,7 @@ class ProductController extends BaseController
          return true;
     }
 
-    public function import(Request $request)
+    public function updateStock(Request $request)
     {
 
         $products = Product::find($request->pid);
@@ -353,6 +354,23 @@ class ProductController extends BaseController
         $products->save();
         alert()->success('Products detail added successfully.', 'Added');
         return true;
+    }
+
+    //new import
+
+    public function import(Request $request)
+    {
+        // $request->validate([
+        //     'product_csv' => 'required|mimes:csv',
+        // ]);
+        $file = $request->file('products_csv');
+        $import = new ProductsImport;
+        $import->import($file);
+        if (!$import->failures()->isEmpty()) {
+            return back()->withFailures($import->failures())->withSuccess($import->getTotalCount());
+        }
+        alert()->success('Products detail added successfully.', 'Added');
+        return redirect()->route('admin.products.index')->withSuccess($import->getTotalCount());
     }
 
     public function searchProducts(Request $request)
