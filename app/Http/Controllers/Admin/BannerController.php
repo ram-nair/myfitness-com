@@ -60,9 +60,9 @@ class BannerController extends Controller
                     $b .= '<a href="' . URL::route('admin.banners.edit', $banner->id) . '" class="btn btn-outline-primary btn-xs"><i class="fa fa-edit"></i></a>';
                 }
 
-                // if ($isSuperAdmin || $currentUser->hasPermissionTo('banner_delete', 'admin')) {
-                //     $b .= ' <a href="' . URL::route('admin.banners.destroy', $banner->id) . '" class="btn btn-outline-danger btn-xs destroy"><i class="fa fa-trash"></i></a>';
-                // }
+                if ($isSuperAdmin || $currentUser->hasPermissionTo('banner_delete', 'admin')) {
+                   $b .= ' <a href="' . URL::route('admin.banners.destroy', $banner->id) . '" class="btn btn-outline-danger btn-xs destroy"><i class="fa fa-trash"></i></a>';
+                 }
 
                 return $b;
             })->make(true);
@@ -97,12 +97,12 @@ class BannerController extends Controller
             $imageSize = config('globalconstants.imageSize')['banner1'];
             $request->image = $this->singleImage($request->file('images'), $imageSize['path'], 'banner1');
         }
-
+       $type = $request->type ?? 1;
         $banner = Banner::create([
             'name' => $request->name ?? "",
             'image' => $request->image,
             'url' => $request->url?? "",
-            'type' => $request->type ?? "",
+            'type' => $type,
             'btn_text' => $request->btn_text ?? "",
             'status' => $request->status == 1 ? 1 : 0,
             'description' => $request->description?? "",
@@ -111,7 +111,7 @@ class BannerController extends Controller
 
         //Redirect to the users.index view and display message
         alert()->success('Banner successfully added.', 'Added');
-        return redirect()->route('admin.banners.index');
+        return redirect()->route('admin.banners.index',['id'=>$type]);
     }
 
     /**
@@ -175,15 +175,14 @@ class BannerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    // public function destroy(Banner $banner)
-    // {
-    //     $status = ($banner->status == 1) ? 0 : 1;
-    //     $banner->status = $status;
-    //     $banner->save();
-    //     // Banner::destroy($id);
-    //     alert()->success('Successfully Disabled.', 'Updated');
-    //     return redirect()->route('admin.banners.index');
-    // }
+     public function destroy(Banner $banner)
+     {
+        
+         Banner::destroy($id);
+         $banner->delete();
+        alert()->success('Successfully Disabled.', 'Updated');
+        return redirect()->route('admin.banners.index');
+    }
 
     //API FOR BANNER
     public function fetchHomeBanners(Request $request)
