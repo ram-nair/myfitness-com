@@ -21,6 +21,7 @@ use Yajra\Datatables\Datatables;
 
 class SubCategoryController extends Controller
 {
+    use ImageTraits;
     public function __construct()
     {
         $this->middleware('auth:admin');
@@ -72,9 +73,10 @@ class SubCategoryController extends Controller
     //*** GET Request
     public function create()
     {
+        $imageSize = config('globalconstants.imageSize')['category'];
         $cats = Category::where('parent_cat_id',0)
         ->orderBy('name', 'asc')->pluck('name', 'id');
-        return view('admin.subcategory.create',compact('cats'));
+        return view('admin.subcategory.create',compact('cats','imageSize'));
     }
 
     //*** POST Request
@@ -94,12 +96,24 @@ class SubCategoryController extends Controller
           return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
         }*/
         //--- Validation Section Ends
+       
+        if ($request->hasFile('image')) {
+            $imageSize = config('globalconstants.imageSize')['category'];
+            $request->image = $this->singleImage($request->file('image'), $imageSize['path'], 'category');
+        }
+        if ($request->hasFile('banner_image')) {
+            $imageSize = config('globalconstants.imageSize')['category'];
+            $request->banner_image = $this->singleImage($request->file('banner_image'), $imageSize['path'], 'category');
+        }
 
-        //--- Logic Section
-        $data = new Category();
-        $input = $request->all();
-        $data->fill($input)->save();
-        //--- Logic Section Ends
+        $category = Category::create([
+            'name' => $request->name,
+            'parent_cat_id' => $request->parent_cat_id,
+            'banner_image' => $request->banner_image,
+            'image' => $request->image,
+           // 'status' => $request->status,
+        ]);
+     
 
         alert()->success('Sub Category successfully added.', 'Added');
         if ($request->parent_cat_id > 0) {
@@ -121,30 +135,46 @@ class SubCategoryController extends Controller
     {
     	$cats = Category::where('parent_cat_id',0)
         ->orderBy('name', 'asc')->pluck('name', 'id');
-        return view('admin.subcategory.edit',compact('subcategory','cats'));
+         $imageSize = config('globalconstants.imageSize')['category'];
+        return view('admin.subcategory.edit',compact('subcategory','cats','imageSize'));
     }
 
     //*** POST Request
     public function update(Request $request, Category $subcategory)
     {
-        //--- Validation Section
-        /*$rules = [
-            'slug' => 'unique:subcategories,slug,'.$id.'|regex:/^[a-zA-Z0-9\s-]+$/'
-                 ];
-        $customs = [
-            'slug.unique' => 'This slug has already been taken.',
-            'slug.regex' => 'Slug Must Not Have Any Special Characters.'
-                   ];
-        $validator = Validator::make(Input::all(), $rules, $customs);
+        $input = $request->only([
+            'name',
+            'parent_cat_id',
+            'status',
+            'banner_image'
+        ]);
         
-        if ($validator->fails()) {
-          return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
-        }*/
-        //--- Validation Section Ends
-
-        //--- Logic Section
+        if ($request->hasFile('banner_images')) {
+            $imageSize = config('globalconstants.imageSize')['category'];
+                $input['banner_image'] = $this->singleImage($request->file('banner_images'), $imageSize['path'], 'category');
+                if (!empty($input['banner_image'])) {
+                    $path = config('globalconstants.imageSize.category')['path'] . '/';
+                    if (!env('CDN_ENABLED', false)) {
+                        \Storage::delete($path . $subcategory->getAttributes()['banner_image']);
+                    } else {
+                        \Storage::disk('s3')->delete(env('CDN_FILE_DIR', 'dev/upl/') . $path . $subcategory->banner_image);
+                    }
+                }
+        }
+        if ($request->hasFile('image')) {
+            $imageSize = config('globalconstants.imageSize')['category'];
+                $input['image'] = $this->singleImage($request->file('image'), $imageSize['path'], 'category');
+                if (!empty($input['image'])) {
+                    $path = config('globalconstants.imageSize.category')['path'] . '/';
+                    if (!env('CDN_ENABLED', false)) {
+                        \Storage::delete($path . $category->getAttributes()['image']);
+                    } else {
+                        \Storage::disk('s3')->delete(env('CDN_FILE_DIR', 'dev/upl/') . $path . $category->image);
+                    }
+                }
+        }
+     
       
-        $input = $request->all();
         $subcategory->update($input);
         //--- Logic Section Ends
 

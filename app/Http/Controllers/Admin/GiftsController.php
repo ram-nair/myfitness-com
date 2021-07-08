@@ -69,6 +69,7 @@ class GiftsController extends Controller
         $validator = Validator::make(request()->all(), [
             'expire_at' => 'required',
             'balance_amt' => 'required',
+            'sku' => 'required|unique:gifts,sku',
         ]);
        
         $validator->validate();
@@ -87,6 +88,8 @@ class GiftsController extends Controller
         }
 
         gift::create([
+           'name' => $request->name,
+            'sku' => $request->sku,
             'code'=>$this->coupon(10),
             'balance_amt' => $request->balance_amt,
             'expire_at' => $request->expire_at,
@@ -151,6 +154,8 @@ class GiftsController extends Controller
 
         $expire_at = $request->expire_at;
         $validator->validate();
+        $gift->name = $request->name;
+        $gift->sku = $request->sku;
         $gift->balance_amt = $request->balance_amt;
         $gift->expire_at = $expire_at;
         $gift->status = $request->status;

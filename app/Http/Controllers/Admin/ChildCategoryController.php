@@ -6,12 +6,7 @@ use App\Admin;
 use App\Category;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryStoreRequest;
-use App\Http\Resources\CategoryCollection;
-use App\Http\Resources\CategoryResource;
 use App\Http\Resources\EcommerceBannerCollection;
-use App\Product;
-use App\Store;
-use App\StoreProduct;
 use App\Traits\ImageTraits;
 use Auth;
 use Illuminate\Http\Request;
@@ -72,7 +67,8 @@ class ChildCategoryController extends Controller
     public function create(){
         $cats = Category::where('parent_cat_id',0)
         ->orderBy('name', 'asc')->get();
-        return view('admin.childcategory.create',compact('cats'));
+        $imageSize = config('globalconstants.imageSize')['category'];
+        return view('admin.childcategory.create',compact('cats','imageSize'));
     }
 
     //*** POST Request
@@ -80,9 +76,22 @@ class ChildCategoryController extends Controller
     {
     
         //--- Logic Section
-        $data = new Category();
-        $input = $request->all();
-        $data->fill($input)->save();
+       
+        if ($request->hasFile('image')) {
+            $imageSize = config('globalconstants.imageSize')['category'];
+            $request->image = $this->singleImage($request->file('image'), $imageSize['path'], 'category');
+        }
+        if ($request->hasFile('banner_image')) {
+            $imageSize = config('globalconstants.imageSize')['category'];
+            $request->banner_image = $this->singleImage($request->file('banner_image'), $imageSize['path'], 'category');
+        }
+        $category = Category::create([
+            'name' => $request->name,
+            'parent_cat_id' => $request->parent_cat_id,
+            'banner_image' => $request->banner_image,
+            'image' => $request->image,
+           // 'status' => $request->status,
+        ]);
         //--- Logic Section Ends
 
         alert()->success('Child Category successfully added.', 'Added');
@@ -102,7 +111,8 @@ class ChildCategoryController extends Controller
     {
         $cats = Category::where('parent_cat_id',0)
         ->orderBy('name', 'asc')->get();
-         return view('admin.childcategory.edit',compact('childcategory','cats'));
+        $imageSize = config('globalconstants.imageSize')['category'];
+         return view('admin.childcategory.edit',compact('childcategory','cats','imageSize'));
     }
 
     //*** POST Request
@@ -126,6 +136,30 @@ class ChildCategoryController extends Controller
         //--- Logic Section
       
         $input = $request->all();
+        if ($request->hasFile('banner_images')) {
+            $imageSize = config('globalconstants.imageSize')['category'];
+                $input['banner_image'] = $this->singleImage($request->file('banner_images'), $imageSize['path'], 'category');
+                if (!empty($input['banner_image'])) {
+                    $path = config('globalconstants.imageSize.category')['path'] . '/';
+                    if (!env('CDN_ENABLED', false)) {
+                        \Storage::delete($path . $subcategory->getAttributes()['banner_image']);
+                    } else {
+                        \Storage::disk('s3')->delete(env('CDN_FILE_DIR', 'dev/upl/') . $path . $subcategory->banner_image);
+                    }
+                }
+        }
+        if ($request->hasFile('image')) {
+            $imageSize = config('globalconstants.imageSize')['category'];
+                $input['image'] = $this->singleImage($request->file('image'), $imageSize['path'], 'category');
+                if (!empty($input['image'])) {
+                    $path = config('globalconstants.imageSize.category')['path'] . '/';
+                    if (!env('CDN_ENABLED', false)) {
+                        \Storage::delete($path . $category->getAttributes()['image']);
+                    } else {
+                        \Storage::disk('s3')->delete(env('CDN_FILE_DIR', 'dev/upl/') . $path . $category->image);
+                    }
+                }
+        }
         $childcategory->update($input);
         //--- Logic Section Ends
 

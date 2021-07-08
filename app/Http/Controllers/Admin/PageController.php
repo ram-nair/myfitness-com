@@ -115,6 +115,11 @@ class PageController extends BaseController
        
         $data = new Page();
         $input = $request->all();
+        if ($request->hasFile('banner_image')) {
+            $imageSize = config('globalconstants.imageSize')['category'];
+            $input['image'] = $this->singleImage($request->file('banner_image'), $imageSize['path'], 'category');
+                
+        }
         $data->fill($input)->save();
         //--- Logic Section Ends
 
@@ -152,6 +157,18 @@ class PageController extends BaseController
 
            
         $input = $request->all();
+        if ($request->hasFile('banner_image')) {
+            $imageSize = config('globalconstants.imageSize')['category'];
+                $input['image'] = $this->singleImage($request->file('banner_image'), $imageSize['path'], 'category');
+                if (!empty($input['image'])) {
+                    $path = config('globalconstants.imageSize.category')['path'] . '/';
+                    if (!env('CDN_ENABLED', false)) {
+                        \Storage::delete($path . $category->getAttributes()['image']);
+                    } else {
+                        \Storage::disk('s3')->delete(env('CDN_FILE_DIR', 'dev/upl/') . $path . $page->image);
+                    }
+                }
+        }
         $page->update($input);
         //--- Logic Section Ends
 

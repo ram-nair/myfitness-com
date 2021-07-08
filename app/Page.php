@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 class Page extends Model
 {
-    protected $fillable = ['title', 'description','meta_tag','meta_description'];
+    protected $fillable = ['title', 'description','meta_tag','meta_description','image'];
     public $timestamps = false;
 
     public function setTitleAttribute($value){

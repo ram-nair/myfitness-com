@@ -340,23 +340,23 @@ return [
                 
             ],
         ],
-       
-
-
-
-
-
-
-
 
 
         ['header' => 'Banner Management', 'guard' => ['admin'], 'can' => ['servicestype1banner_read', 'servicestype2banner_read']],
         [
             'text' => 'Manage Banner',
             'icon' => 'nav-icon fas fa-fw fa-bars',
-            'can' => ['servicestype1banner_read', 'servicestype2banner_read'],
+           // 'can' => ['servicestype1banner_read', 'servicestype2banner_read'],
             'guard' => ['admin'],
             'submenu' => [
+                /*[
+                    'text' => 'Category Banner',
+                    'url' => 'admin/cat-banners',
+                    'icon' => 'nav-icon fa fa-image',
+                    'can' => 'banner_read',
+                    'guard' => ['admin'],
+                ],*/
+
                 [
                     'text' => 'Home Banner(Top)',
                     'url' => 'admin/banners?id=1',
@@ -387,14 +387,6 @@ return [
                     'guard' => ['admin'],
                 ],
                 
-               /* [
-                    'text' => 'Essentials',
-                    'url' => 'admin/cat-banners',
-                    'icon' => 'nav-icon fa fa-image',
-                    'can' => 'categorybanner_read',
-                    'guard' => ['admin'],
-                ],*/
-
                 
                 
             ],

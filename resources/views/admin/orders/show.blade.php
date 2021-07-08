@@ -14,7 +14,7 @@
 <div class="row">
     <div class="col-md-12">
         <div class="form-group">
-            {{ Form::model($order, array('route' => array('store.orders.update-status', $order->id), 'method' => 'POST', 'class' => 'class-create')) }}
+            {{ Form::model($order, array('route' => array('admin.orders.update-status', $order->id), 'method' => 'POST', 'class' => 'class-create')) }}
                 <div class="card card-outline card-info">
                     <div class="overlay" style="display: none;">
                         <i class="fas fa-2x fa-sync-alt fa-spin"></i>
@@ -31,7 +31,7 @@
                             <div class="col-md-2">
                                 <div class="form-group">
                                     @php
-                                        $orderStatus = ['submitted','assigned','out_for_delivery','delivered','cancelled'];
+                                        $orderStatus = ['Pending','Processing','Completed','Cancel','Delivered'];
                                         $statusIndex = array_search($order->order_status, $orderStatus);
                                     @endphp
                                     <select name="order_status"  class="form-control" style="width:100%" id="order_status">
@@ -223,7 +223,7 @@
     ?>
     <div class="row">
         <div class="col-12">
-            {{ Form::model($order, array('route' => array('store.orders.update-items', $order->id), 'method' => 'POST', 'class' => 'class-create')) }}
+            {{ Form::model($order, array('route' => array('admin.orders.update-items', $order->id), 'method' => 'POST', 'class' => 'class-create')) }}
                 <input type="hidden" id="order-item-ids" name="order_item_ids" />
                 <button class="btn btn-warning float-right not-available-btn" type="submit" id="not-available">Out of Stock</button>
             {{ Form::close() }}

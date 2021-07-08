@@ -39,6 +39,7 @@
                     <thead>
                         <tr>
                             <th class="no-sort">SL.No</th>
+                            <th>Name</th>
                             <th>Code</th>
                             <th>Balance Amount</th>
                             <th>Status</th>
@@ -95,6 +96,7 @@
                             return meta.row + meta.settings._iDisplayStart + 1;
                    }
                 },
+                {data: 'name', name: 'name'},
                 {data: 'code', name: 'code'},
                 {data: 'balance_amt', name: 'balance_amt',
                 render: function(data, type, row, meta) {

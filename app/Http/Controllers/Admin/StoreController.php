@@ -265,8 +265,8 @@ class StoreController extends Controller
         $imgPath = "";
         if ($request->hasFile('images')) {
             $imageSize = config('globalconstants.imageSize')['store'];
-            $request->image = $this->singleImage($request->file('images'), $imageSize['path'], 'store');
-            if (!empty($request->image)) {
+            $imgPath= $this->singleImage($request->file('images'), $imageSize['path'], 'store');
+            if (!empty($imgPath)) {
                 $path = config('globalconstants.imageSize.store')['path'] . '/';
                 if (!env('CDN_ENABLED', false)) {
                     \Storage::delete($path . $store->getAttributes()['image']);
@@ -284,10 +284,6 @@ class StoreController extends Controller
       
         $active = $request->active ?? 0;
         $request->any = $request->any ?? 0;
-        if ($request->image) {
-            $store->image = $request->image;
-        }
-        $store->store_fullname = $request->store_fullname;
         $store->update([
           
             'name' => $request->name,
@@ -300,7 +296,7 @@ class StoreController extends Controller
             'location' => $request->location,
             'credit_card' => $request->credit_card,
             'cash_accept' => $request->cash_accept,
-           
+            'image' => $imgPath,
             'featured' => $request->featured,
            
             'min_order_amount' => $request->min_order_amount,

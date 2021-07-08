@@ -98,6 +98,10 @@ class CategoryController extends Controller
             $imageSize = config('globalconstants.imageSize')['category'];
             $request->image = $this->singleImage($request->file('image'), $imageSize['path'], 'category');
         }
+        if ($request->hasFile('banner_image')) {
+            $imageSize = config('globalconstants.imageSize')['category'];
+            $request->banner_image = $this->singleImage($request->file('banner_image'), $imageSize['path'], 'category');
+        }
        $parentCatId = 0;
        $category = Category::create([
             'name' => $request->name,
@@ -158,10 +162,10 @@ class CategoryController extends Controller
             'image',
             'featured',
             'status',
+            'banner_image'
         ]);
         
         $input['parent_cat_id'] = 0;
-    
         if ($request->hasFile('image')) {
             $imageSize = config('globalconstants.imageSize')['category'];
                 $input['image'] = $this->singleImage($request->file('image'), $imageSize['path'], 'category');
@@ -171,6 +175,18 @@ class CategoryController extends Controller
                         \Storage::delete($path . $category->getAttributes()['image']);
                     } else {
                         \Storage::disk('s3')->delete(env('CDN_FILE_DIR', 'dev/upl/') . $path . $category->image);
+                    }
+                }
+        }
+        if ($request->hasFile('banner_image')) {
+            $imageSize = config('globalconstants.imageSize')['category'];
+                $input['banner_image'] = $this->singleImage($request->file('banner_image'), $imageSize['path'], 'category');
+                if (!empty($input['banner_image'])) {
+                    $path = config('globalconstants.imageSize.category')['path'] . '/';
+                    if (!env('CDN_ENABLED', false)) {
+                        \Storage::delete($path . $category->getAttributes()['banner_image']);
+                    } else {
+                        \Storage::disk('s3')->delete(env('CDN_FILE_DIR', 'dev/upl/') . $path . $category->banner_image);
                     }
                 }
         }

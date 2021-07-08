@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Product;
+use App\StoreProduct;
 use App\Traits\UploadAble;
 use Illuminate\Http\UploadedFile;
 use App\Contracts\ProductContract;
@@ -80,7 +81,11 @@ class ProductRepository extends BaseRepository implements ProductContract
 
             $product->save();
             
-
+            $StoreProduct =new StoreProduct();
+            $StoreProduct->store_id='517e8990-b9dc-11eb-a247-8926cbd82353';
+            $StoreProduct->product_id=$product->id;
+            $StoreProduct->save();
+            
             // if ($collection->has('categories')) {
             //     $product->categories()->sync($params['categories']);
             // }

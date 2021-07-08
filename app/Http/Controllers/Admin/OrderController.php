@@ -35,6 +35,9 @@ class OrderController extends BaseController
     }
     public function index()
     {
+    
+       // dd(trans('api.payment_methods.credit_card'));
+
         $this->authorize(Order::class, 'order');
         $this->setPageTitle('Orders', 'Orders List');
         return view('admin.orders.index');
@@ -43,7 +46,7 @@ class OrderController extends BaseController
     public function datatable()
     {
         $currentUser = Auth::guard('admin')->user();
-        $orders = Order::where('store_id',1)->with('user')->select('*')->orderBy('created_at', 'desc');
+        $orders = Order::where('store_id','!=',0)->with('user')->select('*')->orderBy('created_at', 'desc');
         return Datatables::of($orders)
             ->rawColumns(['actions'])
             ->editColumn('payment_status', function ($order) {
@@ -93,11 +96,11 @@ class OrderController extends BaseController
         $cancelDuration = (int) config('settings.order_cancel_duration');
         $updatedTime = Carbon::parse($order->created_at);
         $currentTime = Carbon::now();
-        $totalDuration = $currentTime->diffInMinutes($updatedTime);
-        if ($totalDuration < $cancelDuration) {
+       // $totalDuration = $currentTime->diffInMinutes($updatedTime);
+        /*if ($totalDuration < $cancelDuration) {
             alert()->error("Order substitution time is not over", "Can't Update");
             return redirect()->route('store.orders.show', $order->id);
-        }
+        }*/
         $prevStatus = $order->order_status;
         $order->order_status = $request->order_status;
         $order->save();

@@ -101,7 +101,7 @@
                                                                     <tbody>
                                                                         @foreach($data->orders as $order)
                                                                         <tr>
-                                                                            <td><a href="{{ route('admin.order.invoice',$order->id) }}">{{sprintf("%'.08d", $order->id)}}</a></td>
+                                                                            <td><a href="{{ route('admin.invoice',$order->id) }}">{{sprintf("%'.08d", $order->id)}}</a></td>
                                                                             <td>{{ date('Y-m-d h:i:s a',strtotime($order->created_at)) }}</td>
                                                                             <td>{{ $order->currency_sign . round($order->pay_amount * $order->currency_value , 2) }}</td>
                                                                             <td>{{ $order->status }}</td>

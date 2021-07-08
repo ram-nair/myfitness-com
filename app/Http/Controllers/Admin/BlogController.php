@@ -124,13 +124,17 @@ class BlogController extends BaseController
                         }
                     }
             }
-            
+            if ($request->hasFile('banner_image')) {
+                $imageSize = config('globalconstants.imageSize')['vlogBlog'];
+                $banner_image = $this->singleImage($request->file('banner_image'), $imageSize['path'], 'vlogBlog');
+            }
             $banner = VlogBlog::create([
                 'category_id' => $request->category_id,
                 'author_id' =>$currentUser->id,
                 'title' => $request->title,
                 'description' => $request->description,
                 'image' =>$image,
+                'banner_image'=>$banner_image,
                 'status' => $request->status,
                 'by_user_id' => $currentUser->id,
             ]);
@@ -222,6 +226,19 @@ class BlogController extends BaseController
                         }
                     }
             }
+            $banner_image =$vlog_blog->banner_image;
+            if ($request->hasFile('banner_image')) {
+                $imageSize = config('globalconstants.imageSize')['vlogBlog'];
+                    $banner_image = $this->singleImage($request->file('banner_image'), $imageSize['path'], 'vlogBlog');
+                    if (!empty($input['banner_image'])) {
+                        $path = config('globalconstants.imageSize.category')['path'] . '/';
+                        if (!env('CDN_ENABLED', false)) {
+                            \Storage::delete($path . $category->getAttributes()['banner_image']);
+                        } else {
+                            \Storage::disk('s3')->delete(env('CDN_FILE_DIR', 'dev/upl/') . $path . $vlog_blog->banner_image);
+                        }
+                    }
+            }
             /*if ($request->hasFile('blog_image')) {
                 $imageSize = config('globalconstants.imageSize')['vlogBlog'];
                 $image = $this->singleImage($request->file('blog_image'), $imageSize['path'], 'vlogBlog');
@@ -229,6 +246,7 @@ class BlogController extends BaseController
             }*/
             $input = $request->all();
             $input['image'] = $image;
+            $input['banner_image']=$banner_image ;
             $input['author_id'] = $request->user()->id;
             $input['by_user_id'] = $request->user()->id;
             $vlogBlog->fill($input)->save();

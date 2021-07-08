@@ -40,11 +40,33 @@
                             <img class="img-preview-holder" src="{{$img}}" alt="Preview Image" />
                          <?php }?>
                         <div class="custom-file">
-                        <input type="file" required name="blog_image" data-rule-extension="jpg|png" data-msg-extension="Please select jpg or png image" class="image img-preview form-control-file custom-file-input" id="exampleInputFile">
+                        <input type="file" required name="blog_image" data-rule-extension="jpg|png|jpeg" data-msg-extension="Please select jpg or png image" class="image img-preview form-control-file custom-file-input" id="exampleInputFile">
                          <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                         </div>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label for="exampleInputFile">Blog Banner Image (Recommended : {{$imageSize['aspectRatioW']}}x{{$imageSize['aspectRatioH']}})</label>
+                    <div class="input-group">
+                     <?php
+                        if(!empty($vlogBlog->banner_image)) {
+                            $img = $vlogBlog->banner_image;
+                            ?>
+                             <img class="img-preview-holder" src="{{asset('uploads/blog/images/'.$img)}}" alt="Preview Image" />
+                       <?php  } else {
+                             $img = url('/')."/images/no-image.jpg";
+                            ?>
+                            <img class="img-preview-holder" src="{{$img}}" alt="Preview Image" />
+                       <?php  }?>
+                       
+                        <div class="custom-file">
+                            <input type="file" name="banner_image" data-rule-extension="jpg|png|jpeg" data-msg-extension="Please select jpg or png image" class="image img-preview form-control-file custom-file-input" id="exampleInputFile">
+                            <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="col-md-3">
                 <div class="form-group">
                     {{ Form::label('Status', 'Status') }}<br>

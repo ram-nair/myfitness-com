@@ -1,117 +1,117 @@
-<!doctype html>
-<html lang="{{ app()->getLocale() }}">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        <title>Laravel</title>
-
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
-
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Raleway', sans-serif;
-                font-weight: 100;
-                height: 100vh;
-                margin: 0;
-            }
-
-            .full-height {
-                height: 100vh;
-            }
-
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
-
-            .position-ref {
-                position: relative;
-            }
-
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 12px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-            <div class="top-right links">
-                @auth
-                <a href="{{ url('/') }}">Home</a>
-
-                <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                    Logout
-                </a>
-
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                    {{ csrf_field() }}
-                </form>
-                @else
-                <a href="{{ route('login') }}">Login</a>
-                @endauth
-            </div>
-            @endif
-
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
-                </div>
-
-                <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
-            </div>
-        </div>
-        <script src="{{ asset('vendor/adminlte/plugins/jQuery/jquery-2.2.3.min.js') }}"></script>
-        <script src="{{ asset('vendor/adminlte/bootstrap/js/bootstrap.min.js') }}"></script>
-        <script src="{{ asset('js/myadmin.js') }}"></script>    
-        <script>    
-       $(function() {
-                   bootbox.setLocale("{{ App::getLocale() }}");
-                   @if(Session::has('growl'))
-                       @if(is_array(Session::get('growl')))
-                           growl("{!! Session::get('growl')[0] !!}", "{{ Session::get('growl')[1] }}");
-                       @else
-                           growl("{{Session::get('growl')}}");
-                       @endif
-                   @endif
-               });
-        </script>           
-    </body>
+<html>
+<head>
+</head>
+<body>
+{{ Form::open(array('url' => route('ccav'),'class' => 'class-create','method' => 'POST', 'enctype' => 'multipart/form-data',)) }}
+                       
+	
+		<table width="40%" height="100" border='1' align="center"><caption><font size="4" color="blue"><b>Integration Kit</b></font></caption></table>
+			<table width="40%" height="100" border='1' align="center">
+				<tr>
+					<td>Parameter Name:</td><td>Parameter Value:</td>
+				</tr>
+				<tr>
+					<td colspan="2"> Compulsory information</td>
+				</tr>
+				<tr>
+					<td>Merchant Id	:</td><td><input type="text" name="merchant_id" value="45990"/></td>
+				</tr>
+				<tr>
+					<td>Order Id	:</td><td><input type="text" name="order_id" value="123654789"/></td>
+				</tr>
+				<tr>
+					<td>Amount	:</td><td><input type="text" name="amount" value="1.00"/></td>
+				</tr>
+				<tr>
+					<td>Currency	:</td><td><input type="text" name="currency" value="AED"/></td>
+				</tr>
+				<tr>
+					<td>Redirect URL	:</td><td><input type="text" name="redirect_url" value="{{URL::route('ccav-handle')}}"/></td>
+				</tr>
+			 	<tr>
+			 		<td>Cancel URL	:</td><td><input type="text" name="cancel_url" value="{{URL::route('ccav-handle')}}"/></td>
+			 	</tr>
+			 	<tr>
+					<td>Language	:</td><td><input type="text" name="language" value="EN"/></td>
+				</tr>
+		     	<tr>
+		     		<td colspan="2">Billing information(optional):</td>
+		     	</tr>
+		        <tr>
+		        	<td>Billing Name	:</td><td><input type="text" name="billing_name" value="Charli"/></td>
+		        </tr>
+		        <tr>
+		        	<td>Billing Address	:</td><td><input type="text" name="billing_address" value="Room no 1101, near Railway station Ambad"/></td>
+		        </tr>
+		        <tr>
+		        	<td>Billing City	:</td><td><input type="text" name="billing_city" value="Indore"/></td>
+		        </tr>
+		        <tr>
+		        	<td>Billing State	:</td><td><input type="text" name="billing_state" value="MP"/></td>
+		        </tr>
+		        <tr>
+		        	<td>Billing Zip	:</td><td><input type="text" name="billing_zip" value="425001"/></td>
+		        </tr>
+		        <tr>
+		        	<td>Billing Country	:</td><td><input type="text" name="billing_country" value="India"/></td>
+		        </tr>
+		        <tr>
+		        	<td>Billing Tel	:</td><td><input type="text" name="billing_tel" value="9595226054"/></td>
+		        </tr>
+		        <tr>
+		        	<td>Billing Email	:</td><td><input type="text" name="billing_email" value="atul.kadam@avenues.info"/></td>
+		        </tr>
+		        <tr>
+		        	<td colspan="2">Shipping information(optional)</td>
+		        </tr>
+		        <tr>
+		        	<td>Shipping Name	:</td><td><input type="text" name="delivery_name" value="Chaplin"/></td>
+		        </tr>
+		        <tr>
+		        	<td>Shipping Address	:</td><td><input type="text" name="delivery_address" value="room no.701 near bus stand"/></td>
+		        </tr>
+		        <tr>
+		        	<td>shipping City	:</td><td><input type="text" name="delivery_city" value="Hyderabad"/></td>
+		        </tr>
+		        <tr>
+		        	<td>shipping State	:</td><td><input type="text" name="delivery_state" value="Andhra"/></td>
+		        </tr>
+		        <tr>
+		        	<td>shipping Zip	:</td><td><input type="text" name="delivery_zip" value="425001"/></td>
+		        </tr>
+		        <tr>
+		        	<td>shipping Country	:</td><td><input type="text" name="delivery_country" value="India"/></td>
+		        </tr>
+		        <tr>
+		        	<td>Shipping Tel	:</td><td><input type="text" name="delivery_tel" value="9595226054"/></td>
+		        </tr>
+		        <tr>
+		        	<td>Merchant Param1	:</td><td><input type="text" name="merchant_param1" value="additional Info."/></td>
+		        </tr>
+		        <tr>
+		        	<td>Merchant Param2	:</td><td><input type="text" name="merchant_param2" value="additional Info."/></td>
+		        </tr>
+				<tr>
+					<td>Merchant Param3	:</td><td><input type="text" name="merchant_param3" value="additional Info."/></td>
+				</tr>
+				<tr>
+					<td>Merchant Param4	:</td><td><input type="text" name="merchant_param4" value="additional Info."/></td>
+				</tr>
+				<tr>
+					<td>Merchant Param5	:</td><td><input type="text" name="merchant_param5" value="additional Info."/></td>
+				</tr>
+				<tr>
+					<td>Promo Code	:</td><td><input type="text" name="promo_code" value=""/></td>
+				</tr>
+				<tr>
+					<td>Vault Info.	:</td><td><input type="text" name="customer_identifier" value=""/></td>
+				</tr>
+		        <tr>
+		        	<td></td><td><INPUT TYPE="submit" value="CheckOut"></td>
+		        </tr>
+	      	</table>
+	      </form>
+	</body>
 </html>
+
+

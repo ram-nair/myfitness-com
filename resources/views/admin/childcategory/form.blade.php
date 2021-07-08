@@ -9,8 +9,8 @@
         
                     <div class="form-group col-md-6">
                     {{ Form::label('parent_cat_id', 'Category') }}
-
-                    <select id="cat_id" required class="form-control select2">
+ 
+                    <select id="cat_id" required class="form-control select2"> 
                                   <option value="">Select Category</option>
                                     @foreach($cats as $cat)
                                       <option value="{{ $cat->id }}"   @if(!empty($childcategory)) {{ $cat->id == $childcategory->parent_id ? "selected":"" }} @endif >{{ $cat->name }}</option>
@@ -33,6 +33,49 @@
                     {!! $errors->first('name','<p class="text-danger"><strong>:message</strong></p>') !!}
                 </div>
             </div>
+            <div class="row">
+        <div class="form-group">
+                    <label for="exampleInputFile">Image(Icon) (Recommended : {{$imageSize['aspectRatioW']}}x{{$imageSize['aspectRatioH']}})</label>
+                    <div class="input-group"><?php
+                        if(!empty($childcategory->image)) {
+                            $img = $childcategory->image;
+                            ?>
+                             <img class="img-preview-holder" src="{{asset('uploads/category/images/'.$img)}}" alt="Preview Image" />
+                       <?php  } else {
+                             $img = url('/')."/images/no-image.jpg";
+                            ?>
+                            <img class="img-preview-holder" src="{{$img}}" alt="Preview Image" />
+                       <?php  }?>
+                       
+                        <div class="custom-file">
+                            <input type="file" name="image" data-rule-extension="jpg|png" data-msg-extension="Please select jpg or png image" class="image img-preview form-control-file custom-file-input" id="exampleInputFile">
+                            <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+             <div class="form-group">
+                    <label for="exampleInputFile">Sub Category Banner Image (Recommended : {{$imageSize['aspectRatioW']}}x{{$imageSize['aspectRatioH']}})</label>
+                    <div class="input-group"><?php
+                        if(!empty($childcategory->banner_image)) {
+                            $img = $childcategory->banner_image;
+                            ?>
+                             <img class="img-preview-holder" src="{{asset('uploads/category/images/'.$img)}}" alt="Preview Image" />
+                       <?php  } else {
+                             $img = url('/')."/images/no-image.jpg";
+                            ?>
+                            <img class="img-preview-holder" src="{{$img}}" alt="Preview Image" />
+                       <?php  }?>
+                       
+                        <div class="custom-file">
+                            <input type="file" name="banner_images" data-rule-extension="jpg|png|jpeg" data-msg-extension="Please select jpg or png image" class="image img-preview form-control-file custom-file-input" id="exampleInputFile">
+                            <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                        </div>
+                    </div>
+                </div>
+        </div>
+  
             
     </div>
     <div class="card-footer">

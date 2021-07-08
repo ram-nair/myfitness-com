@@ -31,7 +31,6 @@ trait ImageTraits {
         
             
             //Storage::disk($disk)->put($path . $imageName, $img->stream()->detach(), 'public');
-
             return $imageName;
         } catch (Exception $e) {
             return false;

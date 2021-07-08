@@ -28,9 +28,14 @@ Route::group(['middleware' => ['web']], function () {
     });
 
     Route::get('testPush', 'Web\TestController@index');
+    Route::get('pay', 'Web\HomeController@index');
     Route::get('testCharge', 'Web\TestController@charge');
 
     Route::get('testSoap', 'Web\TestController@testSoap');
+    Route::post('testcca', 'Web\TestController@testCCavan')->name('ccav');;
+    Route::any('cchandle', 'Web\TestController@cchandle')->name('ccav-handle');
+    
+
 
     //PaymentHandler
     Route::any('get-rsa', 'Web\PaymentHandlerController@index')->name('getrsa');

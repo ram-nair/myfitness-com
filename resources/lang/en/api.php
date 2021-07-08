@@ -111,31 +111,13 @@ return [
     ],
     'order_status' => [
         'ECOM' => [
-            'submitted' => "Submitted",
-            'assigned' => "Assigned",
-            'out_for_delivery' => "Out for Delivery",
-            'delivered' => "Delivered",
-            'cancelled' => "Cancelled",
+            'Pending' => "Pending",
+            'Processing' => "Processing",
+            'Completed' => "Completed",
+            'Delivered' => "Delivered",
+            'Cancel' => "Cancelled",
         ],
-        'ST1' => [
-            'submitted' => "Submitted",
-            'assigned' => "Accepted",
-            'completed' => "Completed",
-            'cancelled' => "Cancelled",
-        ],
-        'ST2' => [
-            'submitted' => "Submitted",
-            'assigned' => "Accepted",
-            'cancelled' => "Cancelled",
-            'completed' => "Completed",
-        ],
-        'CLASS' => [
-            'submitted' => "Submitted",
-            'enrolled' => "Enrolled",
-            'completed' => "Completed",
-            'cancelled' => "Cancelled",
-        ],
-
+       
     ],
     'payment_methods' => [
         'credit_card' => "Online Payment",

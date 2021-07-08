@@ -127,7 +127,7 @@ $(document).ready(function() {
         ]
     });
 
-    $(".editor-medium").summernote({
+    /*$(".editor-medium").summernote({
         height: 200,
         toolbar: [
             // [groupName, [list of button]]
@@ -136,7 +136,8 @@ $(document).ready(function() {
             ["table", ["table"]],
             ["view", ["fullscreen"]]
         ]
-    });
+    });*/
+    $(".editor-medium").summernote({height: 200});
 
     $(".nav-sidebar li")
         .find("a")

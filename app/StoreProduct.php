@@ -17,7 +17,7 @@ class StoreProduct extends Model
     protected $guarded = ['id'];
 
     protected static $logName = 'store_product'; 
-    protected static $logAttributes = ['product_id', 'store_id', 'unit_price', 'ask_price', 'stock', 'price_approved', 'out_of_stock', 'quantity_per_person'];
+    protected static $logAttributes = ['product_id', 'store_id', 'unit_price'];
     protected static $logOnlyDirty = true;
 
     public function product()
