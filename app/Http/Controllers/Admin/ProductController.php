@@ -351,6 +351,22 @@ class ProductController extends BaseController
          return true;
     }
 
+
+    //review status enabled
+
+    public function rStatus($id)
+    {
+        $products =Productreview::find($id);
+        if($products->status){
+            $products->status=0;
+        }else{
+            $products->status=1;
+        }
+        $products->save();
+        return true;
+    }
+
+
     public function updateStock(Request $request)
     {
 
@@ -435,8 +451,8 @@ class ProductController extends BaseController
                 }
             })->editColumn('actions', function ($reviews) use ($currentUser) {
                 
-                    $b = '<a href="' . URL::route('admin.products.edit', $reviews->id) . '" class="btn btn-outline-primary btn-xs"><i class="fa fa-edit"></i></a>';
-                    $b .= ' <a href="' . URL::route('admin.products.destroys', ['id'=>$reviews->id]) . '" class="btn btn-outline-danger btn-xs"><i class="fa fa-trash"></i></a>';
+                   // $b = '<a href="' . URL::route('admin.products.edit', $reviews->id) . '" class="btn btn-outline-primary btn-xs"><i class="fa fa-edit"></i></a>';
+                    $b = ' <a href="' . URL::route('admin.products.destroys', ['id'=>$reviews->id]) . '" class="btn btn-outline-danger btn-xs"><i class="fa fa-trash"></i></a>';
                     
                 /*if ($currentUser->hasPermissionTo('storeproduct_create')) {
                     $b .= ' <a href="#" class="btn btn-outline-info btn-xs store" data-toggle="modal" data-target="#storeModal" data-product-id="' . $products->id . '" data-product-name="' . $products->name . '"><i class="fa fa-shopping-bag"></i></a>';

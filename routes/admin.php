@@ -169,10 +169,12 @@ Route::any('childcategories/{id}', 'ChildCategoryController@index');
     Route::get('products/images/{id}/delete', 'ProductController@deleteImages')->name('products.images.delete');
     Route::post('products/offer_price', 'ProductController@offer_price')->name('products.offer_price');
     Route::any('products/inhome/{id}', 'ProductController@updateHome')->name('product.inhome');
+    
     //product review Tables
     Route::any('products/review/{id}', 'ProductController@product_review')->name('products.reviews');
     Route::any('products/reviewdt', 'ProductController@product_review_dt')->name('products.reviewdt');
     Route::any('products/destroys/{id}', 'ProductController@destroys')->name('products.destroys');
+    Route::any('products/rstatus/{id}', 'ProductController@rStatus')->name('product.rstatus');
     
 
     

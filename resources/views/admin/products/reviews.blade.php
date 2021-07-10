@@ -205,14 +205,13 @@ $(function () {
             {data: 'status', name: 'status',
                 render: function(data, type, row, meta) {
                     if(row.status){
-                        return "Enabled";
+                        return "Enabled  <input type='checkbox' value="+row.id+" name='status'  checked class='hot_deal'>";
                     }else{
-                        return "Disabled";
+                        return "Disabled  <input type='checkbox' value="+row.id+" name='status' class='hot_deal'>";
                     }
                     
                 }
-            },
-            
+            }, 
             
             {data: 'created_at', name: 'created_at', searchable: false},
             {data: 'actions', name: 'actions', searchable: false}
@@ -236,7 +235,7 @@ $(function () {
     table.on('click', '.hot_deal', function(){
         var Product_id = $(this).val();
         $.ajax({
-            url: "{{ url('admin/products/inhome') }}/"+Product_id,
+            url: "{{ url('admin/products/rstatus') }}/"+Product_id,
             beforeSend: function(){
                 $('.overlay').show();
             }
@@ -247,14 +246,6 @@ $(function () {
             $('.overlay').hide();
         });
     });
-
-    table.on('click', '.text-danger', function(){
-        var Product_id = $(this).attr("data-target-id");
-        $('#productId').val(Product_id);
-        $('#stocksModal').show();
-        
-    });
-
     $(document).on("change", "#sub_categories, #categories,#child_categories", function() {
         oTable.ajax.reload();
     });
