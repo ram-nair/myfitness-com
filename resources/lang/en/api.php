@@ -121,7 +121,9 @@ return [
     ],
     'payment_methods' => [
         'credit_card' => "Online Payment",
+        'online' => "Online Payment",
         'cash' => "Cash On Delivery",
+        'cod' => "Cash On Delivery",
         'bring_card' => "Bring Card Reader",
         'card_reader' => "Bring Card Reader",
         'cash_on_delivery' => "Cash On Delivery",

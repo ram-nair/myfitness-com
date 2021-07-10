@@ -254,12 +254,9 @@ class StoreController extends Controller
         $this->validate($request, [
             'name' => 'required|max:120',
             'email' => 'required|email|unique:stores,email,' . $store->id,
-            'min_order_amount' => 'required',
             'latitude' => 'required',
             'longitude' => 'required',
-            'location' => 'required',
-            'service_charge' => 'nullable',
-            'payment_charge' => 'nullable|max:100',
+            'location' => 'required',  
         ]);
 
         $imgPath = "";
@@ -275,7 +272,6 @@ class StoreController extends Controller
                 }
             }
         }
-
         $request->credit_card = $request->credit_card ?? 0;
         $request->featured = $request->featured ?? 0;
        

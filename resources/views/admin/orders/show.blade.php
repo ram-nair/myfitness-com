@@ -89,8 +89,13 @@
     <div class="row">
         <div class="col-12">
             <h4>
-                <img src="{{asset('/images/myfitness_logo-lg.png')}}" style="max-width:30px;border-radius:25px;"/>
-                My Family Fitness
+            @if(!empty($store->image)) 
+                <img src="{{asset('uploads/store/images/'.$store->image)}}" style="border-radius:25px;"/>
+               @else
+               <img src="{{asset('/images/myfitness_logo-lg.png')}}" style="max-width:30px;border-radius:25px;"/>
+             
+               @endif
+               {{ $store->name }}
             </h4>
             {{-- <small class="float-right">Date: {{date("Y/m/d")}} </small> --}}
         </div>
@@ -137,7 +142,7 @@
                 @endif
                 <span>({{ (int)$order->rating }})</span>
             </div>
-            <div style="display: flex">
+            {{--<div style="display: flex">
                 <p style="margin-top: -3px; margin-bottom: 2rem;">Accuracy:&nbsp;</p>
                 @php
                     $unChecked = 5 - $order->accuracy;
@@ -155,15 +160,16 @@
                     @endforeach
                 @endif
                 <span>({{ (int)$order->accuracy }})</span>
-            </div>
+            </div>--}}
           </div>
     </div>
     <div class="row">
         <div class="col-12 table-responsive">
+          <h4 class="m-0 text-dark">Items Ordered</h4>
           <table class="table table-striped" id="product-table">
             <thead>
             <tr>
-                <th>#</th>
+                <th>Sl No</th>
                 <th style="display:none;">Order Item</th>
                 <th>Product</th>
                 <th>Qty</th>
@@ -172,9 +178,13 @@
             </tr>
             </thead>
             <tbody>
+            @php 
+            $i=1;
+            @endphp
                 @foreach($stockProducts as $product)
                     <tr>
-                        <td><input type="checkbox" value={{ $product->id }} id="product"/></td>
+                      <!--  <td><input type="checkbox" value={{ $product->id }} id="product"/></td>-->
+                      <td>{{$i}}</td>
                         <td style="display:none;">{{ $product->id }}</td>
                         <td>{{ $product->product_name }}</td>
                         <td>{{ $product->quantity }}</td>
@@ -182,6 +192,9 @@
                         <td>{{ round_my_number($product->total_amount) }}</td>
                     </tr>
                 @endforeach
+                @php 
+                $i++;
+                @endphp
             </tbody>
           </table>
         </div>

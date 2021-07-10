@@ -48,7 +48,10 @@ Route::group(['middleware' => ['auth:admin', 'isAdmin', 'assign.guard:admin,admi
 
     Route::any('/enquiry', 'PageController@enquiry')->name('pages.enquiry');
     Route::any('pages/enqlist', 'PageController@enqlist');
-    Route::any('pages/destroys', 'PageController@destroys')->name('pages.destroys');;
+    Route::any('pages/destroys', 'PageController@destroys')->name('pages.destroys');
+    // product enquiry details
+    Route::any('/pr_enquiry', 'PageController@productEnquiry')->name('pages.enquiry');
+    Route::any('pages/preqlist', 'PageController@preqlist');
     
     Route::resource('vendors', 'VendorController');
     Route::any('vendors/dt', 'VendorController@datatable')->name('vendors.datatable');
@@ -166,6 +169,13 @@ Route::any('childcategories/{id}', 'ChildCategoryController@index');
     Route::get('products/images/{id}/delete', 'ProductController@deleteImages')->name('products.images.delete');
     Route::post('products/offer_price', 'ProductController@offer_price')->name('products.offer_price');
     Route::any('products/inhome/{id}', 'ProductController@updateHome')->name('product.inhome');
+    //product review Tables
+    Route::any('products/review/{id}', 'ProductController@product_review')->name('products.reviews');
+    Route::any('products/reviewdt', 'ProductController@product_review_dt')->name('products.reviewdt');
+    Route::any('products/destroys/{id}', 'ProductController@destroys')->name('products.destroys');
+    
+
+    
    
 
 

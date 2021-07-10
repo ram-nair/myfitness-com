@@ -297,7 +297,7 @@ return [
         ],
 
         [
-            'text' => 'Customer',
+            'text' => 'Customer Management',
             'icon' => 'nav-icon fas fa-fw fa-bars',
             //'can' => ['servicestype1banner_read', 'servicestype2banner_read'],
             'guard' => ['admin'],
@@ -512,8 +512,15 @@ return [
                     'guard' => ['admin'],
                 ],
                 [
-                    'text' => 'Enquiry',
+                    'text' => 'General Enquiry',
                     'url' => 'admin/enquiry',
+                    'icon' => 'fas fa-fw fa-key',
+                    'can' => 'category_read',
+                    'guard' => ['admin'],
+                ],
+                [
+                    'text' => 'Product Enquiry',
+                    'url' => 'admin/pr_enquiry',
                     'icon' => 'fas fa-fw fa-key',
                     'can' => 'category_read',
                     'guard' => ['admin'],

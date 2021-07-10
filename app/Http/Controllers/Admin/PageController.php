@@ -6,6 +6,7 @@ use App\Admin;
 use App\Page;
 use App\Contact;
 use App\Subscriber;
+use App\Productenquiry;
 use App\Http\Controllers\Controller;
 use App\Traits\ImageTraits;
 use Auth;
@@ -94,6 +95,29 @@ class PageController extends BaseController
                          
                        
     }
+
+    /// product Enquiry
+
+    public function productEnquiry()
+    {
+        $this->setPageTitle('Product/Enquiry', 'Product/Enquiry List');
+        return view('admin.pages.prlist');
+    }
+    public function preqlist(Request $request)
+    {
+         $currentUser = $request->user();
+         $datas = Productenquiry::orderBy('id','desc')->get();
+        
+         return Datatables::of($datas)
+                        ->rawColumns(['actions'])
+                        ->editColumn('actions', function(Productenquiry $data) {
+                            $b = ' <a href="' . URL::route('admin.pages.destroys', $data->id) . '" class="btn btn-outline-danger btn-xs destroy"><i class="fa fa-trash"></i></a>';
+            
+                            return $b;
+                        })->make(true); //--- Returning Json Data To Client Side
+
+       }
+
 
 
     //*** GET Request

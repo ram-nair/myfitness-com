@@ -101,12 +101,13 @@
                                                                     <tbody>
                                                                         @foreach($data->orders as $order)
                                                                         <tr>
-                                                                            <td><a href="{{ route('admin.invoice',$order->id) }}">{{sprintf("%'.08d", $order->id)}}</a></td>
-                                                                            <td>{{ date('Y-m-d h:i:s a',strtotime($order->created_at)) }}</td>
-                                                                            <td>{{ $order->currency_sign . round($order->pay_amount * $order->currency_value , 2) }}</td>
-                                                                            <td>{{ $order->status }}</td>
                                                                             <td>
-                                                                                <a href=" {{ route('admin-order-show',$order->id) }}" class="view-details">
+                                                                               <a href="{{ route('admin.orders.show',$order->id) }}">{{$order->order_id}}</a></td>
+                                                                               <td>{{ date('Y-m-d h:i:s a',strtotime($order->created_at)) }}</td>
+                                                                               <td>AED {{ round($order->total_amount, 2) }}</td>
+                                                                               <td>{{ trans($order->order_status) }}</td>
+                                                                            <td>
+                                                                                <a href="{{ route('admin.orders.show',$order->id) }}" class="view-details">
                                                                                     <i class="fas fa-check"></i>Details
                                                                                 </a>
                                                                             </td>

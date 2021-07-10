@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Brand;
 use App\Cart;
 use App\Category;
+use App\Productreview;
 use App\Contracts\ProductContract;
 use App\EcommerceBanner;
 use App\Http\Controllers\BaseController;
@@ -92,9 +93,13 @@ class ProductController extends BaseController
                 if ($currentUser->hasPermissionTo('ecomproduct_delete')) {
                     $count = StoreProduct::where('product_id', $products->id)->count();
                     if ($count >= 1) {
-                        $b .= ' <a href="' . URL::route('admin.products.destroy', $products->id) . '" class="btn btn-outline-danger btn-xs no-delete"><i class="fa fa-trash"></i></a>';
+                        $b .= ' <a href="' . URL::route('admin.products.destroy', $products->id) . '" class="btn btn-outline-danger btn-xs no-delete"><i class="fa fa-trash"></i></a>&nbsp;';
                     } else {
-                        $b .= ' <a href="' . URL::route('admin.products.destroy', $products->id) . '" class="btn btn-outline-danger btn-xs destroy"><i class="fa fa-trash"></i></a>';
+                        $b .= ' <a href="' . URL::route('admin.products.destroy', $products->id) . '" class="btn btn-outline-danger btn-xs destroy"><i class="fa fa-trash"></i></a>&nbsp;&nbsp;';
+                    }
+                    $count = Productreview::where('productid', $products->id)->count();
+                    if ($count >= 1) {
+                        $b .= '<a href="' . URL::route('admin.products.reviews', $products->id) . '" class="btn btn-outline-primary btn-xs" title="product review"><i class="fa fa-eye"></i></a>';
                     }
                 }
                 /*if ($currentUser->hasPermissionTo('storeproduct_create')) {
@@ -409,6 +414,48 @@ class ProductController extends BaseController
  
     }
 
+    public function product_review($id){
+        $this->setPageTitle('Product Reviews', 'Product Reviews');
+        $product =Product::find($id);
+        return view('admin.products.reviews',compact('product','id'));
+    }
+    public function product_review_dt(Request $request){
+        
+        $currentUser = $request->user();
+        $reviews =Productreview::where('productid',$request->id)->orderBy('created_at')->get();
+       // print_r($reviews);die;
+        return Datatables::of($reviews)
+            // ->orderColumn('created_at', '-created_at $1')
+            ->rawColumns(['actions'])  
+            ->editColumn('created_at', function ($reviews) {
+                if($reviews->created_at){
+                    return $reviews->created_at->format('F d, Y h:ia');
+                }else{
+                    return $reviews->created_at;
+                }
+            })->editColumn('actions', function ($reviews) use ($currentUser) {
+                
+                    $b = '<a href="' . URL::route('admin.products.edit', $reviews->id) . '" class="btn btn-outline-primary btn-xs"><i class="fa fa-edit"></i></a>';
+                    $b .= ' <a href="' . URL::route('admin.products.destroys', ['id'=>$reviews->id]) . '" class="btn btn-outline-danger btn-xs"><i class="fa fa-trash"></i></a>';
+                    
+                /*if ($currentUser->hasPermissionTo('storeproduct_create')) {
+                    $b .= ' <a href="#" class="btn btn-outline-info btn-xs store" data-toggle="modal" data-target="#storeModal" data-product-id="' . $products->id . '" data-product-name="' . $products->name . '"><i class="fa fa-shopping-bag"></i></a>';
+                }*/
+                return $b;
+           })->make(true);
+           
+    }
+    public function destroys($id)
+    {
+
+        $productreview =Productreview::find($id);
+        $product_id=$productreview->productid;
+        $productreview->delete();
+        //--- Redirect Section     
+        alert()->success('Review Deleted successfully.', 'Deleted');
+        return redirect()->route('admin.products.reviews',['id'=>$product_id]);      
+        //--- Redirect Section Ends   
+    }
 
 
 
