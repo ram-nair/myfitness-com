@@ -15,6 +15,8 @@ use Yajra\Datatables\Datatables;
 
 class ChildCategoryController extends Controller
 {
+   
+   use ImageTraits;
    public function __construct()
     {
         $this->middleware('auth:admin');
@@ -24,7 +26,7 @@ class ChildCategoryController extends Controller
     public function datatable(Request $request)
     {
         
-        $datas = Category::select('*');
+        $datas = Category::select('*')->where('parent_cat_id','!=',0);
         
         if ($request->sub_cat_id) {
             $category_id = $request->sub_cat_id ;
@@ -38,10 +40,10 @@ class ChildCategoryController extends Controller
             return Datatables::of($datas)
                                 ->rawColumns(['actions'])
                                 ->editColumn('category', function($datas) {
-                                    return $datas->parent_cat_id == 0 ? $datas->name:$datas->parent->name;
+                                    return $datas->parent->parent_cat_id == 0 ? $datas->parent->name:$datas->parent->parent->name;
                                 }) 
-                                ->editColumn('name', function($datas) {
-                                    return $datas->parent_cat_id > 0 ? $datas->name . " (" . $datas->parent->name . ")" : $datas->name;
+                                ->editColumn('subcat', function($datas) {
+                                    return $datas->parent_cat_id > 0 ?  $datas->parent->name : $datas->parent->name ;
            
                                 }) 
                             
@@ -107,10 +109,12 @@ class ChildCategoryController extends Controller
         return redirect('childcategories');
     }
     //*** GET Request
-    public function edit(Category $childcategory)
+    public function edit($id)
     {
         $cats = Category::where('parent_cat_id',0)
         ->orderBy('name', 'asc')->get();
+        $childcategory=Category::where('id',$id)->first();
+       
         $imageSize = config('globalconstants.imageSize')['category'];
          return view('admin.childcategory.edit',compact('childcategory','cats','imageSize'));
     }

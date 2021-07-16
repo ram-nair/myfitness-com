@@ -30,8 +30,8 @@
                         <div class="row">
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    @php
-                                        $orderStatus = ['submitted','assigned','out_for_delivery','delivered','cancelled'];
+                                   @php
+                                        $orderStatus = ['Pending','Processing','Completed','Cancel','Delivered'];
                                         $statusIndex = array_search($order->order_status, $orderStatus);
                                     @endphp
                                 </div>
@@ -74,8 +74,13 @@
         <div class="row">
             <div class="col-12">
                 <h4>
-                    <img src="{{asset('/images/myfitness_logo-lg.png')}}" style="max-width:30px;border-radius:25px;"/>
-                    My Family Fitness
+                @if(!empty($store->image)) 
+                <img src="{{asset('uploads/store/images/'.$store->image)}}" style="border-radius:25px;"/>
+               @else
+               <img src="{{asset('/images/myfitness_logo-lg.png')}}" style="max-width:30px;border-radius:25px;"/>
+             
+               @endif
+               {{ $store->name }}
                 </h4>
                 {{-- <small class="float-right">Date: {{date("Y/m/d")}} </small> --}}
             </div>

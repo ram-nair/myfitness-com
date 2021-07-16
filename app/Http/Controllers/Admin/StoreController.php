@@ -32,7 +32,6 @@ class StoreController extends Controller
      */
     public function index()
     {
-        
         return view('admin.stores.index');
     }
 
@@ -259,7 +258,7 @@ class StoreController extends Controller
             'location' => 'required',  
         ]);
 
-        $imgPath = "";
+        $imgPath =$store->image;
         if ($request->hasFile('images')) {
             $imageSize = config('globalconstants.imageSize')['store'];
             $imgPath= $this->singleImage($request->file('images'), $imageSize['path'], 'store');
@@ -301,7 +300,7 @@ class StoreController extends Controller
             'vendor_id' =>1,
             'by_user_id' => $currentUser->id,
             'by_user_type' => $currentUser->type,
-            'service_charge' => $request->service_charge,
+            'shipping_charge' => $request->shipping_charge,
             'payment_charge' => $request->payment_charge ]);
 
         /* if (!empty($request->polygon_data)) {

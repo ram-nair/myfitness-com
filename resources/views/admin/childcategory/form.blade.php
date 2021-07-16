@@ -13,7 +13,7 @@
                     <select id="cat_id" required class="form-control select2"> 
                                   <option value="">Select Category</option>
                                     @foreach($cats as $cat)
-                                      <option value="{{ $cat->id }}"   @if(!empty($childcategory)) {{ $cat->id == $childcategory->parent_id ? "selected":"" }} @endif >{{ $cat->name }}</option>
+                                      <option value="{{ $cat->id }}"   @if(!empty($childcategory)) {{ $cat->id == $childcategory->parent->parent_cat_id ? "selected":"" }} @endif >{{ $cat->name }}</option>
                                     @endforeach
                                 </select>
 

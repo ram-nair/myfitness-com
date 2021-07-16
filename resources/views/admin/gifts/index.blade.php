@@ -41,7 +41,7 @@
                             <th class="no-sort">SL.No</th>
                             <th>Name</th>
                             <th>Code</th>
-                            <th>Balance Amount</th>
+                            <th>Gift Amount</th>
                             <th>Status</th>
                             <th>Created At</th>
                             <th class="no-sort">Actions</th>

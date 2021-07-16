@@ -18,7 +18,7 @@
                 </div>
                  </div>
                  <div class="form-group">
-                    <label for="exampleInputFile">Page Banner Image (Recommended : {{$imageSize['aspectRatioW']}}x{{$imageSize['aspectRatioH']}})</label>
+                    <label for="exampleInputFile">Page Banner Image (Recommended : 1920 x1080 )</label>
                     <div class="input-group">
                      <?php
                         if(!empty($page->image)) {
@@ -43,8 +43,8 @@
                 <div class="form-group">
                     {{ Form::label('Status', 'Status') }}<br>
                     <select class="form-control" name="status" id="status" >
-                        <option value="1" @if(isset($vlogBlog) && $vlogBlog->status == 1) selected @endif>Enable</option>
-                        <option value="0" @if(isset($vlogBlog) && $vlogBlog->status == 0) selected @endif>Disable</option>
+                        <option value="1" @if(isset($page) && $page->status == 1) selected @endif>Enable</option>
+                        <option value="0" @if(isset($page) && $page->status == 0) selected @endif>Disable</option>
                     </select>
                     {!! $errors->first('status','<p class="text-danger"><strong>:message</strong></p>') !!}
                 </div>

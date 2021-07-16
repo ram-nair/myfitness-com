@@ -132,6 +132,9 @@ class ProductController extends BaseController
             'name' => 'required',
             'sku' => 'required|unique:products,sku',
             'unit_price' => 'required',
+            'quantity' => 'required|integer|min:0',
+
+
         ]);
         $product = $this->productRepository->createProduct($params);
 

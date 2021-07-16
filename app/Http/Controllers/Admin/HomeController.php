@@ -45,9 +45,7 @@ class HomeController extends BaseController
             $result['total_customer'] =  User::count();
           //  $result['out_of_stock_product_tot'] =  StoreProduct::where('stock','<=',0)->count();
 
-            $result['top_five_store'] = Store::select('name','location','mobile')->withCount(['getOrderCount as order_count' => function($query){
-                $query->select(DB::raw('count(id)'));
-            }])->orderBy('order_count','desc')->skip(0)->take(5)->get();
+            
             $result['top_ten_users'] = User::select('email','first_name','first_name','last_name','phone')->withCount(['orderCount as order_count' => function($query){
                 $query->select(DB::raw('count(id)'));
             }])->orderBy('order_count','desc')->skip(0)->take(10)->get();
@@ -73,6 +71,7 @@ class HomeController extends BaseController
                 ->get()->toArray();
             $result['accepted_canceled_order_data'] =  $this->arrayMappingForGraph(json_decode(json_encode($accepted_canceled_order), true), 'label', ['rejected_order_count' => 0,'accepted_order_count'=>0],$acton_type="monthly");
             $result['accepted_canceled_order_total'] =  $this->arrayMappingForGraph(json_decode(json_encode($accepted_canceled_order), true), 'label', ['rejected_order_count' => 0,'accepted_order_count'=>0],$acton_type="monthly");
+         
             return view('admin.home')->with(['result'=>$result]);
         }catch (\Exception $e){
             alert()->error('Dashboard failed', 'Failed');

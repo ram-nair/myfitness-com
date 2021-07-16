@@ -144,6 +144,7 @@ class PageController extends BaseController
             $input['image'] = $this->singleImage($request->file('banner_image'), $imageSize['path'], 'category');
                 
         }
+        $input['status']=$request->status??0;
         $data->fill($input)->save();
         //--- Logic Section Ends
 
@@ -181,6 +182,7 @@ class PageController extends BaseController
 
            
         $input = $request->all();
+        $input['status']=$request->status??0;
         if ($request->hasFile('banner_image')) {
             $imageSize = config('globalconstants.imageSize')['category'];
                 $input['image'] = $this->singleImage($request->file('banner_image'), $imageSize['path'], 'category');

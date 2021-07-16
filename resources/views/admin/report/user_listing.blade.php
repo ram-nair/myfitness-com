@@ -76,7 +76,7 @@
                     <table class="table table-striped table-bordered dt-responsive nowrap" style="width:100%" id="user-listing-table">
                         <thead>
                         <tr>
-                            <th>Id</th>
+                            <th>Sl No</th>
                             <th>Name</th>
                             <th>Mobile</th>
                             <th>Email</th>
@@ -111,7 +111,11 @@
                     headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
                 },
                 columns: [
-                    {data: 'id', name: 'id'},
+                    {
+                        render: function (data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
                     {data: 'name', name: 'name'},
                     {data: 'phone', name: 'phone'},
                     {data: 'email', name: 'email'},

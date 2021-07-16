@@ -17,6 +17,7 @@ use Maatwebsite\Excel\Concerns\SkipsFailures;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Row;
 use Maatwebsite\Excel\Concerns\OnEachRow;
+use App\StoreProduct;
 
 class ProductsImport implements OnEachRow, WithHeadingRow, SkipsOnError, WithValidation, SkipsOnFailure, WithChunkReading
 {
@@ -58,53 +59,57 @@ class ProductsImport implements OnEachRow, WithHeadingRow, SkipsOnError, WithVal
         $categoryId = null;
         $subCategoryId = 0;
         $byUserId = Auth::user()->id;
-        $brand = Brand::firstOrCreate([
+        $brand =Brand::where('name',$row['brand_name'])->first();
+        if (!$brand) {
+            $brand = Brand::firstOrCreate([
             "name" => $row['brand_name'],
         ]);
+        }
         $brandId = $brand->id;
-
-        $businessTypeCategory = BusinessTypeCategory::firstOrCreate([
-            'name' => $row['business_type_category'],
-            'business_type_id' => 1,
-        ]);
-        $businessTypeCategoryId = $businessTypeCategory->id;
-
-        $category = Category::firstOrCreate([
-            'business_type_category_id' => $businessTypeCategoryId,
+        $category = Category::where('name',$row['category'])->first();
+        if (!$category) {
+            $category = Category::firstOrCreate([
             'name' => $row['category']
         ]);
-        $categoryId = $category->id;
-
-        if (!empty($row['category_disclaimer'])) {
-            $category->show_disclaimer = 1;
-            $category->disclaimer = $row['category_disclaimer'];
-            $category->save();
         }
-
-        $subCategory = Category::firstOrCreate([
-            'business_type_category_id' => $businessTypeCategoryId,
+        $categoryId = $category->id;
+        $subCategory = Category::where('name',$row['sub_category'])->where('parent_cat_id', $categoryId)->first();
+        if (! $subCategory) {
+            $subCategory = Category::firstOrCreate([
             'name' => $row['sub_category'],
             'parent_cat_id' => $categoryId
         ]);
-        $subCategoryId = $subCategory->id;
-
-        if (!empty($row['sub_category_disclaimer'])) {
-            $subCategory->show_disclaimer = 1;
-            $subCategory->disclaimer = $row['sub_category_disclaimer'];
-            $subCategory->save();
         }
-
+        $subCategoryId = $subCategory->id;
+        $childcategory = Category::where('name',$row['child_category'])->where('parent_cat_id', $subCategoryId)->first();
+        if (! $childcategory) {
+            $childcategory = Category::firstOrCreate([
+            'name' => $row['child_category'],
+            'parent_cat_id' => $subCategoryId
+        ]);
+        }
+        $child_category_id = $childcategory->id;
         $product = Product::firstOrCreate(
-            ['name' => $row['product_name'], 'category_id' => $categoryId, 'sub_category_id' => $subCategoryId],
-            ['sku' => $row['sku'], 'brand_id' => $brandId, 'unit_price' => $row['unit_price'], 'quantity' => $row['quantity'] ?? 0, 'description' => $row['description'] ?? null, 'unit' => $row['unit']]
+            ['name' => $row['product_name'], 'category_id' => $categoryId, 'sub_category_id' => $subCategoryId,'child_category_id'=>$child_category_id],
+            ['sku' => $row['sku'],'meta_title'=> $row['product_name'],'meta_tag'=> $row['product_name'],'brand_id' => $brandId, 'unit_price' => $row['unit_price'], 'quantity' => $row['quantity'] ?? 0, 'short_description' => $row['description'] ?? null,'description' => $row['description'] ?? null]
         );
         if (!empty($byUserId)) {
             $product->by_user_id = $byUserId;
             $product->save();
         }
         if (!empty($row['image'])) {
-            $product->images()->create(['full' => $row['image']]);
+            $images=explode(',',$row['image']);
+            foreach($images as $img){
+               $product->images()->create(['full' => $img]);
+            }
+            
+            ///$product->images()->attach(['full'=>$images]);
         }
+         
+        $StoreProduct =new StoreProduct();
+        $StoreProduct->store_id='517e8990-b9dc-11eb-a247-8926cbd82353';
+        $StoreProduct->product_id=$product->id;
+        $StoreProduct->save();
     }
 
     public function getTotalCount()

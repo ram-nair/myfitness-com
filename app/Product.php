@@ -107,6 +107,35 @@ class Product extends Model
     {
         return $this->belongsTo('App\Childcategory');
     }
+    public function showTax() {
+        $store=Store::select('payment_charge')->first();
+        $tax = $store->payment_charge;
+        $price=0;
+        if($tax){
+          $price =$this->unit_price *( $tax/100);
+        }
+        return $price;
+      
+    }
+    public function showPrice() {
+        $store=Store::select('shipping_charge','min_order_amount','payment_charge')->first();
+        $tax = $store->payment_charge;
+        $price = $this->unit_price + $this->unit_price *($tax/100);
+        $price = round($price,2);
+        return $price;
+       
+    }
+     public function showOffer() {
+        $price=0;
+        $store=Store::select('shipping_charge','min_order_amount','payment_charge')->first();
+        $tax = $store->payment_charge;
+        if($this->discount_price){
+            $price = $this->discount_price + $this->discount_price *($tax/100);
+            $price = round($price,2); 
+        }
+       return $price;
+       
+    }
 
    /* public function storeProducts()
     {

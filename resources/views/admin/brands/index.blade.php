@@ -32,7 +32,6 @@
                 <table class="table table-striped table-bordered dt-responsive nowrap" style="width:100%" id="brands-table">
                     <thead>
                         <tr>
-                            <th class="no-sort">SL.No</th>
                             <th>Name</th>
                             <th>Logo</th>
                             <th>Actions</th>
@@ -58,11 +57,6 @@
                 headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'}
             },
             columns: [
-                {
-                    render: function (data, type, row, meta) {
-                        return meta.row + meta.settings._iDisplayStart + 1;
-                    }
-                },
                 {data: 'name', name: 'name'},
                 {
                     data: 'image',

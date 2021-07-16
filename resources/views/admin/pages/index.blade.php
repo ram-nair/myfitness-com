@@ -64,7 +64,16 @@
                     {data: 'title', name:'title'},
                     {data: 'slug', name:'slug'},
                     {data: 'description', name:'description'},
-                    {data: 'status', name: 'status'},
+                   {data: 'status', name: 'status',
+                        render: function(data, type, row, meta) {
+                            if(row.status){
+                                return "Enabled";
+                            }else{
+                                return "Disabled";
+                            }
+                            
+                        }
+                    },
                     {data: 'actions', name: 'actions', searchable: false}
                 ]
             });

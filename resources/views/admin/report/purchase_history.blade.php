@@ -119,8 +119,6 @@
                             <th>Payment Type</th>
                             <th>Payment Status</th>
                             <th>Order Status</th>
-                            <th>Order Number</th>
-                            <th>Rating</th>
                             <th>Action</th>
                         </tr>
                         </thead>
@@ -169,8 +167,8 @@
                     {data: 'payment_type', name: 'payment_type'},
                     {data: 'payment_status', name: 'payment_status'},
                     {data: 'order_status', name: 'order_status'},
-                    {data: 'id', name: 'id'},
-                    {data: 'rating', name: 'rating'},
+                   // {data: 'id', name: 'id'},
+                    //{data: 'rating', name: 'rating'},
                     {data: 'actions', name: 'actions',searchable: false}
 
                 ]

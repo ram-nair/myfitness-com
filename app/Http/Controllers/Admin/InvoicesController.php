@@ -40,7 +40,7 @@ class InvoicesController extends BaseController
     public function datatables()
     {
         $currentUser = Auth::user();
-        $invoices = Order::where('store_id',1)->with('user')->select('*')->orderBy('created_at', 'desc');
+        $invoices = Order::where('store_id','!=',0)->with('user')->select('*')->orderBy('created_at', 'desc');
         return Datatables::of($invoices)
             ->rawColumns(['actions'])
             ->editColumn('payment_status', function ($order) {

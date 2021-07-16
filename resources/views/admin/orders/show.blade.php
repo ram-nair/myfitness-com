@@ -123,7 +123,7 @@
             <b>Order Date:</b>{{ $order->created_at->format("d/m/y") }}<br>
             {{-- <b>Payment Due:</b>{{ $order->payment_date }}<br> --}}
             <br/>
-            <div style="display: flex">
+            <div style="display:none;">
                 <p style="margin-top: -3px;">Order:&nbsp;</p>
                 @php
                     $unChecked = 5 - $order->rating;
@@ -174,6 +174,7 @@
                 <th>Product</th>
                 <th>Qty</th>
                 <th>Price</th>
+                <th>Tax</th>
                 <th>Subtotal</th>
             </tr>
             </thead>
@@ -189,12 +190,15 @@
                         <td>{{ $product->product_name }}</td>
                         <td>{{ $product->quantity }}</td>
                         <td>{{ round_my_number($product->product_price) }}</td>
+                        <td>{{ round_my_number($product->product_price*($store->payment_charge
+                        /100)) }}</td>
                         <td>{{ round_my_number($product->total_amount) }}</td>
                     </tr>
+                    @php 
+                    $i++;
+                    @endphp
                 @endforeach
-                @php 
-                $i++;
-                @endphp
+               
             </tbody>
           </table>
         </div>
@@ -270,7 +274,7 @@
                             <td>{{ round_my_number($order->service_charge) }}</td>
                         </tr>
                         <tr>
-                            <th>Vat ({{config('settings.vat') }}%)</th>
+                            <th>Vat({{$store->payment_charge}}%)</th>
                             <td>{{ round_my_number($order->vat_amount) }}</td>
                         </tr>
                         <tr>

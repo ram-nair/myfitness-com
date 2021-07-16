@@ -63,7 +63,7 @@
         <div class="row">
            {{-- <div class="col-2">
                 <div class="form-group">
-                    {{ Form::label('Min', 'Min order Amount') }}
+                    {{ Form::label('Min', 'Min order Amount(AED)') }}
                     {{ Form::text('min_order_amount', null, array('required','id'=>'min_order_amount','class' => 'form-control'.($errors->has('min_order_amount') ? ' is-invalid' : ''))) }}
                     {!! $errors->first('min_order_amount','<p class="text-danger"><strong>:message</strong></p>') !!}
                 </div>
@@ -129,19 +129,26 @@
                         </div>
                     </div>
                 </div>
-               {{--<div class="row">
+               <div class="row">
                     <div class="col">
                         <div class="form-group">
-                            {{ Form::label('payment_charge', 'Payment Charge in (%)') }}
-                            {{ Form::number('payment_charge', null, array('max' => '100', 'id'=>'payment_charge','class' => 'form-control'.($errors->has('payment_charge') ? ' is-invalid' : ''))) }}
+                            {{ Form::label('payment_charge', 'VAT in (%)') }}
+                            {{ Form::number('payment_charge', null, array('required','max' => '100', 'id'=>'payment_charge','class' => 'form-control'.($errors->has('payment_charge') ? ' is-invalid' : ''))) }}
                             {!! $errors->first('payment_charge','<p class="text-danger"><strong>:message</strong></p>') !!}
                         </div>
                     </div>
-                </div>--}}
+                </div>
                 <div class="row">
+                <div class="col">
+                        <div class="form-group">
+                            {{ Form::label('min_order_amount', 'Min order Amount(AED)') }}
+                            {{ Form::number('min_order_amount', null, array('id'=>'min_order_amount','class' => 'form-control'.($errors->has('min_order_amount') ? ' is-invalid' : ''))) }}
+                            {!! $errors->first('min_order_amount','<p class="text-danger"><strong>:message</strong></p>') !!}
+                        </div>
+                    </div>
                     <div class="col">
                         <div class="form-group">
-                            {{ Form::label('payment_charge', 'Shipping charge') }}
+                            {{ Form::label('payment_charge', 'Shipping charge(AED)') }}
                             {{ Form::number('shipping_charge', null, array('max' => '100', 'id'=>'shipping_charge','class' => 'form-control'.($errors->has('shipping_charge') ? ' is-invalid' : ''))) }}
                             {!! $errors->first('shipping_charge','<p class="text-danger"><strong>:message</strong></p>') !!}
                         </div>

@@ -49,9 +49,9 @@
                 <table class="table table-striped table-bordered dt-responsive nowrap" style="width:100%" id="categories-table">
                     <thead>
                         <tr>
-                            <th>SL.No</th>
-                            <th>Sub Category Name</th>
-							<th>child Category Name</th>
+                            <th>Category Name</th>
+							<th>Sub Category Name</th>
+                            <th>Child Category Name</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -86,12 +86,8 @@
                 }
             },
             columns: [
-                {
-                    render: function (data, type, row, meta) {
-                        return meta.row + meta.settings._iDisplayStart + 1;
-                    }
-                },
                 { data: 'category', searchable: false, orderable: false},
+                {data: 'subcat', name: 'subcat'},
                 {data: 'name', name: 'name'},
                 {data: 'actions', name: 'actions', searchable: false}
             ]

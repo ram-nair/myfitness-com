@@ -132,8 +132,8 @@
                             return meta.row + meta.settings._iDisplayStart + 1;
                         }
                     },
-                    {data: 'product.name', name: 'product.name'},
-                    {data: 'product.sku', name: 'product.sku'},
+                    {data: 'name', name: 'name'},
+                    {data: 'sku', name: 'sku'},
                     {data: 'unit_price', name: 'unit_price'},
 
                 ]

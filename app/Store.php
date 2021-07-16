@@ -45,7 +45,7 @@ class Store extends Authenticatable
         'location', 'credit_card', 'cash_accept', 'bring_card', 'featured', 'speed', 'accuracy',
         'min_order_amount', 'latitude', 'longitude', 'vendor_id', 'by_user_id', 'by_user_type',
         'time_to_deliver', 'on_my_location_charge', 'in_store', 'my_location',
-        'sap_id', 'service_charge', 'payment_charge', 'payment_charge_store_dividend',
+        'sap_id', 'shipping_charge', 'payment_charge', 'payment_charge_store_dividend',
         'payment_charge_provis_dividend', 'contract_start_date', 'contract_end_date', 'sla', 'start_at', 'end_at', 'active', 'male', 'female', 'any'
     ];
 

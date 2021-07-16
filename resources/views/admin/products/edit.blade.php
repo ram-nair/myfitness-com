@@ -308,7 +308,7 @@
             {{ csrf_field() }}
             <div class="row">
                <div class="form-group">
-                    {{ Form::label('name', ' Special Price') }}
+                    {{ Form::label('name', ' Special Price(Without VAT)(AED)') }}
                     <input type="text" class="form-control" required placeholder="Discount price" name="discount_price" id="discount_price"  value="{{ $product->discount_price }}">
                     {!! $errors->first('discount_price','<p class="text-danger"><strong>:message</strong></p>') !!}
                 </div>

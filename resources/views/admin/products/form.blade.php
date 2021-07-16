@@ -36,7 +36,7 @@
             <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    {{ Form::label('unit price', 'Product Price(AED)') }}<span class="required">*</span>
+                    {{ Form::label('unit price', 'Product Price(Without VAT)(AED)') }}<span class="required">*</span>
                     {{ Form::text('unit_price', null, array('required','class' => 'form-control'.($errors->has('unit_price') ? ' is-invalid' : '' ))) }}
                     {!! $errors->first('unit_price','<p class="text-danger"><strong>:message</strong></p>') !!}
                 </div>
@@ -54,7 +54,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     {{ Form::label('quantity', 'Quantity') }}<span class="required">*</span>
-                    {{ Form::number('quantity', null, array('required','class' => 'form-control'.($errors->has('quantity') ? ' is-invalid' : '' ))) }}
+                    {{ Form::number('quantity', null, array('required','min' =>0,'class' => 'form-control'.($errors->has('quantity') ? ' is-invalid' : '' ))) }}
                     {!! $errors->first('quantity','<p class="text-danger"><strong>:message</strong></p>') !!}
                 </div>
             </div>

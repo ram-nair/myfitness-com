@@ -29,7 +29,7 @@
             </div>
             <div class="col-md-6">
           <div class="form-group">
-                    {{ Form::label('name', 'Balance(AED)') }}
+                    {{ Form::label('name', 'Gift Amount(AED)') }}
                     {{ Form::text('balance_amt', null, array('required','class' => 'form-control'.($errors->has('balance_amt') ? ' is-invalid' : '' ))) }}
                     {!! $errors->first('balance_amt','<p class="text-danger"><strong>:message</strong></p>') !!}
                 </div>

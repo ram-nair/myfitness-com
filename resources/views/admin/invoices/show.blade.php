@@ -14,7 +14,7 @@
 <div class="row">
     <div class="col-md-12">
         <div class="form-group">
-            {{ Form::model($order, array('route' => array('store.orders.update-status', $order->id), 'method' => 'POST', 'class' => 'class-create')) }}
+        {{ Form::model($order, array('route' => array('admin.orders.update-status', $order->id), 'method' => 'POST', 'class' => 'class-create')) }}
                 <div class="card card-outline card-info">
                     <div class="overlay" style="display: none;">
                         <i class="fas fa-2x fa-sync-alt fa-spin"></i>

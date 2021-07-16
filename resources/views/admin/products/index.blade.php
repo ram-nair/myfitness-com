@@ -64,7 +64,7 @@
                     <?php $user = Auth::user(); ?>
                     <div class="btn-group">
                         @if($user->hasRole('super-admin') || $user->hasPermissionTo('ecomproduct_create'))
-                        <a href="{{ asset('/imports/products.xlsx') }}" download class="btn btn-success btn-sm"><i class="fa fa-download" aria-hidden="true"></i>&nbsp;Download Sample Data</a>
+                        <a href="{{ asset('/imports/products.xls') }}" download class="btn btn-success btn-sm"><i class="fa fa-download" aria-hidden="true"></i>&nbsp;Download Sample Data</a>
                         <span aria-hidden="true">&nbsp;&nbsp;</span>
                         <a href="#" data-toggle="modal" data-target="#importModal" class="btn btn-success btn-sm">Import Products</a>
                         <span aria-hidden="true">&nbsp;&nbsp;</span>
@@ -225,7 +225,7 @@
                                         <label for="exampleInputFile">Update Product Stock</label>
                                         <div class="input-group">
                                                 <input type="hidden" name="productId" id="productId">
-                                                <input type="text" name="quantity" class="form-control" id="update_stock" required>
+                                                <input type="number" min="0" name="quantity" class="form-control" id="update_stock" required>
                                                 <label class="custom-label" for="update_stock"></label>
                                             
                                         </div>
